@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NovedadesCliViewDlg" widgetVar="NovedadesCliViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewNovedadesCliTitle}">
+            <h:form id="NovedadesCliViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{novedadesCliController.selected != null}">
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idnovedadporteria}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idnovedadporteria}" title="#{bundle.ViewNovedadesCliTitle_idnovedadporteria}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idcaso}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idcaso}" title="#{bundle.ViewNovedadesCliTitle_idcaso}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idnovedad}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idnovedad}" title="#{bundle.ViewNovedadesCliTitle_idnovedad}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idcategoria}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idcategoria}" title="#{bundle.ViewNovedadesCliTitle_idcategoria}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_identidad}"/>
+                        <h:outputText value="#{novedadesCliController.selected.identidad}" title="#{bundle.ViewNovedadesCliTitle_identidad}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idObjeto}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idObjeto}" title="#{bundle.ViewNovedadesCliTitle_idObjeto}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_fechanov}"/>
+                        <h:outputText value="#{novedadesCliController.selected.fechanov}" title="#{bundle.ViewNovedadesCliTitle_fechanov}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_horanov}"/>
+                        <h:outputText value="#{novedadesCliController.selected.horanov}" title="#{bundle.ViewNovedadesCliTitle_horanov}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_asunto}"/>
+                        <h:outputText value="#{novedadesCliController.selected.asunto}" title="#{bundle.ViewNovedadesCliTitle_asunto}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_descripnov}"/>
+                        <h:outputText value="#{novedadesCliController.selected.descripnov}" title="#{bundle.ViewNovedadesCliTitle_descripnov}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_accion1}"/>
+                        <h:outputText value="#{novedadesCliController.selected.accion1}" title="#{bundle.ViewNovedadesCliTitle_accion1}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_accion2}"/>
+                        <h:outputText value="#{novedadesCliController.selected.accion2}" title="#{bundle.ViewNovedadesCliTitle_accion2}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_accion3}"/>
+                        <h:outputText value="#{novedadesCliController.selected.accion3}" title="#{bundle.ViewNovedadesCliTitle_accion3}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_accion4}"/>
+                        <h:outputText value="#{novedadesCliController.selected.accion4}" title="#{bundle.ViewNovedadesCliTitle_accion4}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_accion5}"/>
+                        <h:outputText value="#{novedadesCliController.selected.accion5}" title="#{bundle.ViewNovedadesCliTitle_accion5}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_otraaccion}"/>
+                        <h:outputText value="#{novedadesCliController.selected.otraaccion}" title="#{bundle.ViewNovedadesCliTitle_otraaccion}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_funcionarioseracis}"/>
+                        <h:outputText value="#{novedadesCliController.selected.funcionarioseracis}" title="#{bundle.ViewNovedadesCliTitle_funcionarioseracis}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_fecha}"/>
+                        <h:outputText value="#{novedadesCliController.selected.fecha}" title="#{bundle.ViewNovedadesCliTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_areaempresa}"/>
+                        <h:outputText value="#{novedadesCliController.selected.areaempresa}" title="#{bundle.ViewNovedadesCliTitle_areaempresa}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idemorigen}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idemorigen}" title="#{bundle.ViewNovedadesCliTitle_idemorigen}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idPersona}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idPersona}" title="#{bundle.ViewNovedadesCliTitle_idPersona}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_contratistainformado}"/>
+                        <h:outputText value="#{novedadesCliController.selected.contratistainformado}" title="#{bundle.ViewNovedadesCliTitle_contratistainformado}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_usuario}"/>
+                        <h:outputText value="#{novedadesCliController.selected.usuario}" title="#{bundle.ViewNovedadesCliTitle_usuario}"/>
+                        <h:outputText value="#{bundle.ViewNovedadesCliLabel_idSucursal}"/>
+                        <h:outputText value="#{novedadesCliController.selected.idSucursal}" title="#{bundle.ViewNovedadesCliTitle_idSucursal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="NovedadesCliViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

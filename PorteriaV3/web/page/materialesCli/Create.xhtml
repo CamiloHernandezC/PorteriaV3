@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MaterialesCliCreateDlg" widgetVar="MaterialesCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMaterialesCliTitle}">
+            <h:form id="MaterialesCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{materialesCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_idMaterial}" for="idMaterial" />
+                        <p:inputText id="idMaterial" value="#{materialesCliController.selected.idMaterial}" title="#{bundle.CreateMaterialesCliTitle_idMaterial}" required="true" requiredMessage="#{bundle.CreateMaterialesCliRequiredMessage_idMaterial}"/>
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_idExterno}" for="idExterno" />
+                        <p:inputText id="idExterno" value="#{materialesCliController.selected.idExterno}" title="#{bundle.CreateMaterialesCliTitle_idExterno}" />
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{materialesCliController.selected.descripcion}" title="#{bundle.CreateMaterialesCliTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateMaterialesCliRequiredMessage_descripcion}"/>
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_administrar}" for="administrar" />
+                        <p:selectBooleanCheckbox id="administrar" value="#{materialesCliController.selected.administrar}" required="true" requiredMessage="#{bundle.EditMaterialesCliRequiredMessage_administrar}"/>
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{materialesCliController.selected.fecha}" title="#{bundle.EditMaterialesCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditMaterialesCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{materialesCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditMaterialesCliRequiredMessage_usuario}">
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{materialesCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditMaterialesCliRequiredMessage_idSucursal}">
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMaterialesCliLabel_unidad}" for="unidad" />
+                        <p:selectOneMenu id="unidad" value="#{materialesCliController.selected.unidad}" required="true" requiredMessage="#{bundle.EditMaterialesCliRequiredMessage_unidad}">
+                            <f:selectItems value="#{unidadesCliController.itemsAvailableSelectOne}"
+                                           var="unidadItem"
+                                           itemValue="#{unidadItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{materialesCliController.create}" value="#{bundle.Save}" update="display,:MaterialesCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'MaterialesCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MaterialesCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

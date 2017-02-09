@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CategoriasCliCreateDlg" widgetVar="CategoriasCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCategoriasCliTitle}">
+            <h:form id="CategoriasCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{categoriasCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateCategoriasCliLabel_idCategoria}" for="idCategoria" />
+                        <p:inputText id="idCategoria" value="#{categoriasCliController.selected.idCategoria}" title="#{bundle.CreateCategoriasCliTitle_idCategoria}" required="true" requiredMessage="#{bundle.CreateCategoriasCliRequiredMessage_idCategoria}"/>
+                        <p:outputLabel value="#{bundle.CreateCategoriasCliLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{categoriasCliController.selected.descripcion}" title="#{bundle.CreateCategoriasCliTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateCategoriasCliRequiredMessage_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{categoriasCliController.create}" value="#{bundle.Save}" update="display,:CategoriasCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'CategoriasCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CategoriasCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

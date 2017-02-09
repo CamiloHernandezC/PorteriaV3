@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ObjetosCliEditDlg" widgetVar="ObjetosCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditObjetosCliTitle}">
+            <h:form id="ObjetosCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{objetosCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idObjeto}" for="idObjeto" />
+                        <p:inputText id="idObjeto" value="#{objetosCliController.selected.idObjeto}" title="#{bundle.EditObjetosCliTitle_idObjeto}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_idObjeto}"/>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_serialObjeto}" for="serialObjeto" />
+                        <p:inputText id="serialObjeto" value="#{objetosCliController.selected.serialObjeto}" title="#{bundle.EditObjetosCliTitle_serialObjeto}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_serialObjeto}"/>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idExterno}" for="idExterno" />
+                        <p:inputText id="idExterno" value="#{objetosCliController.selected.idExterno}" title="#{bundle.EditObjetosCliTitle_idExterno}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{objetosCliController.selected.descripcion}" title="#{bundle.EditObjetosCliTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_color1}" for="color1" />
+                        <p:inputText id="color1" value="#{objetosCliController.selected.color1}" title="#{bundle.EditObjetosCliTitle_color1}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_color2}" for="color2" />
+                        <p:inputText id="color2" value="#{objetosCliController.selected.color2}" title="#{bundle.EditObjetosCliTitle_color2}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_color3}" for="color3" />
+                        <p:inputText id="color3" value="#{objetosCliController.selected.color3}" title="#{bundle.EditObjetosCliTitle_color3}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_unidadPeso}" for="unidadPeso" />
+                        <p:inputText id="unidadPeso" value="#{objetosCliController.selected.unidadPeso}" title="#{bundle.EditObjetosCliTitle_unidadPeso}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_peso}" for="peso" />
+                        <p:inputText id="peso" value="#{objetosCliController.selected.peso}" title="#{bundle.EditObjetosCliTitle_peso}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_unidadVolumen}" for="unidadVolumen" />
+                        <p:inputText id="unidadVolumen" value="#{objetosCliController.selected.unidadVolumen}" title="#{bundle.EditObjetosCliTitle_unidadVolumen}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_volumen}" for="volumen" />
+                        <p:inputText id="volumen" value="#{objetosCliController.selected.volumen}" title="#{bundle.EditObjetosCliTitle_volumen}" />
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{objetosCliController.selected.fecha}" title="#{bundle.EditObjetosCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idDepartamento}" for="idDepartamento" />
+                        <p:selectOneMenu id="idDepartamento" value="#{objetosCliController.selected.idDepartamento}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{departamentosCliController.itemsAvailableSelectOne}"
+                                           var="idDepartamentoItem"
+                                           itemValue="#{idDepartamentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idEntidad}" for="idEntidad" />
+                        <p:selectOneMenu id="idEntidad" value="#{objetosCliController.selected.idEntidad}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_idEntidad}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{entidadesCliController.itemsAvailableSelectOne}"
+                                           var="idEntidadItem"
+                                           itemValue="#{idEntidadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idEstado}" for="idEstado" />
+                        <p:selectOneMenu id="idEstado" value="#{objetosCliController.selected.idEstado}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_idEstado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadosCliController.itemsAvailableSelectOne}"
+                                           var="idEstadoItem"
+                                           itemValue="#{idEstadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idLinea}" for="idLinea" />
+                        <p:selectOneMenu id="idLinea" value="#{objetosCliController.selected.idLinea}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{lineasCliController.itemsAvailableSelectOne}"
+                                           var="idLineaItem"
+                                           itemValue="#{idLineaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idMarca}" for="idMarca" />
+                        <p:selectOneMenu id="idMarca" value="#{objetosCliController.selected.idMarca}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcasCliController.itemsAvailableSelectOne}"
+                                           var="idMarcaItem"
+                                           itemValue="#{idMarcaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idMunicipio}" for="idMunicipio" />
+                        <p:selectOneMenu id="idMunicipio" value="#{objetosCliController.selected.idMunicipio}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{municipiosCliController.itemsAvailableSelectOne}"
+                                           var="idMunicipioItem"
+                                           itemValue="#{idMunicipioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idPais}" for="idPais" />
+                        <p:selectOneMenu id="idPais" value="#{objetosCliController.selected.idPais}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{paisesCliController.itemsAvailableSelectOne}"
+                                           var="idPaisItem"
+                                           itemValue="#{idPaisItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{objetosCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditObjetosCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{objetosCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditObjetosCliRequiredMessage_idSucursal}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{objetosCliController.update}" value="#{bundle.Save}" update="display,:ObjetosCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ObjetosCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ObjetosCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

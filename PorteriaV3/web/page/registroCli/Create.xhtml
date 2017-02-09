@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegistroCliCreateDlg" widgetVar="RegistroCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRegistroCliTitle}">
+            <h:form id="RegistroCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{registroCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateRegistroCliLabel_idPorteria}" for="idPorteria" />
+                        <p:inputText id="idPorteria" value="#{registroCliController.selected.idPorteria}" title="#{bundle.CreateRegistroCliTitle_idPorteria}" required="true" requiredMessage="#{bundle.CreateRegistroCliRequiredMessage_idPorteria}"/>
+                        <p:outputLabel value="#{bundle.CreateRegistroCliLabel_servidor}" for="servidor" />
+                        <p:inputText id="servidor" value="#{registroCliController.selected.servidor}" title="#{bundle.CreateRegistroCliTitle_servidor}" required="true" requiredMessage="#{bundle.CreateRegistroCliRequiredMessage_servidor}"/>
+                        <p:outputLabel value="#{bundle.CreateRegistroCliLabel_puerto}" for="puerto" />
+                        <p:inputText id="puerto" value="#{registroCliController.selected.puerto}" title="#{bundle.CreateRegistroCliTitle_puerto}" required="true" requiredMessage="#{bundle.CreateRegistroCliRequiredMessage_puerto}"/>
+                        <p:outputLabel value="#{bundle.CreateRegistroCliLabel_fechainstalacion}" for="fechainstalacion" />
+                        <p:calendar id="fechainstalacion" pattern="MM/dd/yyyy" value="#{registroCliController.selected.fechainstalacion}" title="#{bundle.EditRegistroCliTitle_fechainstalacion}" required="true" requiredMessage="#{bundle.EditRegistroCliRequiredMessage_fechainstalacion}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateRegistroCliLabel_hash}" for="hash" />
+                        <p:inputText id="hash" value="#{registroCliController.selected.hash}" title="#{bundle.CreateRegistroCliTitle_hash}" required="true" requiredMessage="#{bundle.CreateRegistroCliRequiredMessage_hash}"/>
+                        <p:outputLabel value="#{bundle.CreateRegistroCliLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{registroCliController.selected.usuario}" title="#{bundle.CreateRegistroCliTitle_usuario}" required="true" requiredMessage="#{bundle.CreateRegistroCliRequiredMessage_usuario}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroCliController.create}" value="#{bundle.Save}" update="display,:RegistroCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'RegistroCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RegistroCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

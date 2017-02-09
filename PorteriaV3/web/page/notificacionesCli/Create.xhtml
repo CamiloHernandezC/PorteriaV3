@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificacionesCliCreateDlg" widgetVar="NotificacionesCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateNotificacionesCliTitle}">
+            <h:form id="NotificacionesCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificacionesCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idNotificacion}" for="idNotificacion" />
+                        <p:inputText id="idNotificacion" value="#{notificacionesCliController.selected.idNotificacion}" title="#{bundle.CreateNotificacionesCliTitle_idNotificacion}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idNotificacion}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_tipoEvento}" for="tipoEvento" />
+                        <p:inputText id="tipoEvento" value="#{notificacionesCliController.selected.tipoEvento}" title="#{bundle.CreateNotificacionesCliTitle_tipoEvento}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_tipoEvento}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idSucursal}" for="idSucursal" />
+                        <p:inputText id="idSucursal" value="#{notificacionesCliController.selected.idSucursal}" title="#{bundle.CreateNotificacionesCliTitle_idSucursal}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idSucursal}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idPorteria}" for="idPorteria" />
+                        <p:inputText id="idPorteria" value="#{notificacionesCliController.selected.idPorteria}" title="#{bundle.CreateNotificacionesCliTitle_idPorteria}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idPorteria}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idEmpresaOrigen}" for="idEmpresaOrigen" />
+                        <p:inputText id="idEmpresaOrigen" value="#{notificacionesCliController.selected.idEmpresaOrigen}" title="#{bundle.CreateNotificacionesCliTitle_idEmpresaOrigen}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idEmpresaOrigen}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idCategoria}" for="idCategoria" />
+                        <p:inputText id="idCategoria" value="#{notificacionesCliController.selected.idCategoria}" title="#{bundle.CreateNotificacionesCliTitle_idCategoria}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idCategoria}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idEntidad}" for="idEntidad" />
+                        <p:inputText id="idEntidad" value="#{notificacionesCliController.selected.idEntidad}" title="#{bundle.CreateNotificacionesCliTitle_idEntidad}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idEntidad}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_idEnte}" for="idEnte" />
+                        <p:inputText id="idEnte" value="#{notificacionesCliController.selected.idEnte}" title="#{bundle.CreateNotificacionesCliTitle_idEnte}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_idEnte}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_fechaDesde}" for="fechaDesde" />
+                        <p:calendar id="fechaDesde" pattern="MM/dd/yyyy" value="#{notificacionesCliController.selected.fechaDesde}" title="#{bundle.EditNotificacionesCliTitle_fechaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_fechaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_fechaHasta}" for="fechaHasta" />
+                        <p:calendar id="fechaHasta" pattern="MM/dd/yyyy" value="#{notificacionesCliController.selected.fechaHasta}" title="#{bundle.EditNotificacionesCliTitle_fechaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_fechaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_horaDesde}" for="horaDesde" />
+                        <p:calendar id="horaDesde" pattern="HH:mm:ss" value="#{notificacionesCliController.selected.horaDesde}" title="#{bundle.EditNotificacionesCliTitle_horaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_horaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_horaHasta}" for="horaHasta" />
+                        <p:calendar id="horaHasta" pattern="HH:mm:ss" value="#{notificacionesCliController.selected.horaHasta}" title="#{bundle.EditNotificacionesCliTitle_horaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_horaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{notificacionesCliController.selected.mail}" title="#{bundle.CreateNotificacionesCliTitle_mail}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_mail}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_asunto}" for="asunto" />
+                        <p:inputText id="asunto" value="#{notificacionesCliController.selected.asunto}" title="#{bundle.CreateNotificacionesCliTitle_asunto}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_asunto}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_mensaje}" for="mensaje" />
+                        <p:inputText id="mensaje" value="#{notificacionesCliController.selected.mensaje}" title="#{bundle.CreateNotificacionesCliTitle_mensaje}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_mensaje}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{notificacionesCliController.selected.usuario}" title="#{bundle.CreateNotificacionesCliTitle_usuario}" required="true" requiredMessage="#{bundle.CreateNotificacionesCliRequiredMessage_usuario}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionesCliController.selected.fecha}" title="#{bundle.EditNotificacionesCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_BSucursal}" for="BSucursal" />
+                        <p:selectBooleanCheckbox id="BSucursal" value="#{notificacionesCliController.selected.BSucursal}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BSucursal}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_BPorteria}" for="BPorteria" />
+                        <p:selectBooleanCheckbox id="BPorteria" value="#{notificacionesCliController.selected.BPorteria}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BPorteria}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_BEmpresaOrigen}" for="BEmpresaOrigen" />
+                        <p:selectBooleanCheckbox id="BEmpresaOrigen" value="#{notificacionesCliController.selected.BEmpresaOrigen}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BEmpresaOrigen}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_BEntidad}" for="BEntidad" />
+                        <p:selectBooleanCheckbox id="BEntidad" value="#{notificacionesCliController.selected.BEntidad}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BEntidad}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionesCliLabel_BEnte}" for="BEnte" />
+                        <p:selectBooleanCheckbox id="BEnte" value="#{notificacionesCliController.selected.BEnte}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BEnte}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{notificacionesCliController.create}" value="#{bundle.Save}" update="display,:NotificacionesCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'NotificacionesCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NotificacionesCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

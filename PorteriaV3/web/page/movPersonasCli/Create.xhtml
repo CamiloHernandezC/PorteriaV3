@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovPersonasCliCreateDlg" widgetVar="MovPersonasCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMovPersonasCliTitle}">
+            <h:form id="MovPersonasCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movPersonasCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_idMovimiento}" for="idMovimiento" />
+                        <p:inputText id="idMovimiento" value="#{movPersonasCliController.selected.idMovimiento}" title="#{bundle.CreateMovPersonasCliTitle_idMovimiento}" required="true" requiredMessage="#{bundle.CreateMovPersonasCliRequiredMessage_idMovimiento}"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_fechaEntrada}" for="fechaEntrada" />
+                        <p:calendar id="fechaEntrada" pattern="MM/dd/yyyy" value="#{movPersonasCliController.selected.fechaEntrada}" title="#{bundle.EditMovPersonasCliTitle_fechaEntrada}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_fechaEntrada}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_horaEntrada}" for="horaEntrada" />
+                        <p:calendar id="horaEntrada" pattern="HH:mm:ss" value="#{movPersonasCliController.selected.horaEntrada}" title="#{bundle.EditMovPersonasCliTitle_horaEntrada}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_horaEntrada}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_fechaSalida}" for="fechaSalida" />
+                        <p:calendar id="fechaSalida" pattern="MM/dd/yyyy" value="#{movPersonasCliController.selected.fechaSalida}" title="#{bundle.EditMovPersonasCliTitle_fechaSalida}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_horaSalida}" for="horaSalida" />
+                        <p:calendar id="horaSalida" pattern="HH:mm:ss" value="#{movPersonasCliController.selected.horaSalida}" title="#{bundle.EditMovPersonasCliTitle_horaSalida}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{movPersonasCliController.selected.fecha}" title="#{bundle.EditMovPersonasCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_salidaForzosa}" for="salidaForzosa" />
+                        <p:selectBooleanCheckbox id="salidaForzosa" value="#{movPersonasCliController.selected.salidaForzosa}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_salidaForzosa}"/>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_idArea}" for="idArea" />
+                        <p:selectOneMenu id="idArea" value="#{movPersonasCliController.selected.idArea}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_idArea}">
+                            <f:selectItems value="#{areasEmpresaCliController.itemsAvailableSelectOne}"
+                                           var="idAreaItem"
+                                           itemValue="#{idAreaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{movPersonasCliController.selected.idPersona}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_idPersona}">
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{movPersonasCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_usuario}">
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_personaAutoriza}" for="personaAutoriza" />
+                        <p:selectOneMenu id="personaAutoriza" value="#{movPersonasCliController.selected.personaAutoriza}" >
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="personaAutorizaItem"
+                                           itemValue="#{personaAutorizaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateMovPersonasCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{movPersonasCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditMovPersonasCliRequiredMessage_idSucursal}">
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{movPersonasCliController.create}" value="#{bundle.Save}" update="display,:MovPersonasCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'MovPersonasCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MovPersonasCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

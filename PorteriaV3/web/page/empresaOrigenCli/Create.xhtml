@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmpresaOrigenCliCreateDlg" widgetVar="EmpresaOrigenCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEmpresaOrigenCliTitle}">
+            <h:form id="EmpresaOrigenCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{empresaOrigenCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idEmorigen}" for="idEmorigen" />
+                        <p:inputText id="idEmorigen" value="#{empresaOrigenCliController.selected.idEmorigen}" title="#{bundle.CreateEmpresaOrigenCliTitle_idEmorigen}" required="true" requiredMessage="#{bundle.CreateEmpresaOrigenCliRequiredMessage_idEmorigen}"/>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idTributario}" for="idTributario" />
+                        <p:inputText id="idTributario" value="#{empresaOrigenCliController.selected.idTributario}" title="#{bundle.CreateEmpresaOrigenCliTitle_idTributario}" />
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_nombre1}" for="nombre1" />
+                        <p:inputText id="nombre1" value="#{empresaOrigenCliController.selected.nombre1}" title="#{bundle.CreateEmpresaOrigenCliTitle_nombre1}" required="true" requiredMessage="#{bundle.CreateEmpresaOrigenCliRequiredMessage_nombre1}"/>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_nombre2}" for="nombre2" />
+                        <p:inputText id="nombre2" value="#{empresaOrigenCliController.selected.nombre2}" title="#{bundle.CreateEmpresaOrigenCliTitle_nombre2}" />
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{empresaOrigenCliController.selected.direccion}" title="#{bundle.CreateEmpresaOrigenCliTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{empresaOrigenCliController.selected.telefono}" title="#{bundle.CreateEmpresaOrigenCliTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{empresaOrigenCliController.selected.fecha}" title="#{bundle.EditEmpresaOrigenCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditEmpresaOrigenCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idDepartamento}" for="idDepartamento" />
+                        <p:selectOneMenu id="idDepartamento" value="#{empresaOrigenCliController.selected.idDepartamento}" >
+                            <f:selectItems value="#{departamentosCliController.itemsAvailableSelectOne}"
+                                           var="idDepartamentoItem"
+                                           itemValue="#{idDepartamentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idEstado}" for="idEstado" />
+                        <p:selectOneMenu id="idEstado" value="#{empresaOrigenCliController.selected.idEstado}" required="true" requiredMessage="#{bundle.EditEmpresaOrigenCliRequiredMessage_idEstado}">
+                            <f:selectItems value="#{estadosCliController.itemsAvailableSelectOne}"
+                                           var="idEstadoItem"
+                                           itemValue="#{idEstadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idMunicipio}" for="idMunicipio" />
+                        <p:selectOneMenu id="idMunicipio" value="#{empresaOrigenCliController.selected.idMunicipio}" >
+                            <f:selectItems value="#{municipiosCliController.itemsAvailableSelectOne}"
+                                           var="idMunicipioItem"
+                                           itemValue="#{idMunicipioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idPais}" for="idPais" />
+                        <p:selectOneMenu id="idPais" value="#{empresaOrigenCliController.selected.idPais}" >
+                            <f:selectItems value="#{paisesCliController.itemsAvailableSelectOne}"
+                                           var="idPaisItem"
+                                           itemValue="#{idPaisItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{empresaOrigenCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditEmpresaOrigenCliRequiredMessage_usuario}">
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateEmpresaOrigenCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{empresaOrigenCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditEmpresaOrigenCliRequiredMessage_idSucursal}">
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{empresaOrigenCliController.create}" value="#{bundle.Save}" update="display,:EmpresaOrigenCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'EmpresaOrigenCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EmpresaOrigenCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

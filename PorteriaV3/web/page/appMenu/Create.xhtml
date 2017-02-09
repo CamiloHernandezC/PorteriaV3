@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AppMenuCreateDlg" widgetVar="AppMenuCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAppMenuTitle}">
+            <h:form id="AppMenuCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{appMenuController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menCodigo}" for="menCodigo" />
+                        <p:inputText id="menCodigo" value="#{appMenuController.selected.menCodigo}" title="#{bundle.CreateAppMenuTitle_menCodigo}" required="true" requiredMessage="#{bundle.CreateAppMenuRequiredMessage_menCodigo}"/>
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menNombre}" for="menNombre" />
+                        <p:inputText id="menNombre" value="#{appMenuController.selected.menNombre}" title="#{bundle.CreateAppMenuTitle_menNombre}" required="true" requiredMessage="#{bundle.CreateAppMenuRequiredMessage_menNombre}"/>
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menUrl}" for="menUrl" />
+                        <p:inputText id="menUrl" value="#{appMenuController.selected.menUrl}" title="#{bundle.CreateAppMenuTitle_menUrl}" required="true" requiredMessage="#{bundle.CreateAppMenuRequiredMessage_menUrl}"/>
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menTipo}" for="menTipo" />
+                        <p:inputText id="menTipo" value="#{appMenuController.selected.menTipo}" title="#{bundle.CreateAppMenuTitle_menTipo}" />
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menTipoUser}" for="menTipoUser" />
+                        <p:inputText id="menTipoUser" value="#{appMenuController.selected.menTipoUser}" title="#{bundle.CreateAppMenuTitle_menTipoUser}" />
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menCodSub}" for="menCodSub" />
+                        <p:inputText id="menCodSub" value="#{appMenuController.selected.menCodSub}" title="#{bundle.CreateAppMenuTitle_menCodSub}" />
+                        <p:outputLabel value="#{bundle.CreateAppMenuLabel_menEstado}" for="menEstado" />
+                        <p:inputText id="menEstado" value="#{appMenuController.selected.menEstado}" title="#{bundle.CreateAppMenuTitle_menEstado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{appMenuController.create}" value="#{bundle.Save}" update="display,:AppMenuListForm:datalist,:growl" oncomplete="handleSubmit(args,'AppMenuCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AppMenuCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

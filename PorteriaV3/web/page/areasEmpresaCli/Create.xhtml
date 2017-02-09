@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AreasEmpresaCliCreateDlg" widgetVar="AreasEmpresaCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAreasEmpresaCliTitle}">
+            <h:form id="AreasEmpresaCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{areasEmpresaCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateAreasEmpresaCliLabel_idareaemp}" for="idareaemp" />
+                        <p:inputText id="idareaemp" value="#{areasEmpresaCliController.selected.idareaemp}" title="#{bundle.CreateAreasEmpresaCliTitle_idareaemp}" required="true" requiredMessage="#{bundle.CreateAreasEmpresaCliRequiredMessage_idareaemp}"/>
+                        <p:outputLabel value="#{bundle.CreateAreasEmpresaCliLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{areasEmpresaCliController.selected.descripcion}" title="#{bundle.CreateAreasEmpresaCliTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateAreasEmpresaCliRequiredMessage_descripcion}"/>
+                        <p:outputLabel value="#{bundle.CreateAreasEmpresaCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{areasEmpresaCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditAreasEmpresaCliRequiredMessage_idSucursal}">
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{areasEmpresaCliController.create}" value="#{bundle.Save}" update="display,:AreasEmpresaCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'AreasEmpresaCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AreasEmpresaCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

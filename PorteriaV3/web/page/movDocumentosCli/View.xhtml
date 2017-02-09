@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovDocumentosCliViewDlg" widgetVar="MovDocumentosCliViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMovDocumentosCliTitle}">
+            <h:form id="MovDocumentosCliViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movDocumentosCliController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_idMovDocumento}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.idMovDocumento}" title="#{bundle.ViewMovDocumentosCliTitle_idMovDocumento}"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_idDocumento}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.idDocumento}" title="#{bundle.ViewMovDocumentosCliTitle_idDocumento}"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_fechaMov}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.fechaMov}" title="#{bundle.ViewMovDocumentosCliTitle_fechaMov}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_horaMov}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.horaMov}" title="#{bundle.ViewMovDocumentosCliTitle_horaMov}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_tipoEvento}"/>
+                        <p:selectBooleanCheckbox value="#{movDocumentosCliController.selected.tipoEvento}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_observacion}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.observacion}" title="#{bundle.ViewMovDocumentosCliTitle_observacion}"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_fecha}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.fecha}" title="#{bundle.ViewMovDocumentosCliTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_idEntidad}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.idEntidad}" title="#{bundle.ViewMovDocumentosCliTitle_idEntidad}"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_idMovPersona}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.idMovPersona}" title="#{bundle.ViewMovDocumentosCliTitle_idMovPersona}"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_usuario}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.usuario}" title="#{bundle.ViewMovDocumentosCliTitle_usuario}"/>
+                        <h:outputText value="#{bundle.ViewMovDocumentosCliLabel_idSucursal}"/>
+                        <h:outputText value="#{movDocumentosCliController.selected.idSucursal}" title="#{bundle.ViewMovDocumentosCliTitle_idSucursal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MovDocumentosCliViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

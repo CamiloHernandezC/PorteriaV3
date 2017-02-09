@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonasCliCreateDlg" widgetVar="PersonasCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePersonasCliTitle}">
+            <h:form id="PersonasCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{personasCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idPersona}" for="idPersona" />
+                        <p:inputText id="idPersona" value="#{personasCliController.selected.idPersona}" title="#{bundle.CreatePersonasCliTitle_idPersona}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idPersona}"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idExterno}" for="idExterno" />
+                        <p:inputText id="idExterno" value="#{personasCliController.selected.idExterno}" title="#{bundle.CreatePersonasCliTitle_idExterno}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_nombre1}" for="nombre1" />
+                        <p:inputText id="nombre1" value="#{personasCliController.selected.nombre1}" title="#{bundle.CreatePersonasCliTitle_nombre1}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_nombre2}" for="nombre2" />
+                        <p:inputText id="nombre2" value="#{personasCliController.selected.nombre2}" title="#{bundle.CreatePersonasCliTitle_nombre2}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_apellido1}" for="apellido1" />
+                        <p:inputText id="apellido1" value="#{personasCliController.selected.apellido1}" title="#{bundle.CreatePersonasCliTitle_apellido1}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_apellido2}" for="apellido2" />
+                        <p:inputText id="apellido2" value="#{personasCliController.selected.apellido2}" title="#{bundle.CreatePersonasCliTitle_apellido2}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_numDocumento}" for="numDocumento" />
+                        <p:inputText id="numDocumento" value="#{personasCliController.selected.numDocumento}" title="#{bundle.CreatePersonasCliTitle_numDocumento}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{personasCliController.selected.direccion}" title="#{bundle.CreatePersonasCliTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{personasCliController.selected.telefono}" title="#{bundle.CreatePersonasCliTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_celular}" for="celular" />
+                        <p:inputText id="celular" value="#{personasCliController.selected.celular}" title="#{bundle.CreatePersonasCliTitle_celular}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{personasCliController.selected.mail}" title="#{bundle.CreatePersonasCliTitle_mail}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_personaContacto}" for="personaContacto" />
+                        <p:inputText id="personaContacto" value="#{personasCliController.selected.personaContacto}" title="#{bundle.CreatePersonasCliTitle_personaContacto}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}" for="telPersonaContacto" />
+                        <p:inputText id="telPersonaContacto" value="#{personasCliController.selected.telPersonaContacto}" title="#{bundle.CreatePersonasCliTitle_telPersonaContacto}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_fechavigenciaEPS}" for="fechavigenciaEPS" />
+                        <p:calendar id="fechavigenciaEPS" pattern="MM/dd/yyyy" value="#{personasCliController.selected.fechavigenciaEPS}" title="#{bundle.EditPersonasCliTitle_fechavigenciaEPS}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_fechavigenciaARL}" for="fechavigenciaARL" />
+                        <p:calendar id="fechavigenciaARL" pattern="MM/dd/yyyy" value="#{personasCliController.selected.fechavigenciaARL}" title="#{bundle.EditPersonasCliTitle_fechavigenciaARL}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_sexo}" for="sexo" />
+                        <p:selectBooleanCheckbox id="sexo" value="#{personasCliController.selected.sexo}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_rh}" for="rh" />
+                        <p:inputText id="rh" value="#{personasCliController.selected.rh}" title="#{bundle.CreatePersonasCliTitle_rh}" />
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{personasCliController.selected.fechaNacimiento}" title="#{bundle.EditPersonasCliTitle_fechaNacimiento}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{personasCliController.selected.usuario}" title="#{bundle.CreatePersonasCliTitle_usuario}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_usuario}"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{personasCliController.selected.fecha}" title="#{bundle.EditPersonasCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}" for="idEmpresaOrigen" />
+                        <p:selectOneMenu id="idEmpresaOrigen" value="#{personasCliController.selected.idEmpresaOrigen}" >
+                            <f:selectItems value="#{empresaOrigenCliController.itemsAvailableSelectOne}"
+                                           var="idEmpresaOrigenItem"
+                                           itemValue="#{idEmpresaOrigenItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_area}" for="area" />
+                        <p:selectOneMenu id="area" value="#{personasCliController.selected.area}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_area}">
+                            <f:selectItems value="#{areasEmpresaCliController.itemsAvailableSelectOne}"
+                                           var="areaItem"
+                                           itemValue="#{areaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_arl}" for="arl" />
+                        <p:selectOneMenu id="arl" value="#{personasCliController.selected.arl}" >
+                            <f:selectItems value="#{aRLCliController.itemsAvailableSelectOne}"
+                                           var="arlItem"
+                                           itemValue="#{arlItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idDepartamento}" for="idDepartamento" />
+                        <p:selectOneMenu id="idDepartamento" value="#{personasCliController.selected.idDepartamento}" >
+                            <f:selectItems value="#{departamentosCliController.itemsAvailableSelectOne}"
+                                           var="idDepartamentoItem"
+                                           itemValue="#{idDepartamentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idEntidad}" for="idEntidad" />
+                        <p:selectOneMenu id="idEntidad" value="#{personasCliController.selected.idEntidad}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_idEntidad}">
+                            <f:selectItems value="#{entidadesCliController.itemsAvailableSelectOne}"
+                                           var="idEntidadItem"
+                                           itemValue="#{idEntidadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_eps}" for="eps" />
+                        <p:selectOneMenu id="eps" value="#{personasCliController.selected.eps}" >
+                            <f:selectItems value="#{ePSCliController.itemsAvailableSelectOne}"
+                                           var="epsItem"
+                                           itemValue="#{epsItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idEstado}" for="idEstado" />
+                        <p:selectOneMenu id="idEstado" value="#{personasCliController.selected.idEstado}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_idEstado}">
+                            <f:selectItems value="#{estadosCliController.itemsAvailableSelectOne}"
+                                           var="idEstadoItem"
+                                           itemValue="#{idEstadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idMunicipio}" for="idMunicipio" />
+                        <p:selectOneMenu id="idMunicipio" value="#{personasCliController.selected.idMunicipio}" >
+                            <f:selectItems value="#{municipiosCliController.itemsAvailableSelectOne}"
+                                           var="idMunicipioItem"
+                                           itemValue="#{idMunicipioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idPais}" for="idPais" />
+                        <p:selectOneMenu id="idPais" value="#{personasCliController.selected.idPais}" >
+                            <f:selectItems value="#{paisesCliController.itemsAvailableSelectOne}"
+                                           var="idPaisItem"
+                                           itemValue="#{idPaisItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{personasCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_idSucursal}">
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" for="tipoDocumento" />
+                        <p:selectOneMenu id="tipoDocumento" value="#{personasCliController.selected.tipoDocumento}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_tipoDocumento}">
+                            <f:selectItems value="#{tiposDocumentoCliController.itemsAvailableSelectOne}"
+                                           var="tipoDocumentoItem"
+                                           itemValue="#{tipoDocumentoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{personasCliController.create}" value="#{bundle.Save}" update="display,:PersonasCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'PersonasCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PersonasCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
