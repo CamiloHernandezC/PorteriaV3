@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="search_form">
+            <h:outputLabel value="#{bundle.Entry}" style="font-size: 110%; font-weight: bold" /> 
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="selec_entry" value="#{bundle.P_Complete_Entry_Select_Entry_Method}" />
+                    <p:selectOneRadio  id="selec_entry" value="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.P_Complete_Entry_Select_Entry_Required}">
+                        <p:ajax  update="search_form" />
+                        <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Manual}" itemValue="true" />
+                        <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Scanner}" itemValue="false" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="DocType" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
+                    <p:selectOneMenu filter="true" filterMatchMode="contains" required="#{completeEntry.selectEntryMethod}" rendered="#{completeEntry.selectEntryMethod}" id="DocType" value="#{personasCliController.selected.tipoDocumento}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" style="width: 200px">
+                        <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems  value="#{tiposDocumentoCliController.items}" var="docType" itemLabel="#{docType.descripcion}" itemValue="#{docType}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="numDoc" value="#{bundle.CreatePersonasCliLabel_numDocumento}" />
+                    <p:inputText rendered="#{completeEntry.selectEntryMethod}" autocomplete="false" id="numDoc" value="#{personasCliController.selected.numDocumento}" required="#{completeEntry.selectEntryMethod}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="width: 200px"/>
+
+                    <h:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
+                    <p:inputText rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.selected.numDocumento}" required="#{!ControlGeneralVistas.manual}">
+                        <p:ajax event="keyup" listener="#{personasCliController.automaticSearch()}"/>  
+                    </p:inputText>
+                </h:panelGrid>
+                <p:graphicImage value="../../resources/images/LectorProj.png" height="100px" width="200px" rendered="#{!completeEntry.selectEntryMethod}"/>
+                <p:graphicImage value="../../resources/images/TecladoProj.png" height="100px" width="250px" rendered="#{completeEntry.selectEntryMethod}"/>
+
+            </h:panelGrid>
+
+            <p:commandButton rendered="#{completeEntry.selectEntryMethod}" value = "#{bundle.Search}" action="#{personasCliController.manualEntry()}" icon="ui-icon-check" ajax="false"/>
+            <p:commandButton rendered="#{completeEntry.selectEntryMethod}" value= "#{bundle.P_Complete_Entry_Add_Objects}" action="#{personasCliController.addObjects()}" icon="ui-icon-check" ajax="false"/>
+            <p:commandButton value ="#{bundle.Cancel}" action="#{sessionUtils.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

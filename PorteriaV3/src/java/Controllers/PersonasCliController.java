@@ -4,6 +4,10 @@ import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Facade.PersonasCliFacade;
+import Querys.Querys;
+import Utils.BundleUtils;
+import Utils.Navigation;
+import Utils.Result;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,6 +36,9 @@ public class PersonasCliController implements Serializable {
     }
 
     public PersonasCli getSelected() {
+        if(selected==null){
+            selected = new PersonasCli();
+        }
         return selected;
     }
 
@@ -160,6 +167,59 @@ public class PersonasCliController implements Serializable {
             }
         }
 
+    }
+    
+    /**
+     * Method used to read barcode or id card (cedula)
+     */
+    public void automaticSearch(){
+        
+    }
+    
+    /**
+     * Method used to add object in an existing entry
+     */
+    public void addObjects(){
+        
+    }
+    
+    /**
+     * Method used to search person and redirect to register form, verifying if
+     * person is blocked
+     * @return page to redirect
+     */
+    public String manualEntry(){
+        if(vefityBlockedPerson()){
+            return null;
+        }
+        Result result = findPersonByDocument();
+        if(result.errorCode!=0){
+            JsfUtil.addErrorMessage(BundleUtils.getBundle("Please_Register"));
+            prepareCreate();
+        }else{
+            selected = (PersonasCli) result.result;
+            disableNoEditableFields();
+        }
+        return Navigation.PAGE_PERSON_REGISTER;
+    }
+    
+    private Result findPersonByDocument() {
+        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"'"+
+                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+"'";
+        return ejbFacade.findByQuery(squery, true);
+    }
+    
+    /**
+     * If person is blocked (registered in blocked table) will show a dialog 
+     * @return true if the person is blocked, false otherwise
+     */
+    private boolean vefityBlockedPerson() {
+        //TODO FINISH THIS METHOD
+        return false;
+    }
+    
+    private void disableNoEditableFields() {
+        //TODO FINISH THIS METHOD
     }
 
 }

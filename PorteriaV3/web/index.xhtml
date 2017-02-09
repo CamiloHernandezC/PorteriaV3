@@ -17,9 +17,6 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_tipodocumento}"/>
@@ -33,10 +30,7 @@
                             <h:outputText value="#{item.descripcion}"/>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tiposDocumentoCliController.prepareCreate}" update=":TiposDocumentoCliCreateForm" oncomplete="PF('TiposDocumentoCliCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TiposDocumentoCliViewForm" oncomplete="PF('TiposDocumentoCliViewDialog').show()" disabled="#{empty tiposDocumentoCliController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TiposDocumentoCliEditForm" oncomplete="PF('TiposDocumentoCliEditDialog').show()" disabled="#{empty tiposDocumentoCliController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tiposDocumentoCliController.destroy}" update=":growl,datalist" disabled="#{empty tiposDocumentoCliController.selected}"/>
+
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

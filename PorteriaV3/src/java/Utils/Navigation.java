@@ -10,7 +10,7 @@ package Utils;
  * @author MAURICIO
  */
 public class Navigation {
-    public static final String PAGE_COMPLETE_ENTRY ="/entry/complete_entry/complete_entry.xhtml";
+    public static final String PAGE_COMPLETE_ENTRY ="/person_entry/complete_entry/CompleteEntry.xhtml";
     public static final String PAGE_COMPLETE_EXIT ="";
     public static final String PAGE_EXPRESS_ENTRY ="";
     public static final String PAGE_EXPRESS_EXIT ="";

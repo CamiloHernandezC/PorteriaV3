@@ -5,8 +5,13 @@
  */
 package Facade;
 
+import Utils.Constants;
+import Utils.Result;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Query;
 
 /**
  *
@@ -60,5 +65,30 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
+    public Result findByQuery(String squery, boolean maxResult) {
+        try {
+            Query query = getEntityManager().createQuery(squery);
+            T entity;
+            if (maxResult) {
+                entity = (T) query.setMaxResults(1).getSingleResult();
+            } else {
+                entity = (T) query.getSingleResult();
+            }
+            /*em.refresh(entity);
+            if (maxResult) {
+                entity = (T) query.setMaxResults(1).getSingleResult();
+            } else {
+                entity = (T) query.getSingleResult();
+            }*/
+            return new Result(entity, Constants.OK);
+        } catch (NoResultException nre) {
+            return new Result(null, Constants.NO_RESULT_EXCEPTION);
+        } catch (NonUniqueResultException nure) {
+            return new Result(null, Constants.NO_UNIQUE_RESULT_EXCEPTION);
+        } catch (Exception e) {
+            return new Result(null, Constants.UNKNOWN_EXCEPTION);
+        }
+    }
+
 }
