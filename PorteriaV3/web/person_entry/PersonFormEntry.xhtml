@@ -45,7 +45,7 @@
             <p:outputLabel for="cel" value="#{bundle.CreatePersonasCliLabel_celular}" rendered="true"/>
             <p:inputText id="cel" value="#{personasCliController.selected.celular}" rendered="true"  required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_celular}" style="text-transform:uppercase" maxlength="15"/>
             <p:outputLabel for="nacimiento" value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}" rendered="true"/>
-            <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaNacimiento}" maxdate="#{PersonaCliControl.fechaActual}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase"/>
+            <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaNacimiento}" maxdate="#{generalViewControl.actualDate}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase"/>
             
             <h:outputLabel for="gsang" value="#{bundle.CreatePersonasCliLabel_rh}" rendered="true"/>
             <p:selectOneMenu id="gsang" value="#{personasCliController.selected.rh}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_rh}" style="width:155px" widgetVar="wv_tipoSanguineo">
@@ -137,7 +137,7 @@
 
         <h:panelGrid columns="2">
 
-            <p:commandButton value = "#{bundle.Save}"  action="#{ControlGeneralVistas.llenarTablas()}" ajax="false" icon="ui-icon-check" validateClient="true" update="formularioCrear"/>
+            <p:commandButton value = "#{bundle.Save}"  action="#{personasCliController.save()}" ajax="false" icon="ui-icon-check"/>
             <p:commandButton value = "#{bundle.Cancel}"  ajax="false" action="#{sessionUtil.cancelar(personaPorControl.inicio)}" icon="ui-icon-cancel" immediate="true"/>
         </h:panelGrid>
 
