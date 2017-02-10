@@ -5,6 +5,7 @@
  */
 package ViewControllers;
 
+import Utils.Navigation;
 import java.io.Serializable;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -37,4 +38,7 @@ public class PersonFormEntry implements Serializable{
     public PersonFormEntry() {
     }
     
+    public String cancel(){
+        return Navigation.PAGE_INDEX;
+    }
 }

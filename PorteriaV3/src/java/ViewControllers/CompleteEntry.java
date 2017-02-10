@@ -18,7 +18,7 @@ import javax.faces.view.ViewScoped;
 public class CompleteEntry implements Serializable{
 
     //<editor-fold desc="VARIBLES DECLARATION" defaultstate="collapsed">
-    boolean selectEntryMethod;
+    boolean selectEntryMethod =true;
     //</editor-fold>
     
     //<editor-fold desc="GETTER AND SETTER" defaultstate="collapsed">
