@@ -10,6 +10,8 @@ import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
+import ViewControllers.CompleteEntry;
+import ViewControllers.PersonFormEntry;
 
 import java.io.Serializable;
 import java.util.List;
@@ -231,7 +233,9 @@ public class PersonasCliController implements Serializable {
     }
     
     private void disableNoEditableFields() {
-        //TODO FINISH THIS METHOD
+        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
+        personFormEntry.setDisableNoEditableField(true);
+        
     }
     
     private Result findByCodeReader() {
