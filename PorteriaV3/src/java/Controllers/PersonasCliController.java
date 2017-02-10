@@ -3,9 +3,11 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
 import Utils.BundleUtils;
+import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
 
@@ -46,19 +48,12 @@ public class PersonasCliController implements Serializable {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
     private PersonasCliFacade getFacade() {
         return ejbFacade;
     }
 
     public PersonasCli prepareCreate() {
         selected = new PersonasCli();
-        initializeEmbeddableKey();
         return selected;
     }
 
@@ -90,7 +85,6 @@ public class PersonasCliController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
-            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     getFacade().edit(selected);
@@ -128,6 +122,9 @@ public class PersonasCliController implements Serializable {
         return getFacade().findAll();
     }
 
+   
+
+    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = PersonasCli.class)
     public static class PersonasCliControllerConverter implements Converter {
 
@@ -168,13 +165,7 @@ public class PersonasCliController implements Serializable {
         }
 
     }
-    
-    /**
-     * Method used to read barcode or id card (cedula)
-     */
-    public void automaticSearch(){
-        
-    }
+    //</editor-fold>
     
     /**
      * Method used to add object in an existing entry
@@ -184,19 +175,35 @@ public class PersonasCliController implements Serializable {
     }
     
     /**
+     * Method used to read barcode or id card (cedula)
+     * The readed value is stored in selected.numDocum
+     */
+    public void completeEntryByCodeReader(){
+        String  pageToRedirect = finishCompleteEntry(findByCodeReader());
+        //TODO Here it is necessary to redirect
+    }
+    
+    /**
      * Method used to search person and redirect to register form, verifying if
      * person is blocked
      * @return page to redirect
      */
     public String manualEntry(){
-        if(vefityBlockedPerson()){
+        return finishCompleteEntry(findPersonByDocument());
+    }
+    
+     private String finishCompleteEntry(Result result) {
+         if(result.errorCode != 0 && result.errorCode != Constants.NO_RESULT_EXCEPTION){
+            JsfUtil.addErrorMessage(BundleUtils.getBundle("Tecnical_Failure"));
             return null;
         }
-        Result result = findPersonByDocument();
-        if(result.errorCode!=0){
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
             JsfUtil.addErrorMessage(BundleUtils.getBundle("Please_Register"));
             prepareCreate();
         }else{
+            if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
+                return null;
+            }
             selected = (PersonasCli) result.result;
             disableNoEditableFields();
         }
@@ -204,22 +211,47 @@ public class PersonasCliController implements Serializable {
     }
     
     private Result findPersonByDocument() {
-        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"'"+
+        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"' AND "+
                 Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+"'";
         return ejbFacade.findByQuery(squery, true);
+    }
+    
+    private Result findPersonByIdExterno() {
+        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI__ID_EXTERNO+selected.getIdExterno()+"'";
+        return ejbFacade.findByQuery(squery, false);//False because person must have unique id externo
     }
     
     /**
      * If person is blocked (registered in blocked table) will show a dialog 
      * @return true if the person is blocked, false otherwise
      */
-    private boolean vefityBlockedPerson() {
+    private boolean verifyBlockedPerson() {
         //TODO FINISH THIS METHOD
         return false;
     }
     
     private void disableNoEditableFields() {
         //TODO FINISH THIS METHOD
+    }
+    
+    private Result findByCodeReader() {
+        /*
+        if(selected.getNumDocumento().startsWith("C,")){//ID CARD (CEDULA)
+            String[] palabrasSeparadas = separarPalabras();
+            if (palabrasSeparadas != null && palabrasSeparadas.length == 10) {
+                selected.setTipoDocumento(new TiposDocumentoCli("13"));//Se asigna el tipo de documento como cedula
+                selected.setNumDocumento(palabrasSeparadas[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
+                return findPersonByDocument();
+                //TODO FINISH THIS METHOD
+                //SI ES UN VISITANTE TIENE QUE LLENAR LA SUCURSAL Y EL AREA A LA CUAL VA
+            }
+        }
+        if(selected.getNumDocumento().startsWith("B,")){//BAR CODE
+            selected.setIdExterno("");
+            return findPersonByIdExterno();
+        }
+        */
+        return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
     }
 
 }

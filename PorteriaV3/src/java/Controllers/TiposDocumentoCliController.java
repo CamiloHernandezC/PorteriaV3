@@ -75,9 +75,7 @@ public class TiposDocumentoCliController implements Serializable {
     }
 
     public List<TiposDocumentoCli> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

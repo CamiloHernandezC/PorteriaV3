@@ -75,12 +75,6 @@ public abstract class AbstractFacade<T> {
             } else {
                 entity = (T) query.getSingleResult();
             }
-            /*em.refresh(entity);
-            if (maxResult) {
-                entity = (T) query.setMaxResults(1).getSingleResult();
-            } else {
-                entity = (T) query.getSingleResult();
-            }*/
             return new Result(entity, Constants.OK);
         } catch (NoResultException nre) {
             return new Result(null, Constants.NO_RESULT_EXCEPTION);

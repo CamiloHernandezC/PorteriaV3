@@ -29,7 +29,7 @@
 
                     <h:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
                     <p:inputText rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.selected.numDocumento}" required="#{!ControlGeneralVistas.manual}">
-                        <p:ajax event="keyup" listener="#{personasCliController.automaticSearch()}"/>  
+                        <p:ajax event="keyup" listener="#{personasCliController.completeEntryByCodeReader()}"/>  
                     </p:inputText>
                 </h:panelGrid>
                 <p:graphicImage value="../../resources/images/LectorProj.png" height="100px" width="200px" rendered="#{!completeEntry.selectEntryMethod}"/>

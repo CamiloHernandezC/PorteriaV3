@@ -13,6 +13,7 @@ public class Querys {
     //<editor-fold desc="PERSONAS CLI QUERY" defaultstate="collapsed">
     public static final String PERSONA_CLI_ALL= "SELECT a FROM PersonasCli a ";
     public static final String PERSONA_CLI_DOC_TYPE= " a.tipoDocumento.tipodocumento = '";
+    public static final String PERSONA_CLI__ID_EXTERNO =" a.idExterno = '";
     public static final String PERSONA_CLI_DOC_NUMBER= " a.numDocumento = '";
     //</editor-fold>
 }
