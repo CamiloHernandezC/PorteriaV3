@@ -22,8 +22,6 @@ public class PersonFormEntry implements Serializable{
     boolean disableNoEditableField;
     //</editor-fold>
     
-   
-
     //<editor-fold desc="GETTER AND SETTER" defaultstate="collapsed">
     public boolean isDisableNoEditableField() {
         return disableNoEditableField;
