@@ -12,7 +12,7 @@
             <h:panelGrid columns="2" cellpadding="5">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="selec_entry" value="#{bundle.P_Complete_Entry_Select_Entry_Method}" />
-                    <p:selectOneRadio  id="selec_entry" value="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.P_Complete_Entry_Select_Entry_Required}">
+                    <p:selectOneRadio  id="selec_entry" value="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.P_Complete_Entry_Add_Objects}">
                         <p:ajax  update="search_form" />
                         <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Manual}" itemValue="true" />
                         <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Scanner}" itemValue="false" />

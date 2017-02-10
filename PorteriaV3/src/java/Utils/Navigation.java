@@ -16,4 +16,5 @@ public class Navigation {
     public static final String PAGE_EXPRESS_EXIT ="";
     public static final String PAGE_INDEX ="/index.xhtml";
     public static String PAGE_PERSON_REGISTER="/person_entry/PersonFormEntry.xhtml";
+    public static final String PAGE_CONFIGURATION ="/configuration/Configuration.xhtml";
 }

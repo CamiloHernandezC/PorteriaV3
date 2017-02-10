@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form>
+
+            <h:panelGrid columns="4" cellpadding="10">
+                <p:outputLabel for="basic" value="Basic:" /> 
+                <p:selectOneMenu value="#{themeController.theme}" id="basic" style="width:165px">
+                    <f:selectItem itemLabel="Choose Theme" itemValue="" />
+                    <f:selectItems value="#{themeService.themes}" var="themeNew" itemLabel="#{themeNew.displayName}" itemValue="#{themeNew}"/>
+                </p:selectOneMenu>                
+            
+                <p:commandButton value="Ver" ajax="false"/>
+                <p:commandButton value="Reset" action="#{themeController.reset()}" ajax="false"/>
+            
+            </h:panelGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

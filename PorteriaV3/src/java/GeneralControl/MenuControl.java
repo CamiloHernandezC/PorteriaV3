@@ -50,6 +50,8 @@ public class MenuControl {
         item = new DefaultMenuItem(rb.getString("Express_Entry"));
         item.setUrl(Navigation.PAGE_EXPRESS_ENTRY);
         firstSubmenu.addElement(item);
+        
+        
          
         menu.addElement(firstSubmenu);
          
@@ -65,6 +67,15 @@ public class MenuControl {
         secondSubmenu.addElement(item);
  
         menu.addElement(secondSubmenu);
+        
+        //CONFIG SUBMENU
+        DefaultSubMenu thirdSubmenu = new DefaultSubMenu(rb.getString("Configuration"));
+
+        item = new DefaultMenuItem(rb.getString("Configuration"));
+        item.setUrl(Navigation.PAGE_CONFIGURATION);
+        thirdSubmenu.addElement(item);
+        
+        menu.addElement(thirdSubmenu);
         //</editor-fold>
     }
  

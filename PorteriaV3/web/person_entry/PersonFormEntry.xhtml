@@ -11,14 +11,14 @@
 
         <h:panelGrid columns="4" cellpadding="5" >
 
-            <h:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}" rendered="true"/>
+            <p:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}" rendered="true"/>
             <p:inputText id="nombre1" style="text-transform:uppercase" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" maxlength="30"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"  value="#{personasCliController.selected.nombre1}"/>
-            <h:outputLabel for="nombre2" value="#{bundle.CreatePersonasCliLabel_nombre2}" rendered="true"/>
+            <p:outputLabel for="nombre2" value="#{bundle.CreatePersonasCliLabel_nombre2}" rendered="true"/>
             <p:inputText id="nombre2" value="#{personasCliController.selected.nombre2}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase" maxlength="30"/>
 
-            <h:outputLabel for="nombre3" value="#{bundle.CreatePersonasCliLabel_apellido1}" rendered="true"/>
+            <p:outputLabel for="nombre3" value="#{bundle.CreatePersonasCliLabel_apellido1}" rendered="true"/>
             <p:inputText id="nombre3" value="#{personasCliController.selected.apellido1}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"  style="text-transform:uppercase" maxlength="30"/>
-            <h:outputLabel for="nombre4" value="#{bundle.CreatePersonasCliLabel_apellido2}" rendered="true"/>
+            <p:outputLabel for="nombre4" value="#{bundle.CreatePersonasCliLabel_apellido2}" rendered="true"/>
             <p:inputText id="nombre4" value="#{personasCliController.selected.apellido2}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase"   maxlength="30" />
          
             <h:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" rendered="true"/>
