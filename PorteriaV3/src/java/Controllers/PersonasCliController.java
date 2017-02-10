@@ -219,7 +219,7 @@ public class PersonasCliController implements Serializable {
     }
     
     private Result findPersonByIdExterno() {
-        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI__ID_EXTERNO+selected.getIdExterno()+"'";
+        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_ID_EXTERNO+selected.getIdExterno()+"'";
         return ejbFacade.findByQuery(squery, false);//False because person must have unique id externo
     }
     
@@ -256,6 +256,17 @@ public class PersonasCliController implements Serializable {
         }
         */
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
+    }
+    
+    public void save(){
+        
+    }
+    
+    public Result findSpecificPerson(){
+        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"' AND"+
+                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+Querys.PERSONA_CLI_SUCURSAL+selected.getIdSucursal().getIdSucursal()+
+                Querys.PERSONA_CLI_ESTADO_N+"'1'";
+        return ejbFacade.findByQuery(squery, false);//False because person must have unique id externo
     }
 
 }
