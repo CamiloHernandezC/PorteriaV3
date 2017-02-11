@@ -84,5 +84,10 @@ public abstract class AbstractFacade<T> {
             return new Result(null, Constants.UNKNOWN_EXCEPTION);
         }
     }
+    
+    public Result findByQueryArray(String squery) {
+        //TODO replace this method
+        return new Result(null, Constants.NO_RESULT_EXCEPTION);
+    }
 
 }

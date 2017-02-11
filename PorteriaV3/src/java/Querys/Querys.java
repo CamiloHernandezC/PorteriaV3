@@ -20,4 +20,10 @@ public class Querys {
     public static final String PERSONA_CLI_ESTADO_N= " a.idEstado.idEstado != '";
     public static final String PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM PersonasCli a ORDER BY a.idPersona DESC";
     //</editor-fold>
+     //<editor-fold desc="MOV PERSONAS CLI QUERY" defaultstate="collapsed">
+    public static final String MOV_PERSONA_CLI_ALL= "SELECT a FROM MovPersonasCli a ";
+    public static final String MOV_PERSONA_CLI_PERSONA= " a.idPersona.idPersona = '";
+    public static final String MOV_PERSONA_CLI_FECHA_SALIDA_NULL= " a.fechaSalida IS NULL";
+    public static final String MOV_PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM MovPersonasCli a ORDER BY a.idMovimiento DESC";
+    //</editor-fold>
 }
