@@ -3,6 +3,7 @@ package Controllers;
 import Entities.MunicipiosCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.DepartamentosCli;
 import Facade.MunicipiosCliFacade;
 
 import java.io.Serializable;
@@ -77,6 +78,14 @@ public class MunicipiosCliController implements Serializable {
     public List<MunicipiosCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
+        }
+        return items;
+    }
+    
+    public List<MunicipiosCli> getItemsOfDepartment(DepartamentosCli department) {
+        //TODO FINISH THIS METHOD
+        if (items == null) {
+            //items = getFacade().findByQuerArray();
         }
         return items;
     }

@@ -3,6 +3,8 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.EntidadesCli;
+import Entities.EstadosCli;
 import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
@@ -14,6 +16,7 @@ import ViewControllers.CompleteEntry;
 import ViewControllers.PersonFormEntry;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,7 +32,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("personasCliController")
 @SessionScoped
-public class PersonasCliController implements Serializable {
+public class PersonasCliController extends AbstractPersistenceController<PersonasCli>{
 
     @EJB
     private Facade.PersonasCliFacade ejbFacade;
@@ -39,6 +42,8 @@ public class PersonasCliController implements Serializable {
     public PersonasCliController() {
     }
 
+    //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
+    @Override
     public PersonasCli getSelected() {
         if(selected==null){
             selected = new PersonasCli();
@@ -46,36 +51,51 @@ public class PersonasCliController implements Serializable {
         return selected;
     }
 
+    @Override
     public void setSelected(PersonasCli selected) {
         this.selected = selected;
     }
 
-    private PersonasCliFacade getFacade() {
+    @Override
+    protected PersonasCliFacade getFacade() {
         return ejbFacade;
     }
-
-    public PersonasCli prepareCreate() {
-        selected = new PersonasCli();
-        return selected;
+    
+    @Override
+    protected void setItems(List<PersonasCli> items) {
+        this.items = items;
+    }
+    
+    @Override
+    protected void setEmbeddableKeys() {
+        //Nothing to do here
     }
 
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("Utils/Bundle").getString("PersonasCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+    @Override
+    protected void initializeEmbeddableKey() {
+        //Nothing to do here
+    }
+    @Override
+    protected String calculatePrimaryKey(){
+        PersonasCli lastPerson = (PersonasCli) ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true).result;
+        Long lastPrimaryKey = Long.valueOf(lastPerson.getIdPersona());
+        return String.valueOf(lastPrimaryKey+1L);
+    }
+    //</editor-fold>
+    
+    @Override
+    protected void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            selected.setUsuario("1");//TODO ASSIGN REAL USER
+            selected.setFecha(new Date());
         }
+        super.persist(persistAction, successMessage);
     }
 
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("Utils/Bundle").getString("PersonasCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("Utils/Bundle").getString("PersonasCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    public void prepareCreate() {
+        selected.setIdPersona(calculatePrimaryKey());
+        selected.setIdEntidad(new EntidadesCli("1"));//TODO ASSIGN VISITAN
+        selected.setIdEstado(new EstadosCli(3L));//TODO ASSIGN AT ENTRY
     }
 
     public List<PersonasCli> getItems() {
@@ -83,33 +103,6 @@ public class PersonasCliController implements Serializable {
             items = getFacade().findAll();
         }
         return items;
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
     }
 
     public PersonasCli getPersonasCli(java.lang.String id) {
@@ -123,8 +116,6 @@ public class PersonasCliController implements Serializable {
     public List<PersonasCli> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
-   
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = PersonasCli.class)
@@ -181,7 +172,7 @@ public class PersonasCliController implements Serializable {
      * The readed value is stored in selected.numDocum
      */
     public void completeEntryByCodeReader(){
-        String  pageToRedirect = finishCompleteEntry(findByCodeReader());
+        String  pageToRedirect = redirectToRegisterForm(findByCodeReader());
         //TODO Here it is necessary to redirect
     }
     
@@ -191,16 +182,21 @@ public class PersonasCliController implements Serializable {
      * @return page to redirect
      */
     public String manualEntry(){
-        return finishCompleteEntry(findPersonByDocument());
+        return redirectToRegisterForm(findPersonByDocument());
     }
     
-     private String finishCompleteEntry(Result result) {
+    /**
+     * 
+     * @param result
+     * @return 
+     */
+     private String redirectToRegisterForm(Result result) {
          if(result.errorCode != 0 && result.errorCode != Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundle("Tecnical_Failure"));
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
             return null;
         }
         if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundle("Please_Register"));
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
             prepareCreate();
         }else{
             if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
@@ -258,15 +254,38 @@ public class PersonasCliController implements Serializable {
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
     }
     
-    public void save(){
+    public String save(){
+        Result result = findSpecificPerson();
+        if(result.errorCode!=Constants.OK && result.errorCode != Constants.NO_RESULT_EXCEPTION){
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
+            return null;//This should never happend
+        }
+        MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
+            create();
+            movPersonasCliController.recordEntryMovement(selected, Constants.CREATE);
+        }
+        if(result.errorCode==Constants.OK){
+            movPersonasCliController.recordEntryMovement(selected, Constants.UPDATE);
+            update();
+        }
+        return Navigation.PAGE_SELECT_ENTRY;
         
     }
     
+    /**
+     * Search a person whit selected branch office, and status different to inactive
+     * @return 
+     */
     public Result findSpecificPerson(){
         String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"' AND"+
-                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+Querys.PERSONA_CLI_SUCURSAL+selected.getIdSucursal().getIdSucursal()+
-                Querys.PERSONA_CLI_ESTADO_N+"'1'";
-        return ejbFacade.findByQuery(squery, false);//False because person must have unique id externo
+                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+"' AND"+Querys.PERSONA_CLI_SUCURSAL+selected.getIdSucursal().getIdSucursal()+
+                "' AND"+Querys.PERSONA_CLI_ESTADO_N+"4'";
+        return ejbFacade.findByQuery(squery, false);//False because only one person should appear
+    }
+    
+    public void valueChangeHandlerOriginEnterprise(){
+        //TODO finish this method
     }
 
 }

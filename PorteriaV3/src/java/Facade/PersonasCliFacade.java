@@ -6,6 +6,7 @@
 package Facade;
 
 import Entities.PersonasCli;
+import Querys.Querys;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

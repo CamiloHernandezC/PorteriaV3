@@ -44,6 +44,11 @@
             
             <p:outputLabel for="cel" value="#{bundle.CreatePersonasCliLabel_celular}" rendered="true"/>
             <p:inputText id="cel" value="#{personasCliController.selected.celular}" rendered="true"  required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_celular}" style="text-transform:uppercase" maxlength="15"/>
+            <p:outputLabel for="contactPerson" value="#{bundle.CreatePersonasCliLabel_personaContacto}" rendered="true"/>
+            <p:inputText id="contactPerson" value="#{personasCliController.selected.personaContacto}" rendered="true"  required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_personaContacto}" style="text-transform:uppercase" maxlength="15"/>
+            
+            <p:outputLabel for="phoneContactPerson" value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}" rendered="true"/>
+            <p:inputText id="phoneContactPerson" value="#{personasCliController.selected.telPersonaContacto}" rendered="true"  required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telPersonaContacto}" style="text-transform:uppercase" maxlength="15"/>
             <p:outputLabel for="nacimiento" value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}" rendered="true"/>
             <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaNacimiento}" maxdate="#{generalViewControl.actualDate}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase"/>
             
@@ -68,9 +73,9 @@
             </p:selectOneMenu>
             
             <h:outputLabel for="idMunicipio" value="#{bundle.CreatePersonasCliLabel_municipiosCli}" rendered="false"/>
-            <p:selectOneMenu id="idMunicipio" value="#{personasCliController.selected.municipiosCli}" rendered="false" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_CreatePersonasCliLabel_municipiosCli}" filter="true" filterMatchMode="contains" style="width:155px" widgetVar="idMunicipio">                
+            <p:selectOneMenu id="idMunicipio" value="#{personasCliController.selected.idMunicipio}" rendered="false" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_municipio}" filter="true" filterMatchMode="contains" style="width:155px" widgetVar="idMunicipio">                
                 <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{municipiosCliController.items}" var="muni" itemLabel="#{muni.descripcion}" itemValue="#{muni}"/>
+                <f:selectItems  value="#{municipiosCliController.itemsOfDepartment(personasCliController.selected.idDepartamento)}" var="muni" itemLabel="#{muni.descripcion}" itemValue="#{muni}"/>
             </p:selectOneMenu>
             
             <h:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="true"/>
@@ -89,7 +94,7 @@
             
            
             <h:outputLabel for="empresas" value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}" rendered="true"/>
-            <p:selectOneMenu  id="empresas" value="#{personasCliController.selected.idEmpresaOrigen}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_empresa}" valueChangeListener="#{personaPorControl.valuChangeHandler}" filter="true" filterMatchMode="contains" style="width:155px">
+            <p:selectOneMenu  id="empresas" value="#{personasCliController.selected.idEmpresaOrigen}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_empresa}" valueChangeListener="#{personasCliController.valueChangeHandlerOriginEnterprise}" filter="true" filterMatchMode="contains" style="width:155px">
                 <p:ajax update="labelNombreEmpresa nombreEmpresa"/>
                 <f:selectItem  itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                 <f:selectItems  value="#{empresaOrigenCliController.items}" var="empresas" itemLabel="#{empresas.nombre1}" itemValue="#{empresas}"/>

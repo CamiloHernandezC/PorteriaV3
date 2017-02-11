@@ -3,9 +3,14 @@ package Controllers;
 import Entities.MovPersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.PersonasCli;
 import Facade.MovPersonasCliFacade;
+import Querys.Querys;
+import Utils.Constants;
+import Utils.Result;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,57 +26,65 @@ import javax.faces.convert.FacesConverter;
 
 @Named("movPersonasCliController")
 @SessionScoped
-public class MovPersonasCliController implements Serializable {
+public class MovPersonasCliController extends AbstractPersistenceController<MovPersonasCli>{
 
     @EJB
     private Facade.MovPersonasCliFacade ejbFacade;
     private List<MovPersonasCli> items = null;
     private MovPersonasCli selected;
+    private List<MovPersonasCli> movsToForceOut = null;
 
     public MovPersonasCliController() {
     }
+    
+    //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
+    @Override
+    protected void setEmbeddableKeys() {
+        //Nothing to do here
+    }
 
+    @Override
+    protected void initializeEmbeddableKey() {
+        //Nothing to do here
+    }
+
+    @Override
     public MovPersonasCli getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(MovPersonasCli selected) {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private MovPersonasCliFacade getFacade() {
+    @Override
+    protected MovPersonasCliFacade getFacade() {
         return ejbFacade;
     }
+    
+    @Override
+    protected void setItems(List<MovPersonasCli> items) {
+        this.items = items;
+    }
+
+    @Override
+    protected String calculatePrimaryKey() {
+        Result result = ejbFacade.findByQuery(Querys.MOV_PERSONA_CLI_PRIMARY_KEY, true);
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){//First record will be created
+            return "1";
+        }
+        MovPersonasCli lastMovement = (MovPersonasCli) result.result;
+        Long lastPrimaryKey = lastMovement.getIdMovimiento();
+        return String.valueOf(lastPrimaryKey+1L);
+    }
+    //</editor-fold>
 
     public MovPersonasCli prepareCreate() {
         selected = new MovPersonasCli();
         initializeEmbeddableKey();
+        selected.setIdMovimiento(Long.valueOf(calculatePrimaryKey()));
         return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("Utils/Bundle").getString("MovPersonasCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("Utils/Bundle").getString("MovPersonasCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("Utils/Bundle").getString("MovPersonasCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
     public List<MovPersonasCli> getItems() {
@@ -79,34 +92,6 @@ public class MovPersonasCliController implements Serializable {
             items = getFacade().findAll();
         }
         return items;
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
     }
 
     public MovPersonasCli getMovPersonasCli(java.lang.Long id) {
@@ -161,5 +146,53 @@ public class MovPersonasCliController implements Serializable {
         }
 
     }
+    
+    public void recordEntryMovement(PersonasCli person, int persistAction) {
+        if(persistAction == Constants.UPDATE){
+            if(verifyEntry(person)){
+                recordForcedOut();
+            }
+        }
+        recordEntry(person);
+    }
+    public void recordEntry(PersonasCli person){
+        prepareEntityToCreate(person);
+        create();
+    }
 
+    public boolean verifyEntry(PersonasCli person){
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+person.getIdPersona()+"'"+
+                Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
+        Result result = ejbFacade.findByQueryArray(squery);
+        if(result.errorCode == Constants.NO_RESULT_EXCEPTION){
+            return false;
+        }
+        movsToForceOut = (List<MovPersonasCli>) result.result;
+        return true;
+    }
+    
+    public void recordForcedOut(){
+        for(MovPersonasCli mov: movsToForceOut){
+            mov.setFechaSalida(mov.getFechaEntrada());
+            mov.setHoraSalida(mov.getHoraEntrada());
+            mov.setSalidaForzosa(true);
+            selected = mov;
+            update();
+        }
+        movsToForceOut =  null;
+    }
+    
+    private void prepareEntityToCreate(PersonasCli person) {
+        prepareCreate();
+        Date actualDate = new Date();
+        selected.setIdPersona(person);
+        selected.setIdSucursal(person.getIdSucursal());
+        selected.setIdArea(person.getArea());
+        selected.setFechaEntrada(actualDate);
+        selected.setHoraEntrada(actualDate);
+        //TODO PERSONA QUE AUTORIZA
+        selected.setUsuario(person);//TODO ASSIGN REAL USER
+        selected.setFecha(actualDate);
+        selected.setSalidaForzosa(false);
+    }
 }

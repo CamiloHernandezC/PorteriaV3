@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  * @author MAURICIO
  */
 public class BundleUtils {
-    public static String getBundle(String property){
+    public static String getBundleProperty(String property){
         return ResourceBundle.getBundle("Utils/Bundle").getString(property);
     }
 }
