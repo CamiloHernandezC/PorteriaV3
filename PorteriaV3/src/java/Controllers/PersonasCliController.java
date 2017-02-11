@@ -3,6 +3,8 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.EntidadesCli;
+import Entities.EstadosCli;
 import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
@@ -14,6 +16,7 @@ import ViewControllers.CompleteEntry;
 import ViewControllers.PersonFormEntry;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -87,10 +90,18 @@ public class PersonasCliController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            selected.setUsuario("1");//TODO ASSIGN REAL USER
+            selected.setFecha(new Date());
             try {
-                if (persistAction != PersistAction.DELETE) {
+                if (persistAction == PersistAction.CREATE) {
+                    selected.setIdEntidad(new EntidadesCli("1"));//TODO ASSIGN VISITAN
+                    selected.setIdEstado(new EstadosCli(3L));//TODO ASSIGN AT ENTRY
+                    getFacade().create(selected);
+                }
+                if (persistAction == PersistAction.UPDATE) {
                     getFacade().edit(selected);
-                } else {
+                }
+                if (persistAction == PersistAction.DELETE) {
                     getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
@@ -181,7 +192,7 @@ public class PersonasCliController implements Serializable {
      * The readed value is stored in selected.numDocum
      */
     public void completeEntryByCodeReader(){
-        String  pageToRedirect = finishCompleteEntry(findByCodeReader());
+        String  pageToRedirect = redirectToRegisterForm(findByCodeReader());
         //TODO Here it is necessary to redirect
     }
     
@@ -191,17 +202,21 @@ public class PersonasCliController implements Serializable {
      * @return page to redirect
      */
     public String manualEntry(){
-        return finishCompleteEntry(findPersonByDocument());
+        return redirectToRegisterForm(findPersonByDocument());
     }
     
-     private String finishCompleteEntry(Result result) {
+    /**
+     * 
+     * @param result
+     * @return 
+     */
+     private String redirectToRegisterForm(Result result) {
          if(result.errorCode != 0 && result.errorCode != Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundle("Tecnical_Failure"));
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
             return null;
         }
         if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundle("Please_Register"));
-            prepareCreate();
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
         }else{
             if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
                 return null;
@@ -258,15 +273,35 @@ public class PersonasCliController implements Serializable {
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
     }
     
-    public void save(){
+    public String save(){
+        Result result = findSpecificPerson();
+        if(result.errorCode!=Constants.OK && result.errorCode != Constants.NO_RESULT_EXCEPTION){
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
+            return null;//This should never happend
+        }
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
+            create();
+        }
+        if(result.errorCode==Constants.OK){
+            update();
+        }
+        return Navigation.PAGE_SELECT_ENTRY;
         
     }
     
+    /**
+     * Search a person whit selected branch office, and status different to inactive
+     * @return 
+     */
     public Result findSpecificPerson(){
         String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"' AND"+
-                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+Querys.PERSONA_CLI_SUCURSAL+selected.getIdSucursal().getIdSucursal()+
-                Querys.PERSONA_CLI_ESTADO_N+"'1'";
-        return ejbFacade.findByQuery(squery, false);//False because person must have unique id externo
+                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+"' AND"+Querys.PERSONA_CLI_SUCURSAL+selected.getIdSucursal().getIdSucursal()+
+                "' AND"+Querys.PERSONA_CLI_ESTADO_N+"4'";
+        return ejbFacade.findByQuery(squery, false);//False because only one person should appear
+    }
+    
+    public void valueChangeHandlerOriginEnterprise(){
+        //TODO finish this method
     }
 
 }

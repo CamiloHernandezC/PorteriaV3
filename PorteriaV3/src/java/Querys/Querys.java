@@ -18,5 +18,6 @@ public class Querys {
     public static final String PERSONA_CLI_SUCURSAL= " a.idSucursal.idSucursal = '";
     public static final String PERSONA_CLI_ESTADO= " a.idEstado.idEstado = '";
     public static final String PERSONA_CLI_ESTADO_N= " a.idEstado.idEstado != '";
+    public static final String PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM PersonasCli a ORDER BY a.idPersona DESC";
     //</editor-fold>
 }
