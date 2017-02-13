@@ -39,7 +39,7 @@
 
             <p:commandButton rendered="#{completeEntry.selectEntryMethod}" value = "#{bundle.Search}" action="#{personasCliController.manualEntry()}" icon="ui-icon-check" ajax="false"/>
             <p:commandButton rendered="#{completeEntry.selectEntryMethod}" value= "#{bundle.P_Complete_Entry_Add_Objects}" action="#{personasCliController.addObjects()}" icon="ui-icon-check" ajax="false"/>
-            <p:commandButton value ="#{bundle.Cancel}" action="#{sessionUtils.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            <p:commandButton value ="#{bundle.Cancel}" action="#{jsfUtil.cancel()}" icon="ui-icon-cancel" immediate="true"/>
 
         </h:form>
     </ui:define>

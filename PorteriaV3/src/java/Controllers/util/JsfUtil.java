@@ -1,12 +1,17 @@
 package Controllers.util;
 
+import Utils.Navigation;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
+@Named
+@ApplicationScoped
 public class JsfUtil {
 
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
@@ -78,5 +83,19 @@ public class JsfUtil {
         texto = texto.trim();
         texto = texto.replaceAll("\u00A0", "");
         return texto;
+    }
+    
+    public void cancel() {
+            redirectTo(Navigation.PAGE_INDEX);
+    }
+
+    public void redirectTo(String page) {
+
+        try {
+            FacesContext contex = FacesContext.getCurrentInstance();
+            contex.getExternalContext().redirect(page);
+        } catch (Exception e) {
+            System.out.println("Exception cancel " + e);
+        }
     }
 }
