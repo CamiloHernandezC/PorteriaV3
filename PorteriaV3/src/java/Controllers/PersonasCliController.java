@@ -72,6 +72,10 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     }
     @Override
     protected String calculatePrimaryKey(){
+        Result result = ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true);
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){//First record will be created
+            return "1";
+        }
         PersonasCli lastPerson = (PersonasCli) ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true).result;
         Long lastPrimaryKey = Long.valueOf(lastPerson.getIdPersona());
         return String.valueOf(lastPrimaryKey+1L);
