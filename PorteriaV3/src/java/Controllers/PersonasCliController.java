@@ -5,6 +5,7 @@ import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Entities.EntidadesCli;
 import Entities.EstadosCli;
+import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
 import Utils.BundleUtils;
@@ -236,12 +237,12 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     }
     
     private Result findByCodeReader() {
-        /*
+        
         if(selected.getNumDocumento().startsWith("C,")){//ID CARD (CEDULA)
-            String[] palabrasSeparadas = separarPalabras();
-            if (palabrasSeparadas != null && palabrasSeparadas.length == 10) {
+            String[] separatedWords = separateWords();
+            if (separatedWords != null && separatedWords.length == 10) {
                 selected.setTipoDocumento(new TiposDocumentoCli("13"));//Se asigna el tipo de documento como cedula
-                selected.setNumDocumento(palabrasSeparadas[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
+                selected.setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
                 return findPersonByDocument();
                 //TODO FINISH THIS METHOD
                 //SI ES UN VISITANTE TIENE QUE LLENAR LA SUCURSAL Y EL AREA A LA CUAL VA
@@ -251,8 +252,30 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             selected.setIdExterno("");
             return findPersonByIdExterno();
         }
-        */
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
+    }
+    
+    private String[] separateWords() {
+        int commaCounter = 0;
+        String[] separatedWords = new String[10];
+        int oldi = -1;
+        for (int i = 2; i <selected.getNumDocumento().length(); i++) {//Start in 2 to avoid "C,"
+            char c = selected.getNumDocumento().charAt(i);
+            if (c == ',') {
+                if (oldi + 1 != i) {
+                    separatedWords[commaCounter] = selected.getNumDocumento().substring(oldi + 1, i);    
+                } else {
+                    separatedWords[commaCounter] = "";
+                }
+                commaCounter++;
+                oldi = i;
+            }
+        }
+        if (commaCounter == 9) {
+            separatedWords[1]= String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
+            return separatedWords;
+        }
+        return null;
     }
     
     public String save(){
