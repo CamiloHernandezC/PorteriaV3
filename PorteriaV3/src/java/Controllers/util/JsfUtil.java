@@ -72,4 +72,11 @@ public class JsfUtil {
         FacesContext context = FacesContext.getCurrentInstance();
         return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
     }
+    
+    public static String quitaEspacios(String texto) {
+        texto= texto.replaceAll(" ", "");
+        texto = texto.trim();
+        texto = texto.replaceAll("\u00A0", "");
+        return texto;
+    }
 }

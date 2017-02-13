@@ -7,6 +7,7 @@ package Facade;
 
 import Utils.Constants;
 import Utils.Result;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -86,8 +87,20 @@ public abstract class AbstractFacade<T> {
     }
     
     public Result findByQueryArray(String squery) {
-        //TODO replace this method
-        return new Result(null, Constants.NO_RESULT_EXCEPTION);
+        try {
+            EntityManager em = getEntityManager();
+            Query query = em.createQuery(squery);
+            List<T> list;
+            list = (List<T>) query.getResultList();
+            for(T entity:list){
+                em.refresh(entity);
+            }
+            list = (List<T>) query.getResultList();
+            return new Result(list, Constants.OK);
+        } catch (NoResultException nre) {
+            return new Result(new ArrayList<>(), Constants.NO_RESULT_EXCEPTION);
+        } catch (Exception e) {
+            return new Result(new ArrayList<>(), Constants.UNKNOWN_EXCEPTION);
+        }
     }
-
 }

@@ -204,6 +204,8 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             selected = (PersonasCli) result.result;
             disableNoEditableFields();
         }
+        ConfigFormCliController configFormCliController =  JsfUtil.findBean("configFormCliController");
+        configFormCliController.showFieldsPerson();
         return Navigation.PAGE_PERSON_REGISTER;
     }
     

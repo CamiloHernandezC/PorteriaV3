@@ -33,4 +33,8 @@ public class Constants {
     public static final String MESSAGE_NO_RESULT_EXCEPTION = "APP EXCEPTION: NO RESULT EXCEPTION";
     public static final String MESSAGE_NO_UNIQUE_RESULT_EXCEPTION = "APP EXCEPTION: NO UNIQUE RESULT EXCEPTION";
     //</editor-fold>
+    
+    // <editor-fold desc="FORMULARIO CONFIGURACION" defaultstate="collapsed">
+    public static String CONFIGPERSONSFORM ="PERSONA";
+    //</editor-fold>
 }
