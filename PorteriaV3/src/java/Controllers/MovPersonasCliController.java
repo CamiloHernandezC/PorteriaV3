@@ -161,8 +161,8 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
     }
 
     public boolean verifyEntry(PersonasCli person){
-        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+person.getIdPersona()+"'"+
-                Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+person.getIdPersona()+"'"+ 
+                "and"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode == Constants.NO_RESULT_EXCEPTION){
             return false;
