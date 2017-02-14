@@ -12,25 +12,26 @@
             <h:panelGrid columns="2" cellpadding="5">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="selec_entry" value="#{bundle.P_Complete_Entry_Select_Entry_Method}" />
-                    <p:selectOneRadio  id="selec_entry" value="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.P_Complete_Entry_Add_Objects}">
+                    <p:selectOneRadio  id="selec_entry" value="#{completeEntry.selectEntryMethod}">
                         <p:ajax  update="search_form" />
                         <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Manual}" itemValue="true" />
                         <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Scanner}" itemValue="false" />
                     </p:selectOneRadio>
 
                     <h:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="DocType" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
-                    <p:selectOneMenu filter="true" filterMatchMode="contains" required="#{completeEntry.selectEntryMethod}" rendered="#{completeEntry.selectEntryMethod}" id="DocType" value="#{personasCliController.selected.tipoDocumento}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" style="width: 200px">
+                    <p:selectOneMenu filter="true" filterMatchMode="contains" rendered="#{completeEntry.selectEntryMethod}" id="DocType" value="#{personasCliController.selected.tipoDocumento}" style="width: 200px">
                         <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
                         <f:selectItems  value="#{tiposDocumentoCliController.items}" var="docType" itemLabel="#{docType.descripcion}" itemValue="#{docType}"/>
                     </p:selectOneMenu>
 
                     <h:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="numDoc" value="#{bundle.CreatePersonasCliLabel_numDocumento}" />
-                    <p:inputText rendered="#{completeEntry.selectEntryMethod}" autocomplete="false" id="numDoc" value="#{personasCliController.selected.numDocumento}" required="#{completeEntry.selectEntryMethod}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="width: 200px"/>
-
+                    <p:inputText rendered="#{completeEntry.selectEntryMethod}" autocomplete="false" id="numDoc" value="#{personasCliController.selected.numDocumento}" style="width: 200px"/>
+                    
                     <h:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
-                    <p:inputText rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.selected.numDocumento}" required="#{!ControlGeneralVistas.manual}">
-                        <p:ajax event="blur" listener="#{personasCliController.completeEntryByCodeReader()}"/>  
+                    <p:inputText  rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.code}">
+                        <p:ajax event="blur" listener="#{personasCliController.completeEntryByCodeReader()}" process="search_form"/>
                     </p:inputText>
+                    
                 </h:panelGrid>
                 <p:graphicImage value="../../resources/images/LectorProj.png" height="100px" width="200px" rendered="#{!completeEntry.selectEntryMethod}"/>
                 <p:graphicImage value="../../resources/images/TecladoProj.png" height="100px" width="250px" rendered="#{completeEntry.selectEntryMethod}"/>

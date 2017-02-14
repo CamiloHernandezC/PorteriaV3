@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.AjaxBehaviorEvent;
 
 @Named("personasCliController")
 @SessionScoped
@@ -34,8 +35,17 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     private Facade.PersonasCliFacade ejbFacade;
     private List<PersonasCli> items = null;
     private PersonasCli selected;
+    private String code;
 
     public PersonasCliController() {
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
@@ -92,7 +102,14 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         super.persist(persistAction, successMessage);
     }
 
-    public void prepareCreate() {
+    /**
+     * Set some attributes needed to save
+     * @param cleanModel 
+     */
+    public void prepareCreate(boolean cleanModel) {
+        if(cleanModel){
+            selected = new PersonasCli();
+        }
         selected.setIdPersona(calculatePrimaryKey());
         selected.setIdEntidad(new EntidadesCli("1"));//TODO ASSIGN VISITAN
         selected.setIdEstado(new EstadosCli(3L));//TODO ASSIGN AT ENTRY
@@ -172,8 +189,18 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * The readed value is stored in selected.numDocum
      */
     public void completeEntryByCodeReader(){
-        String  pageToRedirect = redirectToRegisterForm(findByCodeReader());
-        //TODO Here it is necessary to redirect
+        if(code==null){
+            return;
+        }
+        String  pageToRedirect = null;
+        if(code.startsWith("C,")){//ID CARD (CEDULA)
+            pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not clean because it already has information
+        }
+        if(code.startsWith("B,")){//BAR CODE
+            pageToRedirect = redirectToRegisterForm(findByCodeReader(), true);
+        }
+        code = null;
+        
     }
     
     /**
@@ -182,7 +209,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return page to redirect
      */
     public String manualEntry(){
-        return redirectToRegisterForm(findPersonByDocument());
+        return redirectToRegisterForm(findPersonByDocument(), true);
     }
     
     /**
@@ -190,14 +217,14 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @param result
      * @return 
      */
-     private String redirectToRegisterForm(Result result) {
+     private String redirectToRegisterForm(Result result, boolean cleanToCreate) {
          if(result.errorCode != 0 && result.errorCode != Constants.NO_RESULT_EXCEPTION){
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
             return null;
         }
         if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
-            prepareCreate();
+            prepareCreate(cleanToCreate);
         }else{
             if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
                 return null;
@@ -236,11 +263,15 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         
     }
     
+    /**
+     * Take the code readed and find a person to return
+     * @return 
+     */
     private Result findByCodeReader() {
         
-        if(selected.getNumDocumento().startsWith("C,")){//ID CARD (CEDULA)
+        if(code.startsWith("C,")){//ID CARD (CEDULA)
             String[] separatedWords = separateWords();
-            if (separatedWords != null && separatedWords.length == 10) {
+            if (separatedWords != null) {
                 selected.setTipoDocumento(new TiposDocumentoCli("13"));//Se asigna el tipo de documento como cedula
                 selected.setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
                 return findPersonByDocument();
@@ -248,7 +279,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
                 //SI ES UN VISITANTE TIENE QUE LLENAR LA SUCURSAL Y EL AREA A LA CUAL VA
             }
         }
-        if(selected.getNumDocumento().startsWith("B,")){//BAR CODE
+        if(code.startsWith("B,")){//BAR CODE
             selected.setIdExterno("");
             return findPersonByIdExterno();
         }
@@ -258,12 +289,12 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     private String[] separateWords() {
         int commaCounter = 0;
         String[] separatedWords = new String[10];
-        int oldi = -1;
-        for (int i = 2; i <selected.getNumDocumento().length(); i++) {//Start in 2 to avoid "C,"
-            char c = selected.getNumDocumento().charAt(i);
+        int oldi = 1;
+        for (int i = 2; i <code.length(); i++) {//Start in 2 to avoid "C,"
+            char c = code.charAt(i);
             if (c == ',') {
                 if (oldi + 1 != i) {
-                    separatedWords[commaCounter] = selected.getNumDocumento().substring(oldi + 1, i);    
+                    separatedWords[commaCounter] = code.substring(oldi + 1, i);    
                 } else {
                     separatedWords[commaCounter] = "";
                 }
