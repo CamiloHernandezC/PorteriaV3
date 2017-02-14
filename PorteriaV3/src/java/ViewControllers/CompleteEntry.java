@@ -6,15 +6,15 @@
 package ViewControllers;
 
 import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author MAURICIO
  */
 @Named(value = "completeEntry")
-@ViewScoped
+@SessionScoped
 public class CompleteEntry implements Serializable{
 
     //<editor-fold desc="VARIBLES DECLARATION" defaultstate="collapsed">

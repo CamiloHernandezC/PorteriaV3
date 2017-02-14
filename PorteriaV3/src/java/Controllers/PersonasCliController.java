@@ -201,7 +201,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
             pageToRedirect = Navigation.PAGE_COMPLETE_ENTRY;
         }else{
-            pageToRedirect = redirectToRegisterForm(result, false);//If person is not find with id card (cedula), the field are not cleaned because it already has information
+            pageToRedirect = redirectToRegisterForm(result, false);//If person is not find with id card (cedula) or bar code, the field are not cleaned because it already has information
         }
         code = null;
         JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
@@ -230,12 +230,13 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
             prepareCreate(cleanToCreate);
+            disableNoEditableFields(false);
         }else{
             if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
                 return null;
             }
             selected = (PersonasCli) result.result;
-            disableNoEditableFields();
+            disableNoEditableFields(true);
         }
         ConfigFormCliController configFormCliController =  JsfUtil.findBean("configFormCliController");
         configFormCliController.showFieldsPerson();
@@ -262,9 +263,9 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         return false;
     }
     
-    private void disableNoEditableFields() {
+    private void disableNoEditableFields(boolean enable) {
         PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
-        personFormEntry.setDisableNoEditableField(true);
+        personFormEntry.setDisableNoEditableField(enable);
         
     }
     
