@@ -86,10 +86,10 @@ public class JsfUtil {
     }
     
     public void cancel() {
-            redirectTo(Navigation.PAGE_INDEX);
+        redirectTo(Navigation.PAGE_INDEX);
     }
 
-    public void redirectTo(String page) {
+    public static void redirectTo(String page) {
 
         try {
             FacesContext contex = FacesContext.getCurrentInstance();
