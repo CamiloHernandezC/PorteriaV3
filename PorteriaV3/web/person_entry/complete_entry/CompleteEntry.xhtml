@@ -28,7 +28,7 @@
                     <p:inputText rendered="#{completeEntry.selectEntryMethod}" autocomplete="false" id="numDoc" value="#{personasCliController.selected.numDocumento}" style="width: 200px"/>
                     
                     <h:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
-                    <p:inputText  rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.code}">
+                    <p:inputText  rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.code}" required="#{!completeEntry.selectEntryMethod}">
                         <p:ajax event="blur" listener="#{personasCliController.completeEntryByCodeReader()}" process="search_form"/>
                     </p:inputText>
                     
