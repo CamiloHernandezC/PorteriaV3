@@ -5,18 +5,16 @@
  */
 package ViewControllers;
 
-import Utils.Navigation;
 import java.io.Serializable;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author MAURICIO
  */
 @Named(value = "personFormEntry")
-@ViewScoped
+@SessionScoped
 public class PersonFormEntry implements Serializable{
 
     //<editor-fold desc="VARIBLES DECLARATION" defaultstate="collapsed">
