@@ -10,8 +10,6 @@ import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-@Named
-@ApplicationScoped
 public class JsfUtil {
 
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
@@ -85,7 +83,7 @@ public class JsfUtil {
         return texto;
     }
     
-    public void cancel() {
+    public static void cancel() {
         redirectTo(Navigation.PAGE_INDEX);
     }
 

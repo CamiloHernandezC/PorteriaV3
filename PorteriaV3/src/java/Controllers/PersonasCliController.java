@@ -365,5 +365,10 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     public void valueChangeHandlerOriginEnterprise(){
         //TODO finish this method
     }
+    
+    public void cancel(){
+        selected = new PersonasCli();
+        JsfUtil.cancel();
+    }
 
 }
