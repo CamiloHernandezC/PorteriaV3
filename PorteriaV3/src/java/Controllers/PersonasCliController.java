@@ -196,7 +196,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             return;
         }
         String  pageToRedirect = null;
-        pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not clean because it already has information
+        pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not cleaned because it already has information
         code = null;
         JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
         
