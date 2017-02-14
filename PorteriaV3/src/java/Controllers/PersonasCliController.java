@@ -13,6 +13,9 @@ import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
 import ViewControllers.PersonFormEntry;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -193,13 +196,9 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             return;
         }
         String  pageToRedirect = null;
-        if(code.startsWith("C,")){//ID CARD (CEDULA)
-            pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not clean because it already has information
-        }
-        if(code.startsWith("B,")){//BAR CODE
-            pageToRedirect = redirectToRegisterForm(findByCodeReader(), true);
-        }
+        pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not cleaned because it already has information
         code = null;
+        JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
         
     }
     
@@ -209,7 +208,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return page to redirect
      */
     public String manualEntry(){
-        return redirectToRegisterForm(findPersonByDocument(), true);
+        return redirectToRegisterForm(findPersonByDocument(), true);//Here cleans the entity to obligate rewrite id card number
     }
     
     /**
@@ -272,15 +271,32 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         if(code.startsWith("C,")){//ID CARD (CEDULA)
             String[] separatedWords = separateWords();
             if (separatedWords != null) {
+                //Se debe asignar el tipo de documento y número de documento para poder buscar
                 selected.setTipoDocumento(new TiposDocumentoCli("13"));//Se asigna el tipo de documento como cedula
                 selected.setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
+                //<editor-fold desc="Assign selected to info in id card" defaultstate="collapsed">
+                selected.setApellido1(separatedWords[1]);
+                selected.setApellido2(separatedWords[2]);
+                selected.setNombre1(separatedWords[3]);
+                selected.setNombre2(separatedWords[4]);
+                selected.setSexo(separatedWords[5].equals("M"));
+                DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                try {                
+                    Date birthDate = formatter.parse(separatedWords[6]);
+                    selected.setFechaNacimiento(birthDate);
+                } catch (ParseException ex) {
+                    System.out.println(Constants.MESSAGE_DATE_FORMAT_EXCEPTION);
+                }
+                String RH = "¡".equals(separatedWords[7].substring(1)) ? "+":"-";
+                selected.setRh(separatedWords[7].substring(0, 1)+RH);
+                //</editor-fold>
                 return findPersonByDocument();
                 //TODO FINISH THIS METHOD
                 //SI ES UN VISITANTE TIENE QUE LLENAR LA SUCURSAL Y EL AREA A LA CUAL VA
             }
         }
         if(code.startsWith("B,")){//BAR CODE
-            selected.setIdExterno("");
+            selected.setIdExterno(code.substring(2));//Obtain only the bar code number
             return findPersonByIdExterno();
         }
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen

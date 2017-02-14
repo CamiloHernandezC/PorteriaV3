@@ -31,8 +31,8 @@
             
             <p:outputLabel for="sexo" value="#{bundle.CreatePersonasCliLabel_sexo}" rendered="#{configFormCliController.mostrarSexo}"/>
             <p:selectOneRadio style="width: 200px" id="sexo" value="#{personasCliController.selected.sexo}" rendered="#{configFormCliController.mostrarSexo}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarSexo}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_sexo}" widgetVar="wv_sexo">
-                <f:selectItem itemLabel="Femenino" itemValue="0" />
-                <f:selectItem itemLabel="Masculino" itemValue="1" />
+                <f:selectItem itemLabel="Femenino" itemValue="false" />
+                <f:selectItem itemLabel="Masculino" itemValue="true" />
             </p:selectOneRadio>
             <h:outputLabel style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}" for="address" rendered="#{configFormCliController.mostrarDireccion}"/>
             <p:inputText  id="address" value="#{personasCliController.selected.direccion}" rendered="#{configFormCliController.mostrarDireccion}" required="#{configFormCliController.mostrarDireccion}" style="text-transform:uppercase;width: 200px" maxlength="120"/>
