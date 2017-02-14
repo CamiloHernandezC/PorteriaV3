@@ -196,12 +196,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             return;
         }
         String  pageToRedirect = null;
-        if(code.startsWith("C,")){//ID CARD (CEDULA)
-            pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not clean because it already has information
-        }
-        if(code.startsWith("B,")){//BAR CODE
-            pageToRedirect = redirectToRegisterForm(findByCodeReader(), true);
-        }
+        pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not clean because it already has information
         code = null;
         JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
         
@@ -213,7 +208,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return page to redirect
      */
     public String manualEntry(){
-        return redirectToRegisterForm(findPersonByDocument(), true);
+        return redirectToRegisterForm(findPersonByDocument(), true);//Here cleans the entity to obligate rewrite id card number
     }
     
     /**
@@ -301,7 +296,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             }
         }
         if(code.startsWith("B,")){//BAR CODE
-            selected.setIdExterno("");
+            selected.setIdExterno(code.substring(2));//Obtain only the bar code number
             return findPersonByIdExterno();
         }
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
