@@ -196,7 +196,13 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             return;
         }
         String  pageToRedirect = null;
-        pageToRedirect = redirectToRegisterForm(findByCodeReader(), false);//If person is not find with id card (cedula), the field are not cleaned because it already has information
+        Result result = findByCodeReader();
+        if(result.errorCode== Constants.UNKNOWN_EXCEPTION){//unaccepted text format
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
+            pageToRedirect = Navigation.PAGE_COMPLETE_ENTRY;
+        }else{
+            pageToRedirect = redirectToRegisterForm(result, false);//If person is not find with id card (cedula), the field are not cleaned because it already has information
+        }
         code = null;
         JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
         
@@ -319,7 +325,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             }
         }
         if (commaCounter == 9) {
-            separatedWords[1]= String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
+            separatedWords[0]= String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
             return separatedWords;
         }
         return null;
