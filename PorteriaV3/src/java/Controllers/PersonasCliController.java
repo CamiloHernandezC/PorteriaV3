@@ -3,6 +3,7 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.EmpresaOrigenCli;
 import Entities.EntidadesCli;
 import Entities.EstadosCli;
 import Entities.TiposDocumentoCli;
@@ -28,7 +29,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 
 @Named("personasCliController")
 @SessionScoped
@@ -39,10 +40,20 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     private List<PersonasCli> items = null;
     private PersonasCli selected;
     private String code;
+    private String otherOriginEnterpriseName;
 
     public PersonasCliController() {
     }
+    
+    //<editor-fold desc="GETTER AND SETTER" defaultstate="collapsed">
+    public String getOtherOriginEnterpriseName() {
+        return otherOriginEnterpriseName;
+    }
 
+    public void setOtherOriginEnterpriseName(String otherOriginEnterpriseName) {
+        this.otherOriginEnterpriseName = otherOriginEnterpriseName;
+    }
+    
     public String getCode() {
         return code;
     }
@@ -50,6 +61,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     public void setCode(String code) {
         this.code = code;
     }
+    //</editor-fold>
 
     //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
     @Override
@@ -114,8 +126,8 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             selected = new PersonasCli();
         }
         selected.setIdPersona(calculatePrimaryKey());
-        selected.setIdEntidad(new EntidadesCli("1"));//TODO ASSIGN VISITAN
-        selected.setIdEstado(new EstadosCli(3L));//TODO ASSIGN AT ENTRY
+        selected.setIdEntidad(new EntidadesCli(Constants.ENTITY_VISITANT));
+        selected.setIdEstado(new EstadosCli(Constants.STATUS_ENTRY));
     }
 
     public List<PersonasCli> getItems() {
@@ -266,7 +278,6 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     private void disableNoEditableFields(boolean enable) {
         PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
         personFormEntry.setDisableNoEditableField(enable);
-        
     }
     
     /**
@@ -279,7 +290,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             String[] separatedWords = separateWords();
             if (separatedWords != null) {
                 //Se debe asignar el tipo de documento y número de documento para poder buscar
-                selected.setTipoDocumento(new TiposDocumentoCli("13"));//Se asigna el tipo de documento como cedula
+                selected.setTipoDocumento(new TiposDocumentoCli(Constants.DOCUMENT_TYPE_CEDULA));//Se asigna el tipo de documento como cedula
                 selected.setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
                 //<editor-fold desc="Assign selected to info in id card" defaultstate="collapsed">
                 selected.setApellido1(separatedWords[1]);
@@ -297,9 +308,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
                 String RH = "¡".equals(separatedWords[7].substring(1)) ? "+":"-";
                 selected.setRh(separatedWords[7].substring(0, 1)+RH);
                 //</editor-fold>
-                return findPersonByDocument();
-                //TODO FINISH THIS METHOD
-                //SI ES UN VISITANTE TIENE QUE LLENAR LA SUCURSAL Y EL AREA A LA CUAL VA
+                return findPersonByDocument();                
             }
         }
         if(code.startsWith("B,")){//BAR CODE
@@ -362,8 +371,14 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         return ejbFacade.findByQuery(squery, false);//False because only one person should appear
     }
     
-    public void valueChangeHandlerOriginEnterprise(){
-        //TODO finish this method
+    public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent){
+        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
+        EmpresaOrigenCli selectedOriginEnterprise= (EmpresaOrigenCli) changeEvent.getNewValue();
+        if(selectedOriginEnterprise.getIdEmorigen() != null && selectedOriginEnterprise.getIdEmorigen().equals(Constants.ORIGIN_ENTERPRISE_OTHER)){
+            personFormEntry.setDisableOtherEnterprise(false);
+            return;
+        }
+        personFormEntry.setDisableOtherEnterprise(true);
     }
     
     public void cancel(){

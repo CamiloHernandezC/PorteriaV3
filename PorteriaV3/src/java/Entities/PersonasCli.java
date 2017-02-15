@@ -200,7 +200,7 @@ public class PersonasCli implements Serializable {
     private List<MovMaterialesCli> movMaterialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovHerramientasCli> movHerramientasCliList;
-
+    
     public PersonasCli() {
     }
 

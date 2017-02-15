@@ -9,142 +9,145 @@
     <ui:define name="content">
         <h:form id="formularioCrear">
 
-        <h:panelGrid columns="4" cellpadding="5" >
+            <h:panelGrid columns="4" cellpadding="5" >
 
-            <p:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}" rendered="true" />
-            <p:inputText id="nombre1" style="text-transform:uppercase ;width: 200px" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" maxlength="30"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"  value="#{personasCliController.selected.nombre1}"/>
-            <p:outputLabel for="nombre2" value="#{bundle.CreatePersonasCliLabel_nombre2}" rendered="true" />
-            <p:inputText id="nombre2" value="#{personasCliController.selected.nombre2}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase;width: 200px" maxlength="30"/>
+                <p:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}" rendered="true" />
+                <p:inputText id="nombre1" style="text-transform:uppercase ;width: 200px" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" maxlength="30"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"  value="#{personasCliController.selected.nombre1}"/>
+                <p:outputLabel for="nombre2" value="#{bundle.CreatePersonasCliLabel_nombre2}" rendered="true" />
+                <p:inputText id="nombre2" value="#{personasCliController.selected.nombre2}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase;width: 200px" maxlength="30"/>
 
-            <p:outputLabel for="nombre3" value="#{bundle.CreatePersonasCliLabel_apellido1}" rendered="true" />
-            <p:inputText id="nombre3" value="#{personasCliController.selected.apellido1}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"  style="text-transform:uppercase;width: 200px" maxlength="30"/>
-            <p:outputLabel for="nombre4" value="#{bundle.CreatePersonasCliLabel_apellido2}" rendered="true" />
-            <p:inputText id="nombre4" value="#{personasCliController.selected.apellido2}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase;width: 200px"   maxlength="30" />
-         
-            <h:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" rendered="true"/>
-            <p:selectOneMenu id="tipoDoc" value="#{personasCliController.selected.tipoDocumento}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" style="width: 200px" widgetVar="tipoDoc">
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{tiposDocumentoCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}"  />
-            </p:selectOneMenu>
-            <h:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}" rendered="true"  style="width: 200px"/>
-            <p:inputText id="numDocum" value="#{personasCliController.selected.numDocumento}" rendered="true"  disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
-            
-            <p:outputLabel for="sexo" value="#{bundle.CreatePersonasCliLabel_sexo}" rendered="#{configFormCliController.mostrarSexo}"/>
-            <p:selectOneRadio style="width: 200px" id="sexo" value="#{personasCliController.selected.sexo}" rendered="#{configFormCliController.mostrarSexo}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarSexo}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_sexo}" widgetVar="wv_sexo">
-                <f:selectItem itemLabel="Femenino" itemValue="false" />
-                <f:selectItem itemLabel="Masculino" itemValue="true" />
-            </p:selectOneRadio>
-            <p:outputLabel for="nacimiento" value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}" rendered="#{configFormCliController.mostrarnacimiento}"/>
-            <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}" rendered="#{configFormCliController.mostrarnacimiento}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarnacimiento}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaNacimiento}" maxdate="#{generalViewControl.actualDate}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase;width: 210px"/>
-            
-            <h:outputLabel for="gsang" value="#{bundle.CreatePersonasCliLabel_rh}" rendered="#{configFormCliController.mostrarTipo_sanguineo}"/>
-            <p:selectOneMenu id="gsang" value="#{personasCliController.selected.rh}" rendered="#{configFormCliController.mostrarTipo_sanguineo}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarTipo_sanguineo}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_rh}" style=" width: 200px" widgetVar="wv_tipoSanguineo">
-                <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
-                <f:selectItem  itemLabel="A+" itemValue="A+"/>
-                <f:selectItem  itemLabel="A-" itemValue="A-"/>
-                <f:selectItem  itemLabel="AB+" itemValue="AB+"/>
-                <f:selectItem  itemLabel="AB-" itemValue="AB-"/>
-                <f:selectItem  itemLabel="B+" itemValue="B+"/>
-                <f:selectItem  itemLabel="B-" itemValue="B-"/>
-                <f:selectItem  itemLabel="O+" itemValue="O+"/>
-                <f:selectItem  itemLabel="O-" itemValue="O-"/>
-            </p:selectOneMenu>
-            <h:outputLabel for="idPais" value="#{bundle.CreatePersonasCliLabel_idPais}" rendered="#{configFormCliController.mostrarPais}"/>
-            <p:selectOneMenu id="idPais" value="#{personasCliController.selected.idPais}" rendered="#{configFormCliController.mostrarPais}" required="#{configFormCliController.mostrarPais}" disabled="#{personFormEntry.disableNoEditableField}" filter="true" filterMatchMode="contains" style=" width: 200px" widgetVar="idPais">
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="0"/>
-                <f:selectItems  value="#{paisesCliController.items}" var="pais" itemLabel="#{pais.descripcion}" itemValue="#{pais}"  />
-            </p:selectOneMenu>
-            
-            <p:outputLabel for="cel" value="#{bundle.CreatePersonasCliLabel_celular}" rendered="#{configFormCliController.mostrarCelular}"/>
-            <p:inputText id="cel" value="#{personasCliController.selected.celular}" rendered="#{configFormCliController.mostrarCelular}"  required="#{configFormCliController.mostrarCelular}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_celular}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
-            <p:outputLabel  for="contactPerson" value="#{bundle.CreatePersonasCliLabel_personaContacto}" rendered="#{configFormCliController.mostrarPersonaContacto}"/>
-            <p:inputText id="contactPerson" value="#{personasCliController.selected.personaContacto}" rendered="#{configFormCliController.mostrarPersonaContacto}"  required="#{configFormCliController.mostrarPersonaContacto}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_personaContacto}" style="text-transform:uppercase;width: 200px" maxlength="15"/>
-            
-            <p:outputLabel for="phoneContactPerson" value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}" rendered="#{configFormCliController.mostrarTelefono}"/>
-            <p:inputText id="phoneContactPerson" value="#{personasCliController.selected.telPersonaContacto}" rendered="#{configFormCliController.mostrarTelefono}"  required="#{configFormCliController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telPersonaContacto}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
-            <h:outputLabel style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}" for="address" rendered="#{configFormCliController.mostrarDireccion}"/>
-            <p:inputText  id="address" value="#{personasCliController.selected.direccion}" rendered="#{configFormCliController.mostrarDireccion}" required="#{configFormCliController.mostrarDireccion}" style="text-transform:uppercase;width: 200px" maxlength="120"/>
-                     
-            
-            
-            <h:outputLabel for="idDepartamento" value="#{bundle.CreatePersonasCliLabel_idDepartamento}" rendered="#{configFormCliController.mostrarDepartamento}" />
-            <p:selectOneMenu id="idDepartamento" value="#{personasCliController.selected.idDepartamento}" rendered="#{configFormCliController.mostrarDepartamento}" required="#{configFormCliController.mostrarDepartamento}" filter="true" filterMatchMode="contains" style=" width: 200px" immediate="true" widgetVar="idDepartamento">                
-                <p:ajax  update="idMunicipio" />
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{departamentosCliController.items}" var="depto" itemLabel="#{depto.descripcion}" itemValue="#{depto}"  />
-            </p:selectOneMenu>
-            
-            <h:outputLabel for="idMunicipio" value="#{bundle.CreatePersonasCliLabel_municipiosCli}" rendered="#{configFormCliController.mostrarMunicipio}"/>
-            <p:selectOneMenu id="idMunicipio" value="#{personasCliController.selected.idMunicipio}" rendered="#{configFormCliController.mostrarMunicipio}" required="#{configFormCliController.mostrarMunicipio}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_municipio}" filter="true" filterMatchMode="contains" style=" width: 200px" widgetVar="idMunicipio">                
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{municipiosCliController.itemsOfDepartment(personasCliController.selected.idDepartamento)}" var="muni" itemLabel="#{muni.descripcion}" itemValue="#{muni}"/>
-            </p:selectOneMenu>
-            
-            <h:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="#{configFormCliController.mostrarSucursal}"/>
-            <p:selectOneMenu id="sucursales" value="#{personasCliController.selected.idSucursal}" rendered="#{configFormCliController.mostrarSucursal}" required="#{configFormCliController.mostrarSucursal}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" style=" width: 200px">
-                <p:ajax  update="funcionario"/>
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{sucursalesCliController.items}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
-            </p:selectOneMenu>
-            
-            <h:outputLabel for="email" value="#{bundle.CreatePersonasCliLabel_mail}" rendered="#{configFormCliController.mostrarEmail}"/>
-            <p:inputText id="email" value="#{personasCliController.selected.mail}" rendered="#{configFormCliController.mostrarEmail}" required="#{configFormCliController.mostrarEmail}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_mail}" style="text-transform:uppercase;width: 200px" maxlength="60"/>
-            <p:outputLabel for="tel" value="#{bundle.CreatePersonasCliLabel_telefono}" rendered="#{configFormCliController.mostrarTelefono}"/>
-            <p:inputText id="tel" value="#{personasCliController.selected.telefono}" rendered="#{configFormCliController.mostrarTelefono}" required="#{configFormCliController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telefono}" style="text-transform:uppercase;width: 200px" maxlength="15"/>
-           
-            <h:outputLabel for="empresas" value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}" rendered="#{configFormCliController.mostrarEmpresa}"/>
-            <p:selectOneMenu  id="empresas" value="#{personasCliController.selected.idEmpresaOrigen}" rendered="#{configFormCliController.mostrarEmpresa}" required="#{configFormCliController.mostrarEmpresa}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_empresa}" valueChangeListener="#{personasCliController.valueChangeHandlerOriginEnterprise}" filter="true" filterMatchMode="contains" style=" width: 200px">
-                <p:ajax update="labelNombreEmpresa nombreEmpresa"/>
-                <f:selectItem  itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{empresaOrigenCliController.items}" var="empresas" itemLabel="#{empresas.nombre1}" itemValue="#{empresas}"/>
-            </p:selectOneMenu>
-            <h:outputLabel id="labelNombreEmpresa" value="#{bundle.CreatePersonasCliLabel_nombreEmpresa}"  rendered="#{configFormCliController.mostrarEmpresa}"/>
-            <p:inputText id="nombreEmpresa" value="#{personasCliController.selected.empresaOrigenCliList}" rendered="#{configFormCliController.mostrarEmpresa}" disabled="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_empresa}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
-            
-            <h:outputLabel for="funcionario" value="#{ControlGeneralVistas.stringFuncionario}" rendered="#{configFormCliController.mostrarFuncionario}"/>
-            <p:selectOneMenu id="funcionario" value="#{MovpersonaPorControl.mpp.funcvisitado}" rendered="#{configFormCliController.mostrarFuncionario}" required="#{configFormCliController.mostrarFuncionario}" requiredMessage="Seleccione el funcionario que autoriza el ingreso" style=" width: 200px"  widgetVar="funcionarios">
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{personaPorControl.arrayFunionarios}" var="funcionarios" itemLabel="#{funcionarios.personacli.nombre1.concat(ControlGeneralVistas.espacio).concat(funcionarios.personacli.nombre3)}" itemValue="#{funcionarios.autorizaIngresocliPK.idpersona}"/>
-            </p:selectOneMenu>
-            
-            <h:outputLabel for="eps" value="#{bundle.CreatePersonasCliLabel_eps}" rendered="#{configFormCliController.mostrarEPS}"/>
-            <p:selectOneMenu id="eps" value="#{personasCliController.selected.eps}" rendered="#{configFormCliController.mostrarEPS}" required="#{configFormCliController.mostrarEPS}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_eps}" filter="true" filterMatchMode="contains" style=" width: 200px" widgetVar="eps">                
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{ePSCliController.items}" var="eps" itemLabel="#{eps.descripcion}" itemValue="#{eps}"  />
-            </p:selectOneMenu>
-            <p:outputLabel for="vigenciaEPS" value="#{bundle.CreatePersonasCliLabel_fechavigenciaEPS}" rendered="#{configFormCliController.mostrarFecha_vigencia_EPS}"/>
-            <p:calendar id="vigenciaEPS" value="#{personasCliController.selected.fechavigenciaEPS}" rendered="#{configFormCliController.mostrarFecha_vigencia_EPS}" required="#{configFormCliController.mostrarFecha_vigencia_EPS}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaEPS}" style=" width: 200px" yearRange="c-100:c+0" navigator="true"  mindate="#{generalViewControl.actualDate}"/>
-            
-            <h:outputLabel for="arl" value="#{bundle.CreatePersonasCliLabel_arl}" rendered="#{configFormCliController.mostrarARL}"/>
-            <p:selectOneMenu id="arl" value="#{personasCliController.selected.arl}" filter="true" filterMatchMode="contains" rendered="#{configFormCliController.mostrarARL}" style="width: 200px" widgetVar="arl" required="#{configFormCliController.mostrarARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_arl}">                
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{aRLCliController.items}" var="arl" itemLabel="#{arl.descripcion}" itemValue="#{arl}"  />
-            </p:selectOneMenu>
-            <p:outputLabel for="vigenciaARL" value="#{bundle.CreatePersonasCliLabel_fechavigenciaARL}" rendered="#{configFormCliController.mostrarFecha_vigencia_ARL}"/>
-            <p:calendar id="vigenciaARL" value="#{personasCliController.selected.fechavigenciaARL}" rendered="#{configFormCliController.mostrarFecha_vigencia_ARL}" required="#{configFormCliController.mostrarFecha_vigencia_ARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fecha_arl}" yearRange="c-100:c+0" navigator="true"  style="width: 200px"  mindate="#{generalViewControl.actualDate}"/>
-            
-            <h:outputLabel for="areaEmpresa" value="#{bundle.CreatePersonasCliLabel_area}" rendered="true"/>
-            <p:selectOneMenu id="areaEmpresa" value="#{personasCliController.selected.area}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_area}" filter="true" filterMatchMode="contains"  style="width: 200px">
-                <p:ajax  update="funcionario"/>
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems value="#{areasEmpresaCliController.items}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>
-            </p:selectOneMenu>
-            
-            <h:outputLabel for="idExterno" value="#{bundle.CreatePersonasCliLabel_idExterno}" rendered="#{configFormCliController.mostrarIdExterno}"/>
-            <p:selectOneMenu id="idExterno" value="#{personasCliController.selected.idExterno}" rendered="#{configFormCliController.mostrarIdExterno}" required="#{configFormCliController.mostrarIdExterno}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idExterno}" filter="true" filterMatchMode="contains" style="width: 200px">
-                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                <f:selectItems  value="#{personaPorControl.arrayTarjetaVisitantes}" var="tarjeta" itemLabel="#{tarjeta.descripcion}" itemValue="#{tarjeta.idTarjeta}"/>
-            </p:selectOneMenu>
-            
-        </h:panelGrid>
+                <p:outputLabel for="apellido1" value="#{bundle.CreatePersonasCliLabel_apellido1}" rendered="true" />
+                <p:inputText id="apellido1" value="#{personasCliController.selected.apellido1}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"  style="text-transform:uppercase;width: 200px" maxlength="30"/>
+                <p:outputLabel for="apellido2" value="#{bundle.CreatePersonasCliLabel_apellido2}" rendered="true" />
+                <p:inputText id="apellido2" value="#{personasCliController.selected.apellido2}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase;width: 200px"   maxlength="30" />
 
-        <h:panelGrid columns="2">
+                <h:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" rendered="true"/>
+                <p:selectOneMenu id="tipoDoc" value="#{personasCliController.selected.tipoDocumento}" rendered="true" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="tipoDoc">
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{tiposDocumentoCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}"  />
+                </p:selectOneMenu>
+                <h:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}" rendered="true"  style="width: 200px"/>
+                <p:inputText id="numDocum" value="#{personasCliController.selected.numDocumento}" rendered="true"  disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
 
-            <p:commandButton value = "#{bundle.Save}"  action="#{personasCliController.save()}" ajax="false" icon="ui-icon-check"/>
-            <p:commandButton value = "#{bundle.Cancel}"  ajax="false" action="#{personasCliController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
-        </h:panelGrid>
-    
-    </h:form>
+                <p:outputLabel for="sexo" value="#{bundle.CreatePersonasCliLabel_sexo}" rendered="#{configFormCliController.mostrarSexo}"/>
+                <p:selectOneRadio style="width: 200px" id="sexo" value="#{personasCliController.selected.sexo}" rendered="#{configFormCliController.mostrarSexo}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarSexo}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_sexo}" widgetVar="wv_sexo">
+                    <f:selectItem itemLabel="Femenino" itemValue="false" />
+                    <f:selectItem itemLabel="Masculino" itemValue="true" />
+                </p:selectOneRadio>
+                <p:outputLabel for="nacimiento" value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}" rendered="#{configFormCliController.mostrarnacimiento}"/>
+                <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}" rendered="#{configFormCliController.mostrarnacimiento}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarnacimiento}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaNacimiento}" maxdate="#{generalViewControl.actualDate}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase;width: 210px"/>
+
+                <h:outputLabel for="gsang" value="#{bundle.CreatePersonasCliLabel_rh}" rendered="#{configFormCliController.mostrarTipo_sanguineo}"/>
+                <p:selectOneMenu id="gsang" value="#{personasCliController.selected.rh}" rendered="#{configFormCliController.mostrarTipo_sanguineo}" disabled="#{personFormEntry.disableNoEditableField}" required="#{configFormCliController.mostrarTipo_sanguineo}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_rh}" autoWidth="false" style=" width: 170px" widgetVar="wv_tipoSanguineo">
+                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItem  itemLabel="A+" itemValue="A+"/>
+                    <f:selectItem  itemLabel="A-" itemValue="A-"/>
+                    <f:selectItem  itemLabel="AB+" itemValue="AB+"/>
+                    <f:selectItem  itemLabel="AB-" itemValue="AB-"/>
+                    <f:selectItem  itemLabel="B+" itemValue="B+"/>
+                    <f:selectItem  itemLabel="B-" itemValue="B-"/>
+                    <f:selectItem  itemLabel="O+" itemValue="O+"/>
+                    <f:selectItem  itemLabel="O-" itemValue="O-"/>
+                </p:selectOneMenu>
+                <h:outputLabel for="idPais" value="#{bundle.CreatePersonasCliLabel_idPais}" rendered="#{configFormCliController.mostrarPais}"/>
+                <p:selectOneMenu id="idPais" value="#{personasCliController.selected.idPais}" rendered="#{configFormCliController.mostrarPais}" required="#{configFormCliController.mostrarPais}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_Pais}" disabled="#{personFormEntry.disableNoEditableField}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idPais">
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{paisesCliController.items}" var="pais" itemLabel="#{pais.descripcion}" itemValue="#{pais}"  />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="cel" value="#{bundle.CreatePersonasCliLabel_celular}" rendered="#{configFormCliController.mostrarCelular}"/>
+                <p:inputText id="cel" value="#{personasCliController.selected.celular}" rendered="#{configFormCliController.mostrarCelular}"  required="#{configFormCliController.mostrarCelular}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_celular}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
+                <p:outputLabel  for="contactPerson" value="#{bundle.CreatePersonasCliLabel_personaContacto}" rendered="#{configFormCliController.mostrarPersonaContacto}"/>
+                <p:inputText id="contactPerson" value="#{personasCliController.selected.personaContacto}" rendered="#{configFormCliController.mostrarPersonaContacto}"  required="#{configFormCliController.mostrarPersonaContacto}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_personaContacto}" style="text-transform:uppercase;width: 200px" maxlength="15"/>
+
+                <p:outputLabel for="phoneContactPerson" value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}" rendered="#{configFormCliController.mostrarTelefono}"/>
+                <p:inputText id="phoneContactPerson" value="#{personasCliController.selected.telPersonaContacto}" rendered="#{configFormCliController.mostrarTelefono}"  required="#{configFormCliController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telPersonaContacto}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
+                <h:outputLabel style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}" for="address" rendered="#{configFormCliController.mostrarDireccion}"/>
+                <p:inputText  id="address" value="#{personasCliController.selected.direccion}" rendered="#{configFormCliController.mostrarDireccion}" required="#{configFormCliController.mostrarDireccion}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_Direccion}" style="text-transform:uppercase;width: 200px" maxlength="120"/>
+
+
+
+                <h:outputLabel for="idDepartamento" value="#{bundle.CreatePersonasCliLabel_idDepartamento}" rendered="#{configFormCliController.mostrarDepartamento}" />
+                <p:selectOneMenu id="idDepartamento" value="#{personasCliController.selected.idDepartamento}" rendered="#{configFormCliController.mostrarDepartamento}" required="#{configFormCliController.mostrarDepartamento}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_Departamento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idDepartamento">                
+                    <p:ajax  update="idMunicipio" />
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{departamentosCliController.items}" var="depto" itemLabel="#{depto.descripcion}" itemValue="#{depto}"  />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="idMunicipio" value="#{bundle.CreatePersonasCliLabel_municipiosCli}" rendered="#{configFormCliController.mostrarMunicipio}"/>
+                <p:selectOneMenu id="idMunicipio" value="#{personasCliController.selected.idMunicipio}" rendered="#{configFormCliController.mostrarMunicipio}" required="#{configFormCliController.mostrarMunicipio}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_municipio}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idMunicipio">                
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{municipiosCliController.getItemsOfDepartment(personasCliController.selected.idDepartamento)}" var="muni" itemLabel="#{muni.descripcion}" itemValue="#{muni}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="#{configFormCliController.mostrarSucursal}"/>
+                <p:selectOneMenu id="sucursales" value="#{personasCliController.selected.idSucursal}" rendered="#{configFormCliController.mostrarSucursal}" required="#{configFormCliController.mostrarSucursal}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
+                    <p:ajax  update="funcionario"/>
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{sucursalesCliController.items}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="email" value="#{bundle.CreatePersonasCliLabel_mail}" rendered="#{configFormCliController.mostrarEmail}"/>
+                <p:inputText id="email" value="#{personasCliController.selected.mail}" rendered="#{configFormCliController.mostrarEmail}" required="#{configFormCliController.mostrarEmail}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_mail}" style="text-transform:uppercase;width: 200px" maxlength="60"/>
+                <p:outputLabel for="tel" value="#{bundle.CreatePersonasCliLabel_telefono}" rendered="#{configFormCliController.mostrarTelefono}"/>
+                <p:inputText id="tel" value="#{personasCliController.selected.telefono}" rendered="#{configFormCliController.mostrarTelefono}" required="#{configFormCliController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telefono}" style="text-transform:uppercase;width: 200px" maxlength="15"/>
+
+                <h:outputLabel for="empresas" value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}" rendered="#{configFormCliController.mostrarEmpresa}"/>
+                <p:selectOneMenu  id="empresas" value="#{personasCliController.selected.idEmpresaOrigen}" rendered="#{configFormCliController.mostrarEmpresa}" required="#{configFormCliController.mostrarEmpresa}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_empresa}" valueChangeListener="#{personasCliController.valueChangeHandlerOriginEnterprise}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px">
+                    <p:ajax update="labelNombreEmpresa nombreEmpresa"/>
+                    <f:selectItem  itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{empresaOrigenCliController.items}" var="empresas" itemLabel="#{empresas.nombre1}" itemValue="#{empresas}"/>
+                </p:selectOneMenu>
+                <h:outputLabel id="labelNombreEmpresa" value="#{bundle.CreatePersonasCliLabel_nombreEmpresa}"  rendered="#{configFormCliController.mostrarEmpresa}"/>
+                <p:inputText id="nombreEmpresa" value="#{personasCliController.otherOriginEnterpriseName}" rendered="#{configFormCliController.mostrarEmpresa}" disabled="#{personFormEntry.disableOtherEnterprise}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_empresa}" style="text-transform:uppercase;" maxlength="15"/>
+
+                <h:outputLabel for="funcionario" value="#{ControlGeneralVistas.stringFuncionario}" rendered="#{configFormCliController.mostrarFuncionario}"/>
+                <p:selectOneMenu id="funcionario" value="#{MovpersonaPorControl.mpp.funcvisitado}" rendered="#{configFormCliController.mostrarFuncionario}" required="#{configFormCliController.mostrarFuncionario}" requiredMessage="Seleccione el funcionario que autoriza el ingreso" autoWidth="false" style=" width: 170px"  widgetVar="funcionarios">
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{personaPorControl.arrayFunionarios}" var="funcionarios" itemLabel="#{funcionarios.personacli.nombre1.concat(ControlGeneralVistas.espacio).concat(funcionarios.personacli.nombre3)}" itemValue="#{funcionarios.autorizaIngresocliPK.idpersona}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="eps" value="#{bundle.CreatePersonasCliLabel_eps}" rendered="#{configFormCliController.mostrarEPS}"/>
+                <p:selectOneMenu id="eps" value="#{personasCliController.selected.eps}" rendered="#{configFormCliController.mostrarEPS}" required="#{configFormCliController.mostrarEPS}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_eps}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="eps">
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{ePSCliController.items}" var="eps" itemLabel="#{eps.descripcion}" itemValue="#{eps}"  />
+                </p:selectOneMenu>
+                <p:outputLabel for="vigenciaEPS" value="#{bundle.CreatePersonasCliLabel_fechavigenciaEPS}" rendered="#{configFormCliController.mostrarFecha_vigencia_EPS}"/>
+                <p:calendar id="vigenciaEPS" value="#{personasCliController.selected.fechavigenciaEPS}" rendered="#{configFormCliController.mostrarFecha_vigencia_EPS}" required="#{configFormCliController.mostrarFecha_vigencia_EPS}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaEPS}" style=" width: 200px" yearRange="c-100:c+0" navigator="true"  mindate="#{generalViewControl.actualDate}"/>
+
+                <h:outputLabel for="arl" value="#{bundle.CreatePersonasCliLabel_arl}" rendered="#{configFormCliController.mostrarARL}"/>
+                <p:selectOneMenu id="arl" value="#{personasCliController.selected.arl}" filter="true" filterMatchMode="contains" rendered="#{configFormCliController.mostrarARL}" widgetVar="arl" required="#{configFormCliController.mostrarARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_arl}" autoWidth="false" style=" width: 170px">                
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{aRLCliController.items}" var="arl" itemLabel="#{arl.descripcion}" itemValue="#{arl}"  />
+                </p:selectOneMenu>
+                <p:outputLabel for="vigenciaARL" value="#{bundle.CreatePersonasCliLabel_fechavigenciaARL}" rendered="#{configFormCliController.mostrarFecha_vigencia_ARL}"/>
+                <p:calendar id="vigenciaARL" value="#{personasCliController.selected.fechavigenciaARL}" rendered="#{configFormCliController.mostrarFecha_vigencia_ARL}" required="#{configFormCliController.mostrarFecha_vigencia_ARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fecha_arl}" yearRange="c-100:c+0" navigator="true"  style="width: 200px"  mindate="#{generalViewControl.actualDate}"/>
+
+                <h:outputLabel for="areaEmpresa" value="#{bundle.CreatePersonasCliLabel_area}" rendered="true"/>
+                <p:selectOneMenu id="areaEmpresa" value="#{personasCliController.selected.area}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_area}" filter="true" filterMatchMode="contains"  autoWidth="false" style=" width: 170px">
+                    <p:ajax  update="funcionario"/>
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems value="#{areasEmpresaCliController.items}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="idExterno" value="#{bundle.CreatePersonasCliLabel_idExterno}" rendered="#{configFormCliController.mostrarIdExterno}"/>
+                <p:selectOneMenu id="idExterno" value="#{personasCliController.selected.idExterno}" rendered="#{configFormCliController.mostrarIdExterno}" required="#{configFormCliController.mostrarIdExterno}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idExterno}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px">
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{personaPorControl.arrayTarjetaVisitantes}" var="tarjeta" itemLabel="#{tarjeta.descripcion}" itemValue="#{tarjeta.idTarjeta}"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="2">
+
+                <p:commandButton value = "#{bundle.Save}"  action="#{personasCliController.save()}" ajax="false" icon="ui-icon-check"/>
+                <p:commandButton value = "#{bundle.Cancel}"  ajax="false" action="#{personasCliController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            </h:panelGrid>
+
+            <p:keyFilter for="tel cel phoneContactPerson" mask="num" />
+            <p:keyFilter for="email" mask="email" />
+            <p:keyFilter for="nombre1 nombre2 apellido1 apellido2 nombreEmpresa contactPerson" mask="alpha" />
+        </h:form>
     </ui:define>
 
 </ui:composition>

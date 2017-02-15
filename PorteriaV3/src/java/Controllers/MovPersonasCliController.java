@@ -1,22 +1,17 @@
 package Controllers;
 
 import Entities.MovPersonasCli;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Entities.PersonasCli;
 import Facade.MovPersonasCliFacade;
 import Querys.Querys;
 import Utils.Constants;
 import Utils.Result;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -162,7 +157,7 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
 
     public boolean verifyEntry(PersonasCli person){
         String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+person.getIdPersona()+"'"+ 
-                "and"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
+                "AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode == Constants.NO_RESULT_EXCEPTION){
             return false;
