@@ -5,8 +5,11 @@ import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Entities.DepartamentosCli;
 import Facade.MunicipiosCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -83,10 +86,12 @@ public class MunicipiosCliController implements Serializable {
     }
     
     public List<MunicipiosCli> getItemsOfDepartment(DepartamentosCli department) {
-        //TODO FINISH THIS METHOD
-        if (items == null) {
-            //items = getFacade().findByQuerArray();
+        if(department==null){
+            items = null;
+            return items;
         }
+        String squery = Querys.MUNICIPIOS_CLI_DEPARTAMENTO+department.getIdDepartamento()+"'";
+        items = (List<MunicipiosCli>) getFacade().findByQueryArray(squery).result;
         return items;
     }
 

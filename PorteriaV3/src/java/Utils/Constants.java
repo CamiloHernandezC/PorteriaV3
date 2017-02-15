@@ -35,7 +35,30 @@ public class Constants {
     public static final String MESSAGE_DATE_FORMAT_EXCEPTION = "APP EXCEPTION: DATE FORMAT EXCEPTION";
     //</editor-fold>
     
+    // <editor-fold desc="DATA BASE CONSTANTS" defaultstate="collapsed">
+    
+    //NOMBRE DEL CAMPO FORMULARIO EN LA TABLA CONFIG DE LA BASE DE DATOS
     // <editor-fold desc="FORMULARIO CONFIGURACION" defaultstate="collapsed">
     public static String CONFIGPERSONSFORM ="PERSONA";
     //</editor-fold>
+    
+    // <editor-fold desc="ENTITIES" defaultstate="collapsed">
+    public static final String ENTITY_VISITANT = "1";
+    //</editor-fold>
+    
+    // <editor-fold desc="STATUS" defaultstate="collapsed">
+    public static final Long STATUS_ENTRY = 3L;
+    //</editor-fold>
+    
+    // <editor-fold desc="DOCUMENT_TYPE" defaultstate="collapsed">
+    public static final String DOCUMENT_TYPE_CEDULA = "13";
+    //</editor-fold>
+    
+    // <editor-fold desc="ORIGIN ENTERPRISE" defaultstate="collapsed">
+    public static final String ORIGIN_ENTERPRISE_OTHER = "1";
+    //</editor-fold>
+    //</editor-fold>
+    
+    
+    
 }
