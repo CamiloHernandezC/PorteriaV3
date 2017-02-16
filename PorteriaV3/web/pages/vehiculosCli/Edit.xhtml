@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VehiculosCliEditDlg" widgetVar="VehiculosCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditVehiculosCliTitle}">
+            <h:form id="VehiculosCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vehiculosCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idVehiculo}" for="idVehiculo" />
+                        <p:inputText id="idVehiculo" value="#{vehiculosCliController.selected.idVehiculo}" title="#{bundle.EditVehiculosCliTitle_idVehiculo}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_idVehiculo}"/>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_placa}" for="placa" />
+                        <p:inputText id="placa" value="#{vehiculosCliController.selected.placa}" title="#{bundle.EditVehiculosCliTitle_placa}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_placa}"/>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idExterno}" for="idExterno" />
+                        <p:inputText id="idExterno" value="#{vehiculosCliController.selected.idExterno}" title="#{bundle.EditVehiculosCliTitle_idExterno}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{vehiculosCliController.selected.descripcion}" title="#{bundle.EditVehiculosCliTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_modelo}" for="modelo" />
+                        <p:inputText id="modelo" value="#{vehiculosCliController.selected.modelo}" title="#{bundle.EditVehiculosCliTitle_modelo}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_color1}" for="color1" />
+                        <p:inputText id="color1" value="#{vehiculosCliController.selected.color1}" title="#{bundle.EditVehiculosCliTitle_color1}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_color2}" for="color2" />
+                        <p:inputText id="color2" value="#{vehiculosCliController.selected.color2}" title="#{bundle.EditVehiculosCliTitle_color2}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_color3}" for="color3" />
+                        <p:inputText id="color3" value="#{vehiculosCliController.selected.color3}" title="#{bundle.EditVehiculosCliTitle_color3}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_peso}" for="peso" />
+                        <p:inputText id="peso" value="#{vehiculosCliController.selected.peso}" title="#{bundle.EditVehiculosCliTitle_peso}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_volumen}" for="volumen" />
+                        <p:inputText id="volumen" value="#{vehiculosCliController.selected.volumen}" title="#{bundle.EditVehiculosCliTitle_volumen}" />
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{vehiculosCliController.selected.fecha}" title="#{bundle.EditVehiculosCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idEntidad}" for="idEntidad" />
+                        <p:selectOneMenu id="idEntidad" value="#{vehiculosCliController.selected.idEntidad}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_idEntidad}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{entidadesCliController.itemsAvailableSelectOne}"
+                                           var="idEntidadItem"
+                                           itemValue="#{idEntidadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idDepartamento}" for="idDepartamento" />
+                        <p:selectOneMenu id="idDepartamento" value="#{vehiculosCliController.selected.idDepartamento}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{departamentosCliController.itemsAvailableSelectOne}"
+                                           var="idDepartamentoItem"
+                                           itemValue="#{idDepartamentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idEstado}" for="idEstado" />
+                        <p:selectOneMenu id="idEstado" value="#{vehiculosCliController.selected.idEstado}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_idEstado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadosCliController.itemsAvailableSelectOne}"
+                                           var="idEstadoItem"
+                                           itemValue="#{idEstadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idLinea}" for="idLinea" />
+                        <p:selectOneMenu id="idLinea" value="#{vehiculosCliController.selected.idLinea}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{lineasCliController.itemsAvailableSelectOne}"
+                                           var="idLineaItem"
+                                           itemValue="#{idLineaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idMarca}" for="idMarca" />
+                        <p:selectOneMenu id="idMarca" value="#{vehiculosCliController.selected.idMarca}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcasCliController.itemsAvailableSelectOne}"
+                                           var="idMarcaItem"
+                                           itemValue="#{idMarcaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idMunicipio}" for="idMunicipio" />
+                        <p:selectOneMenu id="idMunicipio" value="#{vehiculosCliController.selected.idMunicipio}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{municipiosCliController.itemsAvailableSelectOne}"
+                                           var="idMunicipioItem"
+                                           itemValue="#{idMunicipioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idPais}" for="idPais" />
+                        <p:selectOneMenu id="idPais" value="#{vehiculosCliController.selected.idPais}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{paisesCliController.itemsAvailableSelectOne}"
+                                           var="idPaisItem"
+                                           itemValue="#{idPaisItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{vehiculosCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{vehiculosCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditVehiculosCliRequiredMessage_idSucursal}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_unidadPeso}" for="unidadPeso" />
+                        <p:selectOneMenu id="unidadPeso" value="#{vehiculosCliController.selected.unidadPeso}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadesCliController.itemsAvailableSelectOne}"
+                                           var="unidadPesoItem"
+                                           itemValue="#{unidadPesoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVehiculosCliLabel_unidadVolumen}" for="unidadVolumen" />
+                        <p:selectOneMenu id="unidadVolumen" value="#{vehiculosCliController.selected.unidadVolumen}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadesCliController.itemsAvailableSelectOne}"
+                                           var="unidadVolumenItem"
+                                           itemValue="#{unidadVolumenItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vehiculosCliController.update}" value="#{bundle.Save}" update="display,:VehiculosCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'VehiculosCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VehiculosCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

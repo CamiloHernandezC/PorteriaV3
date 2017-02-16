@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificacionesCliEditDlg" widgetVar="NotificacionesCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditNotificacionesCliTitle}">
+            <h:form id="NotificacionesCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificacionesCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idNotificacion}" for="idNotificacion" />
+                        <p:inputText id="idNotificacion" value="#{notificacionesCliController.selected.idNotificacion}" title="#{bundle.EditNotificacionesCliTitle_idNotificacion}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_idNotificacion}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_tipoEvento}" for="tipoEvento" />
+                        <p:inputText id="tipoEvento" value="#{notificacionesCliController.selected.tipoEvento}" title="#{bundle.EditNotificacionesCliTitle_tipoEvento}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_tipoEvento}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_fechaDesde}" for="fechaDesde" />
+                        <p:calendar id="fechaDesde" pattern="MM/dd/yyyy" value="#{notificacionesCliController.selected.fechaDesde}" title="#{bundle.EditNotificacionesCliTitle_fechaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_fechaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_fechaHasta}" for="fechaHasta" />
+                        <p:calendar id="fechaHasta" pattern="MM/dd/yyyy" value="#{notificacionesCliController.selected.fechaHasta}" title="#{bundle.EditNotificacionesCliTitle_fechaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_fechaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_horaDesde}" for="horaDesde" />
+                        <p:calendar id="horaDesde" pattern="HH:mm:ss" value="#{notificacionesCliController.selected.horaDesde}" title="#{bundle.EditNotificacionesCliTitle_horaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_horaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_horaHasta}" for="horaHasta" />
+                        <p:calendar id="horaHasta" pattern="HH:mm:ss" value="#{notificacionesCliController.selected.horaHasta}" title="#{bundle.EditNotificacionesCliTitle_horaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_horaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{notificacionesCliController.selected.mail}" title="#{bundle.EditNotificacionesCliTitle_mail}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_mail}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_asunto}" for="asunto" />
+                        <p:inputText id="asunto" value="#{notificacionesCliController.selected.asunto}" title="#{bundle.EditNotificacionesCliTitle_asunto}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_asunto}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_mensaje}" for="mensaje" />
+                        <p:inputText id="mensaje" value="#{notificacionesCliController.selected.mensaje}" title="#{bundle.EditNotificacionesCliTitle_mensaje}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_mensaje}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionesCliController.selected.fecha}" title="#{bundle.EditNotificacionesCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_BSucursal}" for="BSucursal" />
+                        <p:selectBooleanCheckbox id="BSucursal" value="#{notificacionesCliController.selected.BSucursal}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BSucursal}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_BPorteria}" for="BPorteria" />
+                        <p:selectBooleanCheckbox id="BPorteria" value="#{notificacionesCliController.selected.BPorteria}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BPorteria}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_BEmpresaOrigen}" for="BEmpresaOrigen" />
+                        <p:selectBooleanCheckbox id="BEmpresaOrigen" value="#{notificacionesCliController.selected.BEmpresaOrigen}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BEmpresaOrigen}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_BEntidad}" for="BEntidad" />
+                        <p:selectBooleanCheckbox id="BEntidad" value="#{notificacionesCliController.selected.BEntidad}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BEntidad}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_BEnte}" for="BEnte" />
+                        <p:selectBooleanCheckbox id="BEnte" value="#{notificacionesCliController.selected.BEnte}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_BEnte}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idCategoria}" for="idCategoria" />
+                        <p:selectOneMenu id="idCategoria" value="#{notificacionesCliController.selected.idCategoria}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{categoriasCliController.itemsAvailableSelectOne}"
+                                           var="idCategoriaItem"
+                                           itemValue="#{idCategoriaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idEmpresaOrigen}" for="idEmpresaOrigen" />
+                        <p:selectOneMenu id="idEmpresaOrigen" value="#{notificacionesCliController.selected.idEmpresaOrigen}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empresaOrigenCliController.itemsAvailableSelectOne}"
+                                           var="idEmpresaOrigenItem"
+                                           itemValue="#{idEmpresaOrigenItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idEntidad}" for="idEntidad" />
+                        <p:selectOneMenu id="idEntidad" value="#{notificacionesCliController.selected.idEntidad}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{entidadesCliController.itemsAvailableSelectOne}"
+                                           var="idEntidadItem"
+                                           itemValue="#{idEntidadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idObjeto}" for="idObjeto" />
+                        <p:selectOneMenu id="idObjeto" value="#{notificacionesCliController.selected.idObjeto}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{objetosCliController.itemsAvailableSelectOne}"
+                                           var="idObjetoItem"
+                                           itemValue="#{idObjetoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{notificacionesCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditNotificacionesCliRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{notificacionesCliController.selected.idPersona}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idPorteria}" for="idPorteria" />
+                        <p:selectOneMenu id="idPorteria" value="#{notificacionesCliController.selected.idPorteria}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{porteriasController.itemsAvailableSelectOne}"
+                                           var="idPorteriaItem"
+                                           itemValue="#{idPorteriaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{notificacionesCliController.selected.idSucursal}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesCliLabel_idVehiculo}" for="idVehiculo" />
+                        <p:selectOneMenu id="idVehiculo" value="#{notificacionesCliController.selected.idVehiculo}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vehiculosCliController.itemsAvailableSelectOne}"
+                                           var="idVehiculoItem"
+                                           itemValue="#{idVehiculoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{notificacionesCliController.update}" value="#{bundle.Save}" update="display,:NotificacionesCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NotificacionesCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NotificacionesCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -37,12 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "PersonasCli.findAll", query = "SELECT p FROM PersonasCli p"),
     @NamedQuery(name = "PersonasCli.findByIdPersona", query = "SELECT p FROM PersonasCli p WHERE p.idPersona = :idPersona"),
-    @NamedQuery(name = "PersonasCli.findByIdExterno", query = "SELECT p FROM PersonasCli p WHERE p.idExterno = :idExterno"),
+    @NamedQuery(name = "PersonasCli.findByNumDocumento", query = "SELECT p FROM PersonasCli p WHERE p.numDocumento = :numDocumento"),
     @NamedQuery(name = "PersonasCli.findByNombre1", query = "SELECT p FROM PersonasCli p WHERE p.nombre1 = :nombre1"),
     @NamedQuery(name = "PersonasCli.findByNombre2", query = "SELECT p FROM PersonasCli p WHERE p.nombre2 = :nombre2"),
     @NamedQuery(name = "PersonasCli.findByApellido1", query = "SELECT p FROM PersonasCli p WHERE p.apellido1 = :apellido1"),
     @NamedQuery(name = "PersonasCli.findByApellido2", query = "SELECT p FROM PersonasCli p WHERE p.apellido2 = :apellido2"),
-    @NamedQuery(name = "PersonasCli.findByNumDocumento", query = "SELECT p FROM PersonasCli p WHERE p.numDocumento = :numDocumento"),
     @NamedQuery(name = "PersonasCli.findByDireccion", query = "SELECT p FROM PersonasCli p WHERE p.direccion = :direccion"),
     @NamedQuery(name = "PersonasCli.findByTelefono", query = "SELECT p FROM PersonasCli p WHERE p.telefono = :telefono"),
     @NamedQuery(name = "PersonasCli.findByCelular", query = "SELECT p FROM PersonasCli p WHERE p.celular = :celular"),
@@ -65,9 +64,11 @@ public class PersonasCli implements Serializable {
     @Size(min = 1, max = 14)
     @Column(name = "Id_Persona")
     private String idPersona;
-    @Size(max = 18)
-    @Column(name = "Id_Externo")
-    private String idExterno;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "Num_Documento")
+    private String numDocumento;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
@@ -84,11 +85,6 @@ public class PersonasCli implements Serializable {
     @Size(max = 30)
     @Column(name = "Apellido_2")
     private String apellido2;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "Num_Documento")
-    private String numDocumento;
     @Size(max = 120)
     @Column(name = "Direccion")
     private String direccion;
@@ -135,52 +131,46 @@ public class PersonasCli implements Serializable {
     private List<VehiculosCli> vehiculosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(mappedBy = "idPersona", fetch = FetchType.LAZY)
-    private List<NovedadesCli> novedadesCliList;
-    @OneToMany(mappedBy = "contratistainformado", fetch = FetchType.LAZY)
-    private List<NovedadesCli> novedadesCliList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<NovedadesCli> novedadesCliList2;
+    private List<NovedadesCli> novedadesCliList;
+    @OneToMany(mappedBy = "idPersona", fetch = FetchType.LAZY)
+    private List<NovedadesCli> novedadesCliList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasCli", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MaterialesCli> materialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
+    @OneToMany(mappedBy = "idPersona", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasCli", fetch = FetchType.LAZY)
     private List<VisitasEsperadasCli> visitasEsperadasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcionarioVisitado", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<VisitasEsperadasCli> visitasEsperadasCliList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovDocumentosCli> movDocumentosCliList;
-    @JoinColumn(name = "Id_Empresa_Origen", referencedColumnName = "Id_Emorigen")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private EmpresaOrigenCli idEmpresaOrigen;
-    @JoinColumn(name = "Area", referencedColumnName = "Id_areaemp")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private AreasEmpresaCli area;
     @JoinColumn(name = "ARL", referencedColumnName = "ARL")
     @ManyToOne(fetch = FetchType.LAZY)
     private ARLCli arl;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne(fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
-    @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private EntidadesCli idEntidad;
+    @JoinColumn(name = "Id_Empresa_Origen", referencedColumnName = "Id_Emorigen")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EmpresaOrigenCli idEmpresaOrigen;
     @JoinColumn(name = "EPS", referencedColumnName = "EPS")
     @ManyToOne(fetch = FetchType.LAZY)
     private EPSCli eps;
-    @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private EstadosCli idEstado;
     @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
     @ManyToOne(fetch = FetchType.LAZY)
     private MunicipiosCli idMunicipio;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id_Pais")
     @ManyToOne(fetch = FetchType.LAZY)
     private PaisesCli idPais;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli idSucursal;
     @JoinColumn(name = "Tipo_Documento", referencedColumnName = "Tipo_documento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TiposDocumentoCli tipoDocumento;
@@ -194,13 +184,11 @@ public class PersonasCli implements Serializable {
     private List<MovPersonasCli> movPersonasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovPersonasCli> movPersonasCliList1;
-    @OneToMany(mappedBy = "personaAutoriza", fetch = FetchType.LAZY)
-    private List<MovPersonasCli> movPersonasCliList2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovHerramientasCli> movHerramientasCliList;
-    
+
     public PersonasCli() {
     }
 
@@ -208,11 +196,11 @@ public class PersonasCli implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public PersonasCli(String idPersona, String nombre1, String apellido1, String numDocumento, String usuario, Date fecha) {
+    public PersonasCli(String idPersona, String numDocumento, String nombre1, String apellido1, String usuario, Date fecha) {
         this.idPersona = idPersona;
+        this.numDocumento = numDocumento;
         this.nombre1 = nombre1;
         this.apellido1 = apellido1;
-        this.numDocumento = numDocumento;
         this.usuario = usuario;
         this.fecha = fecha;
     }
@@ -225,12 +213,12 @@ public class PersonasCli implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public String getIdExterno() {
-        return idExterno;
+    public String getNumDocumento() {
+        return numDocumento;
     }
 
-    public void setIdExterno(String idExterno) {
-        this.idExterno = idExterno;
+    public void setNumDocumento(String numDocumento) {
+        this.numDocumento = numDocumento;
     }
 
     public String getNombre1() {
@@ -263,14 +251,6 @@ public class PersonasCli implements Serializable {
 
     public void setApellido2(String apellido2) {
         this.apellido2 = apellido2;
-    }
-
-    public String getNumDocumento() {
-        return numDocumento;
-    }
-
-    public void setNumDocumento(String numDocumento) {
-        this.numDocumento = numDocumento;
     }
 
     public String getDireccion() {
@@ -414,12 +394,21 @@ public class PersonasCli implements Serializable {
     }
 
     @XmlTransient
-    public List<NovedadesCli> getNovedadesCliList2() {
-        return novedadesCliList2;
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
     }
 
-    public void setNovedadesCliList2(List<NovedadesCli> novedadesCliList2) {
-        this.novedadesCliList2 = novedadesCliList2;
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
+    }
+
+    @XmlTransient
+    public List<PersonasSucursalCli> getPersonasSucursalCliList1() {
+        return personasSucursalCliList1;
+    }
+
+    public void setPersonasSucursalCliList1(List<PersonasSucursalCli> personasSucursalCliList1) {
+        this.personasSucursalCliList1 = personasSucursalCliList1;
     }
 
     @XmlTransient
@@ -438,6 +427,24 @@ public class PersonasCli implements Serializable {
 
     public void setMovVehiculosCliList(List<MovVehiculosCli> movVehiculosCliList) {
         this.movVehiculosCliList = movVehiculosCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList1() {
+        return notificacionesCliList1;
+    }
+
+    public void setNotificacionesCliList1(List<NotificacionesCli> notificacionesCliList1) {
+        this.notificacionesCliList1 = notificacionesCliList1;
     }
 
     @XmlTransient
@@ -467,22 +474,6 @@ public class PersonasCli implements Serializable {
         this.movDocumentosCliList = movDocumentosCliList;
     }
 
-    public EmpresaOrigenCli getIdEmpresaOrigen() {
-        return idEmpresaOrigen;
-    }
-
-    public void setIdEmpresaOrigen(EmpresaOrigenCli idEmpresaOrigen) {
-        this.idEmpresaOrigen = idEmpresaOrigen;
-    }
-
-    public AreasEmpresaCli getArea() {
-        return area;
-    }
-
-    public void setArea(AreasEmpresaCli area) {
-        this.area = area;
-    }
-
     public ARLCli getArl() {
         return arl;
     }
@@ -499,12 +490,12 @@ public class PersonasCli implements Serializable {
         this.idDepartamento = idDepartamento;
     }
 
-    public EntidadesCli getIdEntidad() {
-        return idEntidad;
+    public EmpresaOrigenCli getIdEmpresaOrigen() {
+        return idEmpresaOrigen;
     }
 
-    public void setIdEntidad(EntidadesCli idEntidad) {
-        this.idEntidad = idEntidad;
+    public void setIdEmpresaOrigen(EmpresaOrigenCli idEmpresaOrigen) {
+        this.idEmpresaOrigen = idEmpresaOrigen;
     }
 
     public EPSCli getEps() {
@@ -513,14 +504,6 @@ public class PersonasCli implements Serializable {
 
     public void setEps(EPSCli eps) {
         this.eps = eps;
-    }
-
-    public EstadosCli getIdEstado() {
-        return idEstado;
-    }
-
-    public void setIdEstado(EstadosCli idEstado) {
-        this.idEstado = idEstado;
     }
 
     public MunicipiosCli getIdMunicipio() {
@@ -537,14 +520,6 @@ public class PersonasCli implements Serializable {
 
     public void setIdPais(PaisesCli idPais) {
         this.idPais = idPais;
-    }
-
-    public SucursalesCli getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(SucursalesCli idSucursal) {
-        this.idSucursal = idSucursal;
     }
 
     public TiposDocumentoCli getTipoDocumento() {
@@ -598,15 +573,6 @@ public class PersonasCli implements Serializable {
 
     public void setMovPersonasCliList1(List<MovPersonasCli> movPersonasCliList1) {
         this.movPersonasCliList1 = movPersonasCliList1;
-    }
-
-    @XmlTransient
-    public List<MovPersonasCli> getMovPersonasCliList2() {
-        return movPersonasCliList2;
-    }
-
-    public void setMovPersonasCliList2(List<MovPersonasCli> movPersonasCliList2) {
-        this.movPersonasCliList2 = movPersonasCliList2;
     }
 
     @XmlTransient

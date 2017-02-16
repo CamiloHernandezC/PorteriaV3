@@ -3,9 +3,12 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.AreasEmpresaCli;
 import Entities.EmpresaOrigenCli;
 import Entities.EntidadesCli;
 import Entities.EstadosCli;
+import Entities.PersonasSucursalCli;
+import Entities.SucursalesCli;
 import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
@@ -14,15 +17,18 @@ import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
 import ViewControllers.PersonFormEntry;
+
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -33,18 +39,18 @@ import javax.faces.event.ValueChangeEvent;
 
 @Named("personasCliController")
 @SessionScoped
-public class PersonasCliController extends AbstractPersistenceController<PersonasCli>{
+public class PersonasCliController extends AbstractPersistenceController<PersonasCli> {
 
     @EJB
     private Facade.PersonasCliFacade ejbFacade;
     private List<PersonasCli> items = null;
     private PersonasCli selected;
-    private String code;
+    private String code;//Store code reader value
     private String otherOriginEnterpriseName;
 
     public PersonasCliController() {
     }
-    
+
     //<editor-fold desc="GETTER AND SETTER" defaultstate="collapsed">
     public String getOtherOriginEnterpriseName() {
         return otherOriginEnterpriseName;
@@ -53,7 +59,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     public void setOtherOriginEnterpriseName(String otherOriginEnterpriseName) {
         this.otherOriginEnterpriseName = otherOriginEnterpriseName;
     }
-    
+
     public String getCode() {
         return code;
     }
@@ -66,7 +72,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
     @Override
     public PersonasCli getSelected() {
-        if(selected==null){
+        if (selected == null) {
             selected = new PersonasCli();
         }
         return selected;
@@ -81,12 +87,12 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     protected PersonasCliFacade getFacade() {
         return ejbFacade;
     }
-    
+
     @Override
     protected void setItems(List<PersonasCli> items) {
         this.items = items;
     }
-    
+
     @Override
     protected void setEmbeddableKeys() {
         //Nothing to do here
@@ -96,18 +102,18 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     protected void initializeEmbeddableKey() {
         //Nothing to do here
     }
+
     @Override
-    protected String calculatePrimaryKey(){
+    protected String calculatePrimaryKey() {
         Result result = ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true);
-        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){//First record will be created
+        if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {//First record will be created
             return "1";
         }
         PersonasCli lastPerson = (PersonasCli) ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true).result;
         Long lastPrimaryKey = Long.valueOf(lastPerson.getIdPersona());
-        return String.valueOf(lastPrimaryKey+1L);
+        return String.valueOf(lastPrimaryKey + 1L);
     }
-    //</editor-fold>
-    
+
     @Override
     protected void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -116,18 +122,21 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         }
         super.persist(persistAction, successMessage);
     }
+    //</editor-fold>
 
     /**
-     * Set some attributes needed to save
-     * @param cleanModel 
+     * 
      */
-    public void prepareCreate(boolean cleanModel) {
-        if(cleanModel){
-            selected = new PersonasCli();
-        }
+    @Override
+    public void prepareCreate() {
         selected.setIdPersona(calculatePrimaryKey());
-        selected.setIdEntidad(new EntidadesCli(Constants.ENTITY_VISITANT));
-        selected.setIdEstado(new EstadosCli(Constants.STATUS_ENTRY));
+        prepareUpdate();
+    }
+    
+    @Override
+    protected void prepareUpdate() {
+        selected.setUsuario(selected.getIdPersona());//TODO ASSIGN REAL USER HERE
+        selected.setFecha(new Date());
     }
 
     public List<PersonasCli> getItems() {
@@ -141,12 +150,106 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         return getFacade().find(id);
     }
 
-    public List<PersonasCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    /**
+     * Method used to search person and redirect to register form, verifying if
+     * person is blocked
+     *
+     * @return page to redirect
+     */
+    public String manualEntry() {
+        return redirectToRegisterForm(findPersonByDocument(), true);//Here cleans the entity to obligate rewrite id card number
     }
 
-    public List<PersonasCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    /**
+     *
+     * @param result
+     * @param cleanToCreate cleans when is not loaded from identification
+     * document
+     * @return
+     */
+    private String redirectToRegisterForm(Result result, boolean cleanToCreate) {
+        if (verifyBlockedPerson()) {
+            return null;
+        }
+        ConfigFormCliController configFormCliController = JsfUtil.findBean("configFormCliController");
+        configFormCliController.showFieldsPerson();
+        if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
+            if(cleanToCreate){
+               selected = new PersonasCli();
+            }
+            disableNoEditableFields(false);
+        } else {
+            selected = (PersonasCli) result.result;
+            disableNoEditableFields(true);
+        }
+        return Navigation.PAGE_PERSON_REGISTER;
+    }
+
+    private Result findPersonByDocument() {
+        String squery = Querys.PERSONA_CLI_ALL + "WHERE" + Querys.PERSONA_CLI_DOC_TYPE + selected.getTipoDocumento().getTipodocumento() + "' AND"
+                + Querys.PERSONA_CLI_DOC_NUMBER + selected.getNumDocumento() + "'";
+        return ejbFacade.findByQuery(squery, false);//Only one person should have document type, an document number (It is unique in database)
+    }
+
+    /**
+     * If person is blocked (registered in blocked table) will show a dialog
+     *
+     * @return true if the person is blocked, false otherwise
+     */
+    private boolean verifyBlockedPerson() {
+        //TODO FINISH THIS METHOD
+        return false;
+    }
+
+    private void disableNoEditableFields(boolean enable) {
+        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
+        personFormEntry.setDisableNoEditableField(enable);
+    }
+
+    public String save() {
+        MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
+        PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
+        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
+        boolean existPerson = personFormEntry.isDisableNoEditableField();//If fields are disable that means person is in database
+        if (existPerson) {
+            update();
+        }else{
+            if(findPersonByDocument().errorCode!=Constants.NO_RESULT_EXCEPTION){//This person exist, so maybe was an error in identification number
+                //We doesn't assign encoutered person. This way data is not lost
+                JsfUtil.addErrorMessage("ESTA PERSONA YA ESTA REGISTRADA");//TODO CREATE BUNDLE PROPERTY
+                return Navigation.PAGE_PERSON_REGISTER;
+            }
+            create();
+        }
+        Result result = personasSucursalCliController.findSpecificPerson();
+        if (result.errorCode == Constants.OK) {
+            PersonasSucursalCli specificPerson = (PersonasSucursalCli) result.result;
+            specificPerson.setArea(personasSucursalCliController.getSelected().getArea());
+            personasSucursalCliController.setSelected(specificPerson);
+            //TODO VERIFY IF THIS PERSON IS BLOCKED FOR SPECIFIC BRANCH OFFICE
+            personasSucursalCliController.update();
+            movPersonasCliController.recordEntryMovement(Constants.UPDATE);
+        }else{
+            personasSucursalCliController.create();
+            movPersonasCliController.recordEntryMovement(Constants.CREATE);
+        }
+        return Navigation.PAGE_SELECT_ENTRY;
+    }
+
+    public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent) {
+        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
+        EmpresaOrigenCli selectedOriginEnterprise = (EmpresaOrigenCli) changeEvent.getNewValue();
+        if (selectedOriginEnterprise.getIdEmorigen() != null && selectedOriginEnterprise.getIdEmorigen().equals(Constants.ORIGIN_ENTERPRISE_OTHER)) {
+            personFormEntry.setDisableOtherEnterprise(false);
+            return;
+        }
+        personFormEntry.setDisableOtherEnterprise(true);
+    }
+
+    public void cancel() {
+        selected = new PersonasCli();
+        JsfUtil.cancel();
     }
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
@@ -191,199 +294,4 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
 
     }
     //</editor-fold>
-    
-    /**
-     * Method used to add object in an existing entry
-     */
-    public void addObjects(){
-        
-    }
-    
-    /**
-     * Method used to read barcode or id card (cedula)
-     * The readed value is stored in selected.numDocum
-     */
-    public void completeEntryByCodeReader(){
-        if(code==null){
-            return;
-        }
-        String  pageToRedirect = null;
-        Result result = findByCodeReader();
-        if(result.errorCode== Constants.UNKNOWN_EXCEPTION){//unaccepted text format
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
-            pageToRedirect = Navigation.PAGE_COMPLETE_ENTRY;
-        }else{
-            pageToRedirect = redirectToRegisterForm(result, false);//If person is not find with id card (cedula) or bar code, the field are not cleaned because it already has information
-        }
-        code = null;
-        JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
-        
-    }
-    
-    /**
-     * Method used to search person and redirect to register form, verifying if
-     * person is blocked
-     * @return page to redirect
-     */
-    public String manualEntry(){
-        return redirectToRegisterForm(findPersonByDocument(), true);//Here cleans the entity to obligate rewrite id card number
-    }
-    
-    /**
-     * 
-     * @param result
-     * @return 
-     */
-     private String redirectToRegisterForm(Result result, boolean cleanToCreate) {
-         if(result.errorCode != 0 && result.errorCode != Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
-            return null;
-        }
-        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
-            prepareCreate(cleanToCreate);
-            disableNoEditableFields(false);
-        }else{
-            if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
-                return null;
-            }
-            selected = (PersonasCli) result.result;
-            disableNoEditableFields(true);
-        }
-        ConfigFormCliController configFormCliController =  JsfUtil.findBean("configFormCliController");
-        configFormCliController.showFieldsPerson();
-        return Navigation.PAGE_PERSON_REGISTER;
-    }
-    
-    private Result findPersonByDocument() {
-        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"' AND "+
-                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+"'";
-        return ejbFacade.findByQuery(squery, true);
-    }
-    
-    private Result findPersonByIdExterno() {
-        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_ID_EXTERNO+selected.getIdExterno()+"'";
-        return ejbFacade.findByQuery(squery, false);//False because person must have unique id externo
-    }
-    
-    /**
-     * If person is blocked (registered in blocked table) will show a dialog 
-     * @return true if the person is blocked, false otherwise
-     */
-    private boolean verifyBlockedPerson() {
-        //TODO FINISH THIS METHOD
-        return false;
-    }
-    
-    private void disableNoEditableFields(boolean enable) {
-        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
-        personFormEntry.setDisableNoEditableField(enable);
-    }
-    
-    /**
-     * Take the code readed and find a person to return
-     * @return 
-     */
-    private Result findByCodeReader() {
-        
-        if(code.startsWith("C,")){//ID CARD (CEDULA)
-            String[] separatedWords = separateWords();
-            if (separatedWords != null) {
-                //Se debe asignar el tipo de documento y número de documento para poder buscar
-                selected.setTipoDocumento(new TiposDocumentoCli(Constants.DOCUMENT_TYPE_CEDULA));//Se asigna el tipo de documento como cedula
-                selected.setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
-                //<editor-fold desc="Assign selected to info in id card" defaultstate="collapsed">
-                selected.setApellido1(separatedWords[1]);
-                selected.setApellido2(separatedWords[2]);
-                selected.setNombre1(separatedWords[3]);
-                selected.setNombre2(separatedWords[4]);
-                selected.setSexo(separatedWords[5].equals("M"));
-                DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-                try {                
-                    Date birthDate = formatter.parse(separatedWords[6]);
-                    selected.setFechaNacimiento(birthDate);
-                } catch (ParseException ex) {
-                    System.out.println(Constants.MESSAGE_DATE_FORMAT_EXCEPTION);
-                }
-                String RH = "¡".equals(separatedWords[7].substring(1)) ? "+":"-";
-                selected.setRh(separatedWords[7].substring(0, 1)+RH);
-                //</editor-fold>
-                return findPersonByDocument();                
-            }
-        }
-        if(code.startsWith("B,")){//BAR CODE
-            selected.setIdExterno(code.substring(2));//Obtain only the bar code number
-            return findPersonByIdExterno();
-        }
-        return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
-    }
-    
-    private String[] separateWords() {
-        int commaCounter = 0;
-        String[] separatedWords = new String[10];
-        int oldi = 1;
-        for (int i = 2; i <code.length(); i++) {//Start in 2 to avoid "C,"
-            char c = code.charAt(i);
-            if (c == ',') {
-                if (oldi + 1 != i) {
-                    separatedWords[commaCounter] = code.substring(oldi + 1, i);    
-                } else {
-                    separatedWords[commaCounter] = "";
-                }
-                commaCounter++;
-                oldi = i;
-            }
-        }
-        if (commaCounter == 9) {
-            separatedWords[0]= String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
-            return separatedWords;
-        }
-        return null;
-    }
-    
-    public String save(){
-        Result result = findSpecificPerson();
-        if(result.errorCode!=Constants.OK && result.errorCode != Constants.NO_RESULT_EXCEPTION){
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
-            return null;//This should never happend
-        }
-        MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
-        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
-            create();
-            movPersonasCliController.recordEntryMovement(selected, Constants.CREATE);
-        }
-        if(result.errorCode==Constants.OK){
-            movPersonasCliController.recordEntryMovement(selected, Constants.UPDATE);
-            update();
-        }
-        return Navigation.PAGE_SELECT_ENTRY;
-        
-    }
-    
-    /**
-     * Search a person whit selected branch office, and status different to inactive
-     * @return 
-     */
-    public Result findSpecificPerson(){
-        String squery = Querys.PERSONA_CLI_ALL+"WHERE"+Querys.PERSONA_CLI_DOC_TYPE+selected.getTipoDocumento().getTipodocumento()+"' AND"+
-                Querys.PERSONA_CLI_DOC_NUMBER+selected.getNumDocumento()+"' AND"+Querys.PERSONA_CLI_SUCURSAL+selected.getIdSucursal().getIdSucursal()+
-                "' AND"+Querys.PERSONA_CLI_ESTADO_N+"4'";
-        return ejbFacade.findByQuery(squery, false);//False because only one person should appear
-    }
-    
-    public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent){
-        PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
-        EmpresaOrigenCli selectedOriginEnterprise= (EmpresaOrigenCli) changeEvent.getNewValue();
-        if(selectedOriginEnterprise.getIdEmorigen() != null && selectedOriginEnterprise.getIdEmorigen().equals(Constants.ORIGIN_ENTERPRISE_OTHER)){
-            personFormEntry.setDisableOtherEnterprise(false);
-            return;
-        }
-        personFormEntry.setDisableOtherEnterprise(true);
-    }
-    
-    public void cancel(){
-        selected = new PersonasCli();
-        JsfUtil.cancel();
-    }
-
 }

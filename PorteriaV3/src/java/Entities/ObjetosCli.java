@@ -92,6 +92,8 @@ public class ObjetosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @OneToMany(mappedBy = "idObjeto", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne(fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
@@ -229,6 +231,15 @@ public class ObjetosCli implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
     }
 
     public DepartamentosCli getIdDepartamento() {

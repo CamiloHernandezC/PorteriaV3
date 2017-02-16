@@ -52,7 +52,7 @@ public class AreasEmpresaCli implements Serializable {
     @OneToMany(mappedBy = "areaempresa", fetch = FetchType.LAZY)
     private List<NovedadesCli> novedadesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "area", fetch = FetchType.LAZY)
-    private List<PersonasCli> personasCliList;
+    private List<PersonasSucursalCli> personasSucursalCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea", fetch = FetchType.LAZY)
     private List<MovPersonasCli> movPersonasCliList;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
@@ -97,12 +97,12 @@ public class AreasEmpresaCli implements Serializable {
     }
 
     @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
     }
 
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
     }
 
     @XmlTransient

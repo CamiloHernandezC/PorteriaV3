@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PorteriaSucursalCliViewDlg" widgetVar="PorteriaSucursalCliViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPorteriaSucursalCliTitle}">
+            <h:form id="PorteriaSucursalCliViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{porteriaSucursalCliController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPorteriaSucursalCliLabel_campo}"/>
+                        <h:outputText value="#{porteriaSucursalCliController.selected.campo}" title="#{bundle.ViewPorteriaSucursalCliTitle_campo}"/>
+                        <h:outputText value="#{bundle.ViewPorteriaSucursalCliLabel_porterias}"/>
+                        <h:outputText value="#{porteriaSucursalCliController.selected.porterias}" title="#{bundle.ViewPorteriaSucursalCliTitle_porterias}"/>
+                        <h:outputText value="#{bundle.ViewPorteriaSucursalCliLabel_sucursalesCli}"/>
+                        <h:outputText value="#{porteriaSucursalCliController.selected.sucursalesCli}" title="#{bundle.ViewPorteriaSucursalCliTitle_sucursalesCli}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PorteriaSucursalCliViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -67,7 +67,7 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-
+    
     public Result findByQuery(String squery, boolean maxResult) {
         try {
             Query query = getEntityManager().createQuery(squery);
@@ -108,4 +108,5 @@ public abstract class AbstractFacade<T> {
             return new Result(new ArrayList<>(), Constants.UNKNOWN_EXCEPTION);
         }
     }
+    
 }

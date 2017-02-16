@@ -8,8 +8,6 @@ import Facade.MunicipiosCliFacade;
 import Querys.Querys;
 
 import java.io.Serializable;
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -60,18 +58,18 @@ public class MunicipiosCliController implements Serializable {
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("Utils/Bundle").getString("MunicipiosCliCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("Utils/Bundle").getString("MunicipiosCliUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("Utils/Bundle").getString("MunicipiosCliDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
@@ -82,16 +80,6 @@ public class MunicipiosCliController implements Serializable {
         if (items == null) {
             items = getFacade().findAll();
         }
-        return items;
-    }
-    
-    public List<MunicipiosCli> getItemsOfDepartment(DepartamentosCli department) {
-        if(department==null){
-            items = null;
-            return items;
-        }
-        String squery = Querys.MUNICIPIOS_CLI_DEPARTAMENTO+department.getIdDepartamento()+"'";
-        items = (List<MunicipiosCli>) getFacade().findByQueryArray(squery).result;
         return items;
     }
 
@@ -114,11 +102,11 @@ public class MunicipiosCliController implements Serializable {
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);
                 } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
                 }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
     }
@@ -133,6 +121,16 @@ public class MunicipiosCliController implements Serializable {
 
     public List<MunicipiosCli> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+    
+    public List<MunicipiosCli> getItemsOfDepartment(DepartamentosCli department) {
+        if(department==null){
+            items = null;
+            return items;
+        }
+        String squery = Querys.MUNICIPIOS_CLI_DEPARTAMENTO+department.getIdDepartamento()+"'";
+        items = (List<MunicipiosCli>) getFacade().findByQueryArray(squery).result;
+        return items;
     }
 
     @FacesConverter(forClass = MunicipiosCli.class)

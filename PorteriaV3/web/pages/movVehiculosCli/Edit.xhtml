@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovVehiculosCliEditDlg" widgetVar="MovVehiculosCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMovVehiculosCliTitle}">
+            <h:form id="MovVehiculosCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movVehiculosCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_idMovimiento}" for="idMovimiento" />
+                        <p:inputText id="idMovimiento" value="#{movVehiculosCliController.selected.idMovimiento}" title="#{bundle.EditMovVehiculosCliTitle_idMovimiento}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_idMovimiento}"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_fechaEntrada}" for="fechaEntrada" />
+                        <p:calendar id="fechaEntrada" pattern="MM/dd/yyyy" value="#{movVehiculosCliController.selected.fechaEntrada}" title="#{bundle.EditMovVehiculosCliTitle_fechaEntrada}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_fechaEntrada}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_horaEntrada}" for="horaEntrada" />
+                        <p:calendar id="horaEntrada" pattern="HH:mm:ss" value="#{movVehiculosCliController.selected.horaEntrada}" title="#{bundle.EditMovVehiculosCliTitle_horaEntrada}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_horaEntrada}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_fechaSalida}" for="fechaSalida" />
+                        <p:calendar id="fechaSalida" pattern="MM/dd/yyyy" value="#{movVehiculosCliController.selected.fechaSalida}" title="#{bundle.EditMovVehiculosCliTitle_fechaSalida}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_horaSalida}" for="horaSalida" />
+                        <p:calendar id="horaSalida" pattern="HH:mm:ss" value="#{movVehiculosCliController.selected.horaSalida}" title="#{bundle.EditMovVehiculosCliTitle_horaSalida}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_observacinEntrada}" for="observacinEntrada" />
+                        <p:inputText id="observacinEntrada" value="#{movVehiculosCliController.selected.observacinEntrada}" title="#{bundle.EditMovVehiculosCliTitle_observacinEntrada}" />
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_observacionSalida}" for="observacionSalida" />
+                        <p:inputText id="observacionSalida" value="#{movVehiculosCliController.selected.observacionSalida}" title="#{bundle.EditMovVehiculosCliTitle_observacionSalida}" />
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{movVehiculosCliController.selected.fecha}" title="#{bundle.EditMovVehiculosCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_salidaForzosa}" for="salidaForzosa" />
+                        <p:selectBooleanCheckbox id="salidaForzosa" value="#{movVehiculosCliController.selected.salidaForzosa}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_salidaForzosa}"/>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_idMovEntrada}" for="idMovEntrada" />
+                        <p:selectOneMenu id="idMovEntrada" value="#{movVehiculosCliController.selected.idMovEntrada}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_idMovEntrada}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{movPersonasCliController.itemsAvailableSelectOne}"
+                                           var="idMovEntradaItem"
+                                           itemValue="#{idMovEntradaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_idMovSalida}" for="idMovSalida" />
+                        <p:selectOneMenu id="idMovSalida" value="#{movVehiculosCliController.selected.idMovSalida}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{movPersonasCliController.itemsAvailableSelectOne}"
+                                           var="idMovSalidaItem"
+                                           itemValue="#{idMovSalidaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{movVehiculosCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_idSucursal}" for="idSucursal" />
+                        <p:selectOneMenu id="idSucursal" value="#{movVehiculosCliController.selected.idSucursal}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_idSucursal}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="idSucursalItem"
+                                           itemValue="#{idSucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovVehiculosCliLabel_idVehiculo}" for="idVehiculo" />
+                        <p:selectOneMenu id="idVehiculo" value="#{movVehiculosCliController.selected.idVehiculo}" required="true" requiredMessage="#{bundle.EditMovVehiculosCliRequiredMessage_idVehiculo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vehiculosCliController.itemsAvailableSelectOne}"
+                                           var="idVehiculoItem"
+                                           itemValue="#{idVehiculoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{movVehiculosCliController.update}" value="#{bundle.Save}" update="display,:MovVehiculosCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MovVehiculosCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MovVehiculosCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

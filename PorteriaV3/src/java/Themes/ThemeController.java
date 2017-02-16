@@ -5,7 +5,6 @@
  */
 package Themes;
 
-import Controllers.PersonasCliController;
 import Entities.PersonasCli;
 import java.io.IOException;
 import java.io.Serializable;
@@ -45,7 +44,7 @@ public class ThemeController implements Serializable{
         this.theme = theme;
     }
     
-        // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = Theme.class)
     public static class ThemeControllerConverter implements Converter {
 

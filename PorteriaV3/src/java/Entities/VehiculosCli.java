@@ -90,21 +90,21 @@ public class VehiculosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MarcasCli idMarca;
-    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EntidadesCli idEntidad;
+    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
     @JoinColumn(name = "Id_Linea", referencedColumnName = "Id_Linea")
     @ManyToOne(fetch = FetchType.LAZY)
     private LineasCli idLinea;
+    @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MarcasCli idMarca;
     @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
     @ManyToOne(fetch = FetchType.LAZY)
     private MunicipiosCli idMunicipio;
@@ -125,6 +125,8 @@ public class VehiculosCli implements Serializable {
     private UnidadesCli unidadVolumen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
+    @OneToMany(mappedBy = "idVehiculo", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
 
     public VehiculosCli() {
     }
@@ -227,12 +229,12 @@ public class VehiculosCli implements Serializable {
         this.fecha = fecha;
     }
 
-    public MarcasCli getIdMarca() {
-        return idMarca;
+    public EntidadesCli getIdEntidad() {
+        return idEntidad;
     }
 
-    public void setIdMarca(MarcasCli idMarca) {
-        this.idMarca = idMarca;
+    public void setIdEntidad(EntidadesCli idEntidad) {
+        this.idEntidad = idEntidad;
     }
 
     public DepartamentosCli getIdDepartamento() {
@@ -241,14 +243,6 @@ public class VehiculosCli implements Serializable {
 
     public void setIdDepartamento(DepartamentosCli idDepartamento) {
         this.idDepartamento = idDepartamento;
-    }
-
-    public EntidadesCli getIdEntidad() {
-        return idEntidad;
-    }
-
-    public void setIdEntidad(EntidadesCli idEntidad) {
-        this.idEntidad = idEntidad;
     }
 
     public EstadosCli getIdEstado() {
@@ -265,6 +259,14 @@ public class VehiculosCli implements Serializable {
 
     public void setIdLinea(LineasCli idLinea) {
         this.idLinea = idLinea;
+    }
+
+    public MarcasCli getIdMarca() {
+        return idMarca;
+    }
+
+    public void setIdMarca(MarcasCli idMarca) {
+        this.idMarca = idMarca;
     }
 
     public MunicipiosCli getIdMunicipio() {
@@ -322,6 +324,15 @@ public class VehiculosCli implements Serializable {
 
     public void setMovVehiculosCliList(List<MovVehiculosCli> movVehiculosCliList) {
         this.movVehiculosCliList = movVehiculosCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
     }
 
     @Override

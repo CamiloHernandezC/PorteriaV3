@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Porterias")
@@ -51,8 +52,12 @@ public class Porterias implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria")
+    @OneToMany(mappedBy = "idPorteria", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
     private List<ConfigFormCli> configFormCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porterias", fetch = FetchType.LAZY)
+    private List<PorteriaSucursalCli> porteriaSucursalCliList;
 
     public Porterias() {
     }
@@ -92,12 +97,30 @@ public class Porterias implements Serializable {
     }
 
     @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
+    @XmlTransient
     public List<ConfigFormCli> getConfigFormCliList() {
         return configFormCliList;
     }
 
     public void setConfigFormCliList(List<ConfigFormCli> configFormCliList) {
         this.configFormCliList = configFormCliList;
+    }
+
+    @XmlTransient
+    public List<PorteriaSucursalCli> getPorteriaSucursalCliList() {
+        return porteriaSucursalCliList;
+    }
+
+    public void setPorteriaSucursalCliList(List<PorteriaSucursalCli> porteriaSucursalCliList) {
+        this.porteriaSucursalCliList = porteriaSucursalCliList;
     }
 
     @Override

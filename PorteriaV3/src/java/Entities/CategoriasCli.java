@@ -51,6 +51,8 @@ public class CategoriasCli implements Serializable {
     private List<MarcasCli> marcasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria", fetch = FetchType.LAZY)
     private List<EntidadesCli> entidadesCliList;
+    @OneToMany(mappedBy = "idCategoria", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
 
     public CategoriasCli() {
     }
@@ -96,6 +98,15 @@ public class CategoriasCli implements Serializable {
 
     public void setEntidadesCliList(List<EntidadesCli> entidadesCliList) {
         this.entidadesCliList = entidadesCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
     }
 
     @Override

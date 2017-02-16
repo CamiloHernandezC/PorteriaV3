@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VisitasEsperadasCliEditDlg" widgetVar="VisitasEsperadasCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditVisitasEsperadasCliTitle}">
+            <h:form id="VisitasEsperadasCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{visitasEsperadasCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_visitasEsperadasCliPK_fechaVisita}" for="visitasEsperadasCliPK_fechaVisita" />
+                        <p:calendar id="visitasEsperadasCliPK_fechaVisita" pattern="MM/dd/yyyy" value="#{visitasEsperadasCliController.selected.visitasEsperadasCliPK.fechaVisita}" title="#{bundle.EditVisitasEsperadasCliTitle_visitasEsperadasCliPK_fechaVisita}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_visitasEsperadasCliPK_fechaVisita}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_horaInicio}" for="horaInicio" />
+                        <p:calendar id="horaInicio" pattern="HH:mm:ss" value="#{visitasEsperadasCliController.selected.horaInicio}" title="#{bundle.EditVisitasEsperadasCliTitle_horaInicio}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_horaInicio}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_horaHasta}" for="horaHasta" />
+                        <p:calendar id="horaHasta" pattern="HH:mm:ss" value="#{visitasEsperadasCliController.selected.horaHasta}" title="#{bundle.EditVisitasEsperadasCliTitle_horaHasta}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_horaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_funcionarioVisitado}" for="funcionarioVisitado" />
+                        <p:inputText id="funcionarioVisitado" value="#{visitasEsperadasCliController.selected.funcionarioVisitado}" title="#{bundle.EditVisitasEsperadasCliTitle_funcionarioVisitado}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_funcionarioVisitado}"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{visitasEsperadasCliController.selected.fecha}" title="#{bundle.EditVisitasEsperadasCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_personasCli}" for="personasCli" />
+                        <p:selectOneMenu id="personasCli" value="#{visitasEsperadasCliController.selected.personasCli}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_personasCli}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="personasCliItem"
+                                           itemValue="#{personasCliItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{visitasEsperadasCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasCliLabel_sucursalesCli}" for="sucursalesCli" />
+                        <p:selectOneMenu id="sucursalesCli" value="#{visitasEsperadasCliController.selected.sucursalesCli}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasCliRequiredMessage_sucursalesCli}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="sucursalesCliItem"
+                                           itemValue="#{sucursalesCliItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{visitasEsperadasCliController.update}" value="#{bundle.Save}" update="display,:VisitasEsperadasCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'VisitasEsperadasCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VisitasEsperadasCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

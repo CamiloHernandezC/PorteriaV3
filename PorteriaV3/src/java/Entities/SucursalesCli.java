@@ -58,7 +58,7 @@ public class SucursalesCli implements Serializable {
     private String telefono;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<NovedadesCli> novedadesCliList;
@@ -74,16 +74,20 @@ public class SucursalesCli implements Serializable {
     @JoinColumn(name = "Pais", referencedColumnName = "Id_Pais")
     @ManyToOne(fetch = FetchType.LAZY)
     private PaisesCli pais;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalesCli", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<MaterialesCli> materialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
+    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalesCli", fetch = FetchType.LAZY)
     private List<VisitasEsperadasCli> visitasEsperadasCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalesCli", fetch = FetchType.LAZY)
+    private List<PorteriaSucursalCli> porteriaSucursalCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<MovDocumentosCli> movDocumentosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
-    private List<PersonasCli> personasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
@@ -199,6 +203,15 @@ public class SucursalesCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
+    }
+
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
+    }
+
+    @XmlTransient
     public List<MaterialesCli> getMaterialesCliList() {
         return materialesCliList;
     }
@@ -217,6 +230,15 @@ public class SucursalesCli implements Serializable {
     }
 
     @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
+    @XmlTransient
     public List<VisitasEsperadasCli> getVisitasEsperadasCliList() {
         return visitasEsperadasCliList;
     }
@@ -226,21 +248,21 @@ public class SucursalesCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PorteriaSucursalCli> getPorteriaSucursalCliList() {
+        return porteriaSucursalCliList;
+    }
+
+    public void setPorteriaSucursalCliList(List<PorteriaSucursalCli> porteriaSucursalCliList) {
+        this.porteriaSucursalCliList = porteriaSucursalCliList;
+    }
+
+    @XmlTransient
     public List<MovDocumentosCli> getMovDocumentosCliList() {
         return movDocumentosCliList;
     }
 
     public void setMovDocumentosCliList(List<MovDocumentosCli> movDocumentosCliList) {
         this.movDocumentosCliList = movDocumentosCliList;
-    }
-
-    @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
-    }
-
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
     }
 
     @XmlTransient

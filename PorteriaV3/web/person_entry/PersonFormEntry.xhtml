@@ -81,7 +81,7 @@
                 </p:selectOneMenu>
 
                 <h:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="#{configFormCliController.mostrarSucursal}"/>
-                <p:selectOneMenu id="sucursales" value="#{personasCliController.selected.idSucursal}" rendered="#{configFormCliController.mostrarSucursal}" required="#{configFormCliController.mostrarSucursal}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
+                <p:selectOneMenu id="sucursales" value="#{personasSucursalCliController.selected.sucursalesCli}" rendered="#{configFormCliController.mostrarSucursal}" required="#{configFormCliController.mostrarSucursal}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
                     <p:ajax  update="funcionario"/>
                     <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                     <f:selectItems  value="#{sucursalesCliController.items}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
@@ -124,7 +124,7 @@
                 <p:calendar id="vigenciaARL" value="#{personasCliController.selected.fechavigenciaARL}" rendered="#{configFormCliController.mostrarFecha_vigencia_ARL}" required="#{configFormCliController.mostrarFecha_vigencia_ARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fecha_arl}" yearRange="c-100:c+0" navigator="true"  style="width: 200px"  mindate="#{generalViewControl.actualDate}"/>
 
                 <h:outputLabel for="areaEmpresa" value="#{bundle.CreatePersonasCliLabel_area}" rendered="true"/>
-                <p:selectOneMenu id="areaEmpresa" value="#{personasCliController.selected.area}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_area}" filter="true" filterMatchMode="contains"  autoWidth="false" style=" width: 170px">
+                <p:selectOneMenu id="areaEmpresa" value="#{personasSucursalCliController.selected.area}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_area}" filter="true" filterMatchMode="contains"  autoWidth="false" style=" width: 170px">
                     <p:ajax  update="funcionario"/>
                     <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                     <f:selectItems value="#{areasEmpresaCliController.items}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>

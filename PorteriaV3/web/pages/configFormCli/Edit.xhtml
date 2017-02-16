@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConfigFormCliEditDlg" widgetVar="ConfigFormCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditConfigFormCliTitle}">
+            <h:form id="ConfigFormCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{configFormCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditConfigFormCliLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{configFormCliController.selected.id}" title="#{bundle.EditConfigFormCliTitle_id}" required="true" requiredMessage="#{bundle.EditConfigFormCliRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditConfigFormCliLabel_formulario}" for="formulario" />
+                        <p:inputText id="formulario" value="#{configFormCliController.selected.formulario}" title="#{bundle.EditConfigFormCliTitle_formulario}" required="true" requiredMessage="#{bundle.EditConfigFormCliRequiredMessage_formulario}"/>
+                        <p:outputLabel value="#{bundle.EditConfigFormCliLabel_campo}" for="campo" />
+                        <p:inputText id="campo" value="#{configFormCliController.selected.campo}" title="#{bundle.EditConfigFormCliTitle_campo}" required="true" requiredMessage="#{bundle.EditConfigFormCliRequiredMessage_campo}"/>
+                        <p:outputLabel value="#{bundle.EditConfigFormCliLabel_mostrar}" for="mostrar" />
+                        <p:selectBooleanCheckbox id="mostrar" value="#{configFormCliController.selected.mostrar}" required="true" requiredMessage="#{bundle.EditConfigFormCliRequiredMessage_mostrar}"/>
+                        <p:outputLabel value="#{bundle.EditConfigFormCliLabel_porteria}" for="porteria" />
+                        <p:selectOneMenu id="porteria" value="#{configFormCliController.selected.porteria}" required="true" requiredMessage="#{bundle.EditConfigFormCliRequiredMessage_porteria}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{porteriasController.itemsAvailableSelectOne}"
+                                           var="porteriaItem"
+                                           itemValue="#{porteriaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{configFormCliController.update}" value="#{bundle.Save}" update="display,:ConfigFormCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ConfigFormCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ConfigFormCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

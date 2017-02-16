@@ -26,9 +26,12 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
     protected abstract void setItems(List<T> items);
     protected abstract void setEmbeddableKeys();
     protected abstract void initializeEmbeddableKey();
-    protected abstract String calculatePrimaryKey();
+    protected abstract Object calculatePrimaryKey();
+    protected abstract void prepareCreate();
+    protected abstract void prepareUpdate();
     
     protected void create() {
+        prepareCreate();
         persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyCreatedRegistry"));
         if (!JsfUtil.isValidationFailed()) {
             setItems(null);// Invalidate list of items to trigger re-query.
@@ -36,6 +39,7 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
     }
 
     protected void update() {
+        prepareUpdate();
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyUpdatedRegistry"));
     }
 

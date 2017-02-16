@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuariosCliEditDlg" widgetVar="UsuariosCliEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUsuariosCliTitle}">
+            <h:form id="UsuariosCliEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuariosCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_idUsuario}" for="idUsuario" />
+                        <p:inputText id="idUsuario" value="#{usuariosCliController.selected.idUsuario}" title="#{bundle.EditUsuariosCliTitle_idUsuario}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_idUsuario}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_privilegios}" for="privilegios" />
+                        <p:inputText id="privilegios" value="#{usuariosCliController.selected.privilegios}" title="#{bundle.EditUsuariosCliTitle_privilegios}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_privilegios}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{usuariosCliController.selected.password}" title="#{bundle.EditUsuariosCliTitle_password}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_password}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_fechaDesde}" for="fechaDesde" />
+                        <p:calendar id="fechaDesde" pattern="MM/dd/yyyy" value="#{usuariosCliController.selected.fechaDesde}" title="#{bundle.EditUsuariosCliTitle_fechaDesde}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_fechaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_fechaHasta}" for="fechaHasta" />
+                        <p:calendar id="fechaHasta" pattern="MM/dd/yyyy" value="#{usuariosCliController.selected.fechaHasta}" title="#{bundle.EditUsuariosCliTitle_fechaHasta}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_fechaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_sesion}" for="sesion" />
+                        <p:selectBooleanCheckbox id="sesion" value="#{usuariosCliController.selected.sesion}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_sesion}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{usuariosCliController.selected.fecha}" title="#{bundle.EditUsuariosCliTitle_fecha}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_idEstado}" for="idEstado" />
+                        <p:selectOneMenu id="idEstado" value="#{usuariosCliController.selected.idEstado}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_idEstado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadosCliController.itemsAvailableSelectOne}"
+                                           var="idEstadoItem"
+                                           itemValue="#{idEstadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{usuariosCliController.selected.usuario}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUsuariosCliLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{usuariosCliController.selected.idPersona}" required="true" requiredMessage="#{bundle.EditUsuariosCliRequiredMessage_idPersona}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasCliController.itemsAvailableSelectOne}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuariosCliController.update}" value="#{bundle.Save}" update="display,:UsuariosCliListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuariosCliEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UsuariosCliEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
