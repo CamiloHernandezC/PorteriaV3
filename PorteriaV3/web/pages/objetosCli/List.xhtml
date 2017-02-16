@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListObjetosCliTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ObjetosCliListForm">
+                <p:panel header="#{bundle.ListObjetosCliTitle}">
+                    <p:dataTable id="datalist" value="#{objetosCliController.items}" var="item"
+                                 selectionMode="single" selection="#{objetosCliController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idObjeto}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idObjeto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idObjeto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_serialObjeto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.serialObjeto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idExterno}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idExterno}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_color1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.color1}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_color2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.color2}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_color3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.color3}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_unidadPeso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.unidadPeso}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_peso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.peso}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_unidadVolumen}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.unidadVolumen}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_volumen}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.volumen}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idDepartamento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idDepartamento}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idEntidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idEntidad}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idEstado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idEstado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idLinea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idLinea}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idMarca}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMarca}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idMunicipio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMunicipio}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idPais}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPais}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_usuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuario}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListObjetosCliTitle_idSucursal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idSucursal}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{objetosCliController.prepareCreate}" update=":ObjetosCliCreateForm" oncomplete="PF('ObjetosCliCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ObjetosCliViewForm" oncomplete="PF('ObjetosCliViewDialog').show()" disabled="#{empty objetosCliController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ObjetosCliEditForm" oncomplete="PF('ObjetosCliEditDialog').show()" disabled="#{empty objetosCliController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{objetosCliController.destroy}" update=":growl,datalist" disabled="#{empty objetosCliController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -89,10 +89,12 @@ public class EmpresaOrigenCli implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
     @OneToMany(mappedBy = "idemorigen", fetch = FetchType.LAZY)
     private List<NovedadesCli> novedadesCliList;
+    @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
     @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
 
@@ -220,6 +222,15 @@ public class EmpresaOrigenCli implements Serializable {
 
     public void setNovedadesCliList(List<NovedadesCli> novedadesCliList) {
         this.novedadesCliList = novedadesCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
     }
 
     @XmlTransient

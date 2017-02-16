@@ -1,23 +1,24 @@
 package Controllers;
 
-import Controllers.util.JsfUtil;
 import Entities.ConfigFormCli;
+import Controllers.util.JsfUtil;
+import Controllers.util.JsfUtil.PersistAction;
 import Facade.ConfigFormCliFacade;
 import Utils.Constants;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.EJBException;
 import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.view.ViewScoped;
 
 @Named("configFormCliController")
 @SessionScoped
@@ -27,7 +28,7 @@ public class ConfigFormCliController implements Serializable {
     private Facade.ConfigFormCliFacade ejbFacade;
     private List<ConfigFormCli> items = null;
     private ConfigFormCli selected;
-
+    
     //Booleanos de control Vista
     // <editor-fold desc="Booleanos" defaultstate="collapsed">
     private boolean mostrarARL;
@@ -153,11 +154,64 @@ public class ConfigFormCliController implements Serializable {
         return ejbFacade;
     }
 
+    public ConfigFormCli prepareCreate() {
+        selected = new ConfigFormCli();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ConfigFormCliCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ConfigFormCliUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ConfigFormCliDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
     public List<ConfigFormCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
+    }
+
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
     }
 
     public ConfigFormCli getConfigFormCli(java.lang.Long id) {
@@ -171,7 +225,7 @@ public class ConfigFormCliController implements Serializable {
     public List<ConfigFormCli> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
+    
     public void showFieldsPerson() {
         List<ConfigFormCli> array;
         String squery = "SELECT c FROM ConfigFormCli c WHERE c.formulario ='" + Constants.CONFIGPERSONSFORM + "'";
@@ -245,7 +299,6 @@ public class ConfigFormCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = ConfigFormCli.class)
     public static class ConfigFormCliControllerConverter implements Converter {
 
@@ -286,6 +339,5 @@ public class ConfigFormCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

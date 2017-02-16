@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SucursalesCliCreateDlg" widgetVar="SucursalesCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSucursalesCliTitle}">
+            <h:form id="SucursalesCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sucursalesCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_idSucursal}" for="idSucursal" />
+                        <p:inputText id="idSucursal" value="#{sucursalesCliController.selected.idSucursal}" title="#{bundle.CreateSucursalesCliTitle_idSucursal}" required="true" requiredMessage="#{bundle.CreateSucursalesCliRequiredMessage_idSucursal}"/>
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{sucursalesCliController.selected.nombre}" title="#{bundle.CreateSucursalesCliTitle_nombre}" required="true" requiredMessage="#{bundle.CreateSucursalesCliRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{sucursalesCliController.selected.direccion}" title="#{bundle.CreateSucursalesCliTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{sucursalesCliController.selected.telefono}" title="#{bundle.CreateSucursalesCliTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_idCliente}" for="idCliente" />
+                        <p:selectOneMenu id="idCliente" value="#{sucursalesCliController.selected.idCliente}" required="true" requiredMessage="#{bundle.EditSucursalesCliRequiredMessage_idCliente}">
+                            <f:selectItems value="#{clientesCliController.itemsAvailableSelectOne}"
+                                           var="idClienteItem"
+                                           itemValue="#{idClienteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_departamento}" for="departamento" />
+                        <p:selectOneMenu id="departamento" value="#{sucursalesCliController.selected.departamento}" >
+                            <f:selectItems value="#{departamentosCliController.itemsAvailableSelectOne}"
+                                           var="departamentoItem"
+                                           itemValue="#{departamentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_municipio}" for="municipio" />
+                        <p:selectOneMenu id="municipio" value="#{sucursalesCliController.selected.municipio}" >
+                            <f:selectItems value="#{municipiosCliController.itemsAvailableSelectOne}"
+                                           var="municipioItem"
+                                           itemValue="#{municipioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateSucursalesCliLabel_pais}" for="pais" />
+                        <p:selectOneMenu id="pais" value="#{sucursalesCliController.selected.pais}" >
+                            <f:selectItems value="#{paisesCliController.itemsAvailableSelectOne}"
+                                           var="paisItem"
+                                           itemValue="#{paisItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sucursalesCliController.create}" value="#{bundle.Save}" update="display,:SucursalesCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'SucursalesCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SucursalesCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

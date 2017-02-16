@@ -51,9 +51,9 @@ public class EstadosCli implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<ClientesCli> clientesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
-    private List<PersonasCli> personasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
@@ -106,21 +106,21 @@ public class EstadosCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
+    }
+
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
+    }
+
+    @XmlTransient
     public List<ClientesCli> getClientesCliList() {
         return clientesCliList;
     }
 
     public void setClientesCliList(List<ClientesCli> clientesCliList) {
         this.clientesCliList = clientesCliList;
-    }
-
-    @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
-    }
-
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
     }
 
     @XmlTransient

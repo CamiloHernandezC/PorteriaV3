@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UnidadesCliCreateDlg" widgetVar="UnidadesCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateUnidadesCliTitle}">
+            <h:form id="UnidadesCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{unidadesCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateUnidadesCliLabel_idUnidad}" for="idUnidad" />
+                        <p:inputText id="idUnidad" value="#{unidadesCliController.selected.idUnidad}" title="#{bundle.CreateUnidadesCliTitle_idUnidad}" required="true" requiredMessage="#{bundle.CreateUnidadesCliRequiredMessage_idUnidad}"/>
+                        <p:outputLabel value="#{bundle.CreateUnidadesCliLabel_tipoUnidad}" for="tipoUnidad" />
+                        <p:selectBooleanCheckbox id="tipoUnidad" value="#{unidadesCliController.selected.tipoUnidad}" required="true" requiredMessage="#{bundle.EditUnidadesCliRequiredMessage_tipoUnidad}"/>
+                        <p:outputLabel value="#{bundle.CreateUnidadesCliLabel_unidadSI}" for="unidadSI" />
+                        <p:inputText id="unidadSI" value="#{unidadesCliController.selected.unidadSI}" title="#{bundle.CreateUnidadesCliTitle_unidadSI}" required="true" requiredMessage="#{bundle.CreateUnidadesCliRequiredMessage_unidadSI}"/>
+                        <p:outputLabel value="#{bundle.CreateUnidadesCliLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{unidadesCliController.selected.descripcion}" title="#{bundle.CreateUnidadesCliTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateUnidadesCliRequiredMessage_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{unidadesCliController.create}" value="#{bundle.Save}" update="display,:UnidadesCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'UnidadesCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UnidadesCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

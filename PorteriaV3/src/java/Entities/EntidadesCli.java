@@ -54,10 +54,12 @@ public class EntidadesCli implements Serializable {
     @JoinColumn(name = "Id_Categoria", referencedColumnName = "Id_Categoria")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CategoriasCli idCategoria;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
+    @OneToMany(mappedBy = "idEntidad", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
     private List<MovDocumentosCli> movDocumentosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
-    private List<PersonasCli> personasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
 
@@ -107,21 +109,30 @@ public class EntidadesCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
+    }
+
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
+    @XmlTransient
     public List<MovDocumentosCli> getMovDocumentosCliList() {
         return movDocumentosCliList;
     }
 
     public void setMovDocumentosCliList(List<MovDocumentosCli> movDocumentosCliList) {
         this.movDocumentosCliList = movDocumentosCliList;
-    }
-
-    @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
-    }
-
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
     }
 
     @XmlTransient

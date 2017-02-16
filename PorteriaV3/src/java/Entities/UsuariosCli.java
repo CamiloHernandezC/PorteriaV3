@@ -7,7 +7,9 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,12 +18,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,7 +55,7 @@ public class UsuariosCli implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Privilegios")
-    private long privilegios;
+    private short privilegios;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -76,6 +80,8 @@ public class UsuariosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<PrivilegiosCliente> privilegiosClienteList;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
@@ -93,7 +99,7 @@ public class UsuariosCli implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public UsuariosCli(String idUsuario, long privilegios, String password, Date fechaDesde, Date fechaHasta, boolean sesion, Date fecha) {
+    public UsuariosCli(String idUsuario, short privilegios, String password, Date fechaDesde, Date fechaHasta, boolean sesion, Date fecha) {
         this.idUsuario = idUsuario;
         this.privilegios = privilegios;
         this.password = password;
@@ -111,11 +117,11 @@ public class UsuariosCli implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public long getPrivilegios() {
+    public short getPrivilegios() {
         return privilegios;
     }
 
-    public void setPrivilegios(long privilegios) {
+    public void setPrivilegios(short privilegios) {
         this.privilegios = privilegios;
     }
 
@@ -157,6 +163,15 @@ public class UsuariosCli implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @XmlTransient
+    public List<PrivilegiosCliente> getPrivilegiosClienteList() {
+        return privilegiosClienteList;
+    }
+
+    public void setPrivilegiosClienteList(List<PrivilegiosCliente> privilegiosClienteList) {
+        this.privilegiosClienteList = privilegiosClienteList;
     }
 
     public EstadosCli getIdEstado() {

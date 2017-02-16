@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MovPersonasCli.findByHoraEntrada", query = "SELECT m FROM MovPersonasCli m WHERE m.horaEntrada = :horaEntrada"),
     @NamedQuery(name = "MovPersonasCli.findByFechaSalida", query = "SELECT m FROM MovPersonasCli m WHERE m.fechaSalida = :fechaSalida"),
     @NamedQuery(name = "MovPersonasCli.findByHoraSalida", query = "SELECT m FROM MovPersonasCli m WHERE m.horaSalida = :horaSalida"),
+    @NamedQuery(name = "MovPersonasCli.findByPersonaAutoriza", query = "SELECT m FROM MovPersonasCli m WHERE m.personaAutoriza = :personaAutoriza"),
     @NamedQuery(name = "MovPersonasCli.findByFecha", query = "SELECT m FROM MovPersonasCli m WHERE m.fecha = :fecha"),
     @NamedQuery(name = "MovPersonasCli.findBySalidaForzosa", query = "SELECT m FROM MovPersonasCli m WHERE m.salidaForzosa = :salidaForzosa")})
 public class MovPersonasCli implements Serializable {
@@ -66,6 +68,9 @@ public class MovPersonasCli implements Serializable {
     @Column(name = "Hora_Salida")
     @Temporal(TemporalType.TIME)
     private Date horaSalida;
+    @Size(max = 14)
+    @Column(name = "Persona_Autoriza")
+    private String personaAutoriza;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
@@ -90,9 +95,6 @@ public class MovPersonasCli implements Serializable {
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Persona_Autoriza", referencedColumnName = "Id_Persona")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PersonasCli personaAutoriza;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
@@ -156,6 +158,14 @@ public class MovPersonasCli implements Serializable {
 
     public void setHoraSalida(Date horaSalida) {
         this.horaSalida = horaSalida;
+    }
+
+    public String getPersonaAutoriza() {
+        return personaAutoriza;
+    }
+
+    public void setPersonaAutoriza(String personaAutoriza) {
+        this.personaAutoriza = personaAutoriza;
     }
 
     public Date getFecha() {
@@ -223,14 +233,6 @@ public class MovPersonasCli implements Serializable {
 
     public void setUsuario(PersonasCli usuario) {
         this.usuario = usuario;
-    }
-
-    public PersonasCli getPersonaAutoriza() {
-        return personaAutoriza;
-    }
-
-    public void setPersonaAutoriza(PersonasCli personaAutoriza) {
-        this.personaAutoriza = personaAutoriza;
     }
 
     public SucursalesCli getIdSucursal() {

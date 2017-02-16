@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Stateless
 public class ConfigFormCliFacade extends AbstractFacade<ConfigFormCli> {

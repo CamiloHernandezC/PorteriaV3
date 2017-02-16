@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PorteriaSucursalCliCreateDlg" widgetVar="PorteriaSucursalCliCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePorteriaSucursalCliTitle}">
+            <h:form id="PorteriaSucursalCliCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{porteriaSucursalCliController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePorteriaSucursalCliLabel_campo}" for="campo" />
+                        <p:inputText id="campo" value="#{porteriaSucursalCliController.selected.campo}" title="#{bundle.CreatePorteriaSucursalCliTitle_campo}" />
+                        <p:outputLabel value="#{bundle.CreatePorteriaSucursalCliLabel_porterias}" for="porterias" />
+                        <p:selectOneMenu id="porterias" value="#{porteriaSucursalCliController.selected.porterias}" required="true" requiredMessage="#{bundle.EditPorteriaSucursalCliRequiredMessage_porterias}">
+                            <f:selectItems value="#{porteriasController.itemsAvailableSelectOne}"
+                                           var="porteriasItem"
+                                           itemValue="#{porteriasItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePorteriaSucursalCliLabel_sucursalesCli}" for="sucursalesCli" />
+                        <p:selectOneMenu id="sucursalesCli" value="#{porteriaSucursalCliController.selected.sucursalesCli}" required="true" requiredMessage="#{bundle.EditPorteriaSucursalCliRequiredMessage_sucursalesCli}">
+                            <f:selectItems value="#{sucursalesCliController.itemsAvailableSelectOne}"
+                                           var="sucursalesCliItem"
+                                           itemValue="#{sucursalesCliItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{porteriaSucursalCliController.create}" value="#{bundle.Save}" update="display,:PorteriaSucursalCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'PorteriaSucursalCliCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PorteriaSucursalCliCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

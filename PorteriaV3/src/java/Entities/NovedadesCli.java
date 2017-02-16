@@ -49,6 +49,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NovedadesCli.findByAccion5", query = "SELECT n FROM NovedadesCli n WHERE n.accion5 = :accion5"),
     @NamedQuery(name = "NovedadesCli.findByOtraaccion", query = "SELECT n FROM NovedadesCli n WHERE n.otraaccion = :otraaccion"),
     @NamedQuery(name = "NovedadesCli.findByFuncionarioseracis", query = "SELECT n FROM NovedadesCli n WHERE n.funcionarioseracis = :funcionarioseracis"),
+    @NamedQuery(name = "NovedadesCli.findByContratistainformado", query = "SELECT n FROM NovedadesCli n WHERE n.contratistainformado = :contratistainformado"),
     @NamedQuery(name = "NovedadesCli.findByFecha", query = "SELECT n FROM NovedadesCli n WHERE n.fecha = :fecha")})
 public class NovedadesCli implements Serializable {
 
@@ -119,6 +120,9 @@ public class NovedadesCli implements Serializable {
     @Size(max = 10)
     @Column(name = "Funcionario_seracis")
     private String funcionarioseracis;
+    @Size(max = 14)
+    @Column(name = "Contratista_informado")
+    private String contratistainformado;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
@@ -130,15 +134,12 @@ public class NovedadesCli implements Serializable {
     @JoinColumn(name = "Id_emorigen", referencedColumnName = "Id_Emorigen")
     @ManyToOne(fetch = FetchType.LAZY)
     private EmpresaOrigenCli idemorigen;
-    @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PersonasCli idPersona;
-    @JoinColumn(name = "Contratista_informado", referencedColumnName = "Id_Persona")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PersonasCli contratistainformado;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
+    @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PersonasCli idPersona;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
@@ -297,6 +298,14 @@ public class NovedadesCli implements Serializable {
         this.funcionarioseracis = funcionarioseracis;
     }
 
+    public String getContratistainformado() {
+        return contratistainformado;
+    }
+
+    public void setContratistainformado(String contratistainformado) {
+        this.contratistainformado = contratistainformado;
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -321,28 +330,20 @@ public class NovedadesCli implements Serializable {
         this.idemorigen = idemorigen;
     }
 
-    public PersonasCli getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(PersonasCli idPersona) {
-        this.idPersona = idPersona;
-    }
-
-    public PersonasCli getContratistainformado() {
-        return contratistainformado;
-    }
-
-    public void setContratistainformado(PersonasCli contratistainformado) {
-        this.contratistainformado = contratistainformado;
-    }
-
     public PersonasCli getUsuario() {
         return usuario;
     }
 
     public void setUsuario(PersonasCli usuario) {
         this.usuario = usuario;
+    }
+
+    public PersonasCli getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(PersonasCli idPersona) {
+        this.idPersona = idPersona;
     }
 
     public SucursalesCli getIdSucursal() {
