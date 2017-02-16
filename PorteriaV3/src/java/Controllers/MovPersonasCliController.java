@@ -99,6 +99,14 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
         create();
     }
     
+    public void recordOut(){
+        Date actualDate = new Date();
+        selected.setFechaSalida(actualDate);
+        selected.setHoraSalida(actualDate);
+        selected.setFechaSalida(actualDate);
+        update();
+    }
+    
     private void prepareEntityToCreate(PersonasSucursalCli specificPerson) {
         Date actualDate = new Date();
         selected = new MovPersonasCli();
@@ -151,6 +159,16 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
     protected void prepareUpdate() {
         selected.setUsuario(new PersonasCli("1"));//TODO ASSIGN REAL USER HERE
         selected.setFecha(new Date());
+    }
+
+    public Result loadEntry(String idPersona) {
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+idPersona+
+                "' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL+Querys.MOV_PERSONA_CLI_ORDER_BY_ID;
+        Result result = ejbFacade.findByQuery(squery,true);
+        if(result.errorCode == Constants.OK){
+            selected = (MovPersonasCli) result.result;
+        }
+        return result;
     }
 
     @FacesConverter(forClass = MovPersonasCli.class)

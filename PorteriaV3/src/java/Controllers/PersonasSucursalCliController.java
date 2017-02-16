@@ -133,6 +133,11 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         }
     }
 
+    public Result findPersonByIdExterno(String code) {
+        String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_ID_EXTERNO+code+"'";
+        return ejbFacade.findByQuery(squery, false);//ID EXTERNO MUST BE UNIQUE FOR NOW
+    }
+
     @FacesConverter(forClass = PersonasSucursalCli.class)
     public static class PersonasSucursalCliControllerConverter implements Converter {
 
