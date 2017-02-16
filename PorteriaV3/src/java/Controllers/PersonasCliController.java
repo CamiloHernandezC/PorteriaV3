@@ -3,12 +3,8 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
-import Entities.AreasEmpresaCli;
 import Entities.EmpresaOrigenCli;
-import Entities.EntidadesCli;
-import Entities.EstadosCli;
 import Entities.PersonasSucursalCli;
-import Entities.SucursalesCli;
 import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
@@ -17,18 +13,15 @@ import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
 import ViewControllers.PersonFormEntry;
-
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -191,6 +184,97 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
                 + Querys.PERSONA_CLI_DOC_NUMBER + selected.getNumDocumento() + "'";
         return ejbFacade.findByQuery(squery, false);//Only one person should have document type, an document number (It is unique in database)
     }
+    
+    /**
+     * Method used to read barcode or id card (cedula)
+     * The readed value is stored in selected.numDocum
+     */
+    public void completeEntryByCodeReader(){
+        if(code==null){
+            return;
+        }
+        String  pageToRedirect = null;
+        Result result = findByCodeReader();
+        if(result.errorCode== Constants.UNKNOWN_EXCEPTION){//unaccepted text format
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
+            pageToRedirect = Navigation.PAGE_COMPLETE_ENTRY;
+        }else{
+            pageToRedirect = redirectToRegisterForm(result, false);//If person is not find with id card (cedula) or bar code, the field are not cleaned because it already has information
+        }
+        code = null;
+        JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
+    }
+    
+    /**
+     * Take the code readed and find a person to return
+     * @return 
+     */
+    private Result findByCodeReader() {
+        
+        if(code.startsWith("C,")){//ID CARD (CEDULA)
+            String[] separatedWords = separateWords();
+            if (separatedWords != null) {
+                //Se debe asignar el tipo de documento y número de documento para poder buscar
+                selected.setTipoDocumento(new TiposDocumentoCli(Constants.DOCUMENT_TYPE_CEDULA));//Se asigna el tipo de documento como cedula
+                selected.setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
+                //<editor-fold desc="Assign selected to info in id card" defaultstate="collapsed">
+                selected.setApellido1(separatedWords[1]);
+                selected.setApellido2(separatedWords[2]);
+                selected.setNombre1(separatedWords[3]);
+                selected.setNombre2(separatedWords[4]);
+                selected.setSexo(separatedWords[5].equals("M"));
+                DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                try {                
+                    Date birthDate = formatter.parse(separatedWords[6]);
+                    selected.setFechaNacimiento(birthDate);
+                } catch (ParseException ex) {
+                    System.out.println(Constants.MESSAGE_DATE_FORMAT_EXCEPTION);
+                }
+                String RH = "¡".equals(separatedWords[7].substring(1)) ? "+":"-";
+                selected.setRh(separatedWords[7].substring(0, 1)+RH);
+                //</editor-fold>
+                return findPersonByDocument();                
+            }
+        }
+        if(code.startsWith("B,")){//BAR CODE
+            return findPersonByIdExterno(code.substring(2));
+        }
+        return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
+    }
+    
+    public Result findPersonByIdExterno(String code){
+        PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
+        Result result = personasSucursalCliController.findPersonByIdExterno(code);
+        if(result.errorCode==Constants.OK){
+            PersonasSucursalCli p = (PersonasSucursalCli) result.result;
+            PersonasCli a = p.getPersonasCli();
+            return new Result(a, Constants.OK);
+        }
+        return result;
+    }
+    
+    private String[] separateWords() {
+        int commaCounter = 0;
+        String[] separatedWords = new String[10];
+        int oldi = 1;
+        for (int i = 2; i <code.length(); i++) {//Start in 2 to avoid "C,"
+            char c = code.charAt(i);
+            if (c == ',') {
+                if (oldi + 1 != i) {
+                    separatedWords[commaCounter] = code.substring(oldi + 1, i);    
+                } else {
+                    separatedWords[commaCounter] = "";
+                }
+                commaCounter++;
+                oldi = i;
+            }
+        }
+        if (commaCounter == 9) {
+            separatedWords[0]= String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
+            return separatedWords;
+        }
+        return null;
+    }
 
     /**
      * If person is blocked (registered in blocked table) will show a dialog
@@ -249,7 +333,76 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
 
     public void cancel() {
         selected = new PersonasCli();
+        //TODO CLEAN BRANCH AND AREA, MOV, EVERITHING
         JsfUtil.cancel();
+    }
+    
+    /**
+     * Method used to search person and redirect to register form, verifying if
+     * person is blocked
+     * @return page to redirect
+     */
+    public String manualExit(){
+        return redirectToExitForm(findPersonByDocument());
+    }
+    
+    /**
+     * Method used to read barcode or id card (cedula)
+     * The readed value is stored in selected.numDocum
+     */
+    public void completeExitByCodeReader(){
+        if(code==null){
+            return;
+        }
+        String  pageToRedirect = null;
+        Result result = findByCodeReader();
+        if(result.errorCode== Constants.UNKNOWN_EXCEPTION){//unaccepted text format
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
+            pageToRedirect = Navigation.PAGE_COMPLETE_EXIT;
+        }else{
+            pageToRedirect = redirectToExitForm(result);
+        }
+        code = null;
+        JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
+        
+    }
+    
+    /**
+     * 
+     * @param result
+     * @return 
+     */
+     private String redirectToExitForm(Result result) {
+        if(result.errorCode != 0 && result.errorCode != Constants.NO_RESULT_EXCEPTION){
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
+            return null;
+        }
+        
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("No_Entry_Register"));
+            return Navigation.PAGE_COMPLETE_EXIT;
+        }
+        selected = (PersonasCli) result.result;
+        result = loadEntry();
+        if(result.errorCode!=Constants.OK){
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("No_Entry_Register"));
+            return Navigation.PAGE_COMPLETE_EXIT;
+        }   
+        if(verifyBlockedPerson()){//Onlye when person is registered, we can verify if is a blocked person
+            return null;
+        }
+        return Navigation.PAGE_PERSON_EXIT;
+    }
+     
+     public Result loadEntry(){
+        MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
+        return movPersonasCliController.loadEntry(selected.getIdPersona());
+     }
+     
+     public String exit(){
+        MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
+        movPersonasCliController.recordOut();
+        return Navigation.PAGE_INDEX;
     }
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
