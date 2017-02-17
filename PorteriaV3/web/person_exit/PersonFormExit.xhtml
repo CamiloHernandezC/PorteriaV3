@@ -21,12 +21,12 @@
                 <p:outputLabel for="apellido2" value="#{bundle.CreatePersonasCliLabel_apellido2}" rendered="true" />
                 <p:inputText id="apellido2" value="#{personasCliController.selected.apellido2}" rendered="true" disabled="true" style="text-transform:uppercase;width: 200px"   maxlength="30" />
 
-                <h:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" rendered="true"/>
+                <p:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" rendered="true"/>
                 <p:selectOneMenu id="tipoDoc" value="#{personasCliController.selected.tipoDocumento}" rendered="true" disabled="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="tipoDoc">
                     <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                     <f:selectItems  value="#{tiposDocumentoCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}"  />
                 </p:selectOneMenu>
-                <h:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}" rendered="true"  style="width: 200px"/>
+                <p:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}" rendered="true"  style="width: 200px"/>
                 <p:inputText id="numDocum" value="#{personasCliController.selected.numDocumento}" rendered="true"  disabled="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
 
             </h:panelGrid>
