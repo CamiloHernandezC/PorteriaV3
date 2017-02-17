@@ -9,7 +9,7 @@
     <ui:define name="content">
         <h:form id="search_form">
             <p:focus context="search_form" for="cc"/>
-            <h:outputLabel value="#{bundle.Entry}" style="font-size: 110%; font-weight: bold" /> 
+            <p:outputLabel value="#{bundle.Entry}" style="font-size: 110%; font-weight: bold" /> 
             <h:panelGrid columns="2" cellpadding="5">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="selec_entry" value="#{bundle.P_Complete_Entry_Select_Entry_Method}" />
@@ -19,16 +19,16 @@
                         <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Scanner}" itemValue="false" />
                     </p:selectOneRadio>
 
-                    <h:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="DocType" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
+                    <p:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="DocType" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
                     <p:selectOneMenu id="DocType" value="#{personasCliController.selected.tipoDocumento}" rendered="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 165px">
                         <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
                         <f:selectItems  value="#{tiposDocumentoCliController.items}" var="docType" itemLabel="#{docType.descripcion}" itemValue="#{docType}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="numDoc" value="#{bundle.CreatePersonasCliLabel_numDocumento}" />
-                    <p:inputText id="numDoc" value="#{personasCliController.selected.numDocumento}" rendered="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" autocomplete="false" style="width: 200px"/>                    
+                    <p:outputLabel rendered="#{completeEntry.selectEntryMethod}" for="numDoc" value="#{bundle.CreatePersonasCliLabel_numDocumento}" />
+                    <p:inputText id="numDoc" value="#{personasCliController.selected.numDocumento}" rendered="#{completeEntry.selectEntryMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" autocomplete="false" style="width: 200px"/>
                     
-                    <h:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
+                    <p:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
                     <p:inputText  rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{personasCliController.code}" required="#{!completeEntry.selectEntryMethod}">
                         <p:ajax event="blur" listener="#{personasCliController.completeEntryByCodeReader()}" process="search_form"/>
                     </p:inputText>

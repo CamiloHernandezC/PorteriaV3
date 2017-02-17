@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -29,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.event.ValueChangeEvent;
+import org.primefaces.context.RequestContext;
 
 @Named("personasCliController")
 @SessionScoped
@@ -161,9 +163,6 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return
      */
     private String redirectToRegisterForm(Result result, boolean cleanToCreate) {
-        if (verifyBlockedPerson()) {
-            return null;
-        }
         ConfigFormCliController configFormCliController = JsfUtil.findBean("configFormCliController");
         configFormCliController.showFieldsPerson();
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
@@ -174,6 +173,9 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             disableNoEditableFields(false);
         } else {
             selected = (PersonasCli) result.result;
+            if (verifyBlockedPerson()) {
+                return null;
+            }
             disableNoEditableFields(true);
         }
         return Navigation.PAGE_PERSON_REGISTER;
@@ -202,6 +204,9 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             pageToRedirect = redirectToRegisterForm(result, false);//If person is not find with id card (cedula) or bar code, the field are not cleaned because it already has information
         }
         code = null;
+        if(pageToRedirect==null){//This happend when person is blocked
+            return;
+        }
         JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
     }
     
@@ -282,7 +287,11 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return true if the person is blocked, false otherwise
      */
     private boolean verifyBlockedPerson() {
-        //TODO FINISH THIS METHOD
+        if(Objects.equals(selected.getEstado().getIdEstado(), Constants.STATUS_BLOCKED)){
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('blockedDialog').show();");
+            return true;
+        }
         return false;
     }
 
