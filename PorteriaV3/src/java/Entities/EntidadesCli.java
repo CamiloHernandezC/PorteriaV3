@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Entidades_Cli")
@@ -49,18 +48,18 @@ public class EntidadesCli implements Serializable {
     @Size(min = 1, max = 35)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
     private List<VehiculosCli> vehiculosCliList;
     @JoinColumn(name = "Id_Categoria", referencedColumnName = "Id_Categoria")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private CategoriasCli idCategoria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad")
     private List<PersonasSucursalCli> personasSucursalCliList;
-    @OneToMany(mappedBy = "idEntidad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idEntidad")
     private List<NotificacionesCli> notificacionesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
     private List<MovDocumentosCli> movDocumentosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
     private List<ObjetosCli> objetosCliList;
 
     public EntidadesCli() {

@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Porterias")
@@ -52,11 +51,11 @@ public class Porterias implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idPorteria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idPorteria")
     private List<NotificacionesCli> notificacionesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria")
     private List<ConfigFormCli> configFormCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porterias", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porterias")
     private List<PorteriaSucursalCli> porteriaSucursalCliList;
 
     public Porterias() {

@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Embeddable
 public class VisitasEsperadasCliPK implements Serializable {

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Embeddable
 public class PorteriaSucursalCliPK implements Serializable {

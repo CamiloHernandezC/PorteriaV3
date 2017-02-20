@@ -2,13 +2,11 @@ package Controllers.util;
 
 import Utils.Navigation;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
 public class JsfUtil {
 
@@ -88,7 +86,7 @@ public class JsfUtil {
     }
 
     public static void redirectTo(String page) {
-
+        
         try {
             FacesContext contex = FacesContext.getCurrentInstance();
             contex.getExternalContext().redirect(page);

@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Empresa_Origen_Cli")
@@ -74,28 +73,28 @@ public class EmpresaOrigenCli implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private EstadosCli idEstado;
     @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private MunicipiosCli idMunicipio;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id_Pais")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private PaisesCli idPais;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private SucursalesCli idSucursal;
-    @OneToMany(mappedBy = "idemorigen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idemorigen")
     private List<NovedadesCli> novedadesCliList;
-    @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idEmpresaOrigen")
     private List<NotificacionesCli> notificacionesCliList;
-    @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idEmpresaOrigen")
     private List<PersonasCli> personasCliList;
 
     public EmpresaOrigenCli() {

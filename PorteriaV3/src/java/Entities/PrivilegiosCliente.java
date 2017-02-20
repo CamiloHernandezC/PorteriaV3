@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Privilegios_Cliente")
@@ -43,10 +42,10 @@ public class PrivilegiosCliente implements Serializable {
     @Column(name = "Ver")
     private boolean ver;
     @JoinColumn(name = "Codigo_Menu", referencedColumnName = "Codigo")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private MenuCliente codigoMenu;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Usuario")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private UsuariosCli usuario;
 
     public PrivilegiosCliente() {

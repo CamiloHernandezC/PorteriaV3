@@ -80,13 +80,6 @@
                     <f:selectItems  value="#{municipiosCliController.getItemsOfDepartment(personasCliController.selected.idDepartamento)}" var="muni" itemLabel="#{muni.descripcion}" itemValue="#{muni}"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="#{configFormCliController.mostrarSucursal}"/>
-                <p:selectOneMenu id="sucursales" value="#{personasSucursalCliController.selected.sucursalesCli}" rendered="#{configFormCliController.mostrarSucursal}" required="#{configFormCliController.mostrarSucursal}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
-                    <p:ajax  update="funcionario"/>
-                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                    <f:selectItems  value="#{sucursalesCliController.items}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
-                </p:selectOneMenu>
-
                 <p:outputLabel for="email" value="#{bundle.CreatePersonasCliLabel_mail}" rendered="#{configFormCliController.mostrarEmail}"/>
                 <p:inputText id="email" value="#{personasCliController.selected.mail}" rendered="#{configFormCliController.mostrarEmail}" required="#{configFormCliController.mostrarEmail}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_mail}" style="text-transform:uppercase;width: 200px" maxlength="60"/>
                 <p:outputLabel for="tel" value="#{bundle.CreatePersonasCliLabel_telefono}" rendered="#{configFormCliController.mostrarTelefono}"/>
@@ -128,6 +121,13 @@
                     <p:ajax  update="funcionario"/>
                     <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                     <f:selectItems value="#{areasEmpresaCliController.items}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="#{configFormCliController.mostrarSucursal}"/>
+                <p:selectOneMenu id="sucursales" value="#{personasSucursalCliController.selected.sucursalesCli}" rendered="#{configFormCliController.mostrarSucursal}" required="#{configFormCliController.mostrarSucursal}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
+                    <p:ajax  update="funcionario"/>
+                    <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                    <f:selectItems  value="#{sucursalesCliController.items}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel for="idExterno" value="#{bundle.CreatePersonasCliLabel_idExterno}" rendered="#{configFormCliController.mostrarIdExterno}"/>

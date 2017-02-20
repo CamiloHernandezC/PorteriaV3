@@ -27,6 +27,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.context.RequestContext;
 
 @Named("personasSucursalCliController")
 @SessionScoped
@@ -136,6 +137,22 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     public Result findPersonByIdExterno(String code) {
         String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_ID_EXTERNO+code+"'";
         return ejbFacade.findByQuery(squery, false);//ID EXTERNO MUST BE UNIQUE FOR NOW
+    }
+
+    public void clean() {
+        selected = null;
+    }
+
+    public boolean verifyBlockPerson(PersonasCli person) {
+        String sQuery = "SELECT p FROM PersonasSucursalCli p WHERE p.personasSucursalCliPK.idPersona ='"+person.getIdPersona()+
+                "' and p.personasSucursalCliPK.sucursal ='"+selected.getSucursalesCli().getIdSucursal()+"'";
+        selected = (PersonasSucursalCli) ejbFacade.findByQuery(sQuery, false).result;
+        if(selected.getEstado().getIdEstado() ==2){
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('blockedDialog').show();");
+            return true;
+        }
+        return false;
     }
 
     @FacesConverter(forClass = PersonasSucursalCli.class)

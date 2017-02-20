@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Mov_Personas_Cli")
@@ -80,29 +79,29 @@ public class MovPersonasCli implements Serializable {
     @NotNull
     @Column(name = "Salida_Forzosa")
     private boolean salidaForzosa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada")
     private List<MovVehiculosCli> movVehiculosCliList;
-    @OneToMany(mappedBy = "idMovSalida", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idMovSalida")
     private List<MovVehiculosCli> movVehiculosCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona")
     private List<MovDocumentosCli> movDocumentosCliList;
     @JoinColumn(name = "Id_Area", referencedColumnName = "Id_areaemp")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private AreasEmpresaCli idArea;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private PersonasCli idPersona;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private SucursalesCli idSucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona")
     private List<MovMaterialesCli> movMaterialesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada")
     private List<MovHerramientasCli> movHerramientasCliList;
-    @OneToMany(mappedBy = "idMovSalida", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idMovSalida")
     private List<MovHerramientasCli> movHerramientasCliList1;
 
     public MovPersonasCli() {
