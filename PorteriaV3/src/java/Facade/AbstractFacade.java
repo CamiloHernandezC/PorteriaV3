@@ -70,9 +70,16 @@ public abstract class AbstractFacade<T> {
     
     public Result findByQuery(String squery, boolean maxResult) {
         try {
-            Query query = getEntityManager().createQuery(squery);
-            query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
+            EntityManager em = getEntityManager();
+            Query query = em.createQuery(squery);
+            //query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
             T entity;
+            if (maxResult) {
+                entity = (T) query.setMaxResults(1).getSingleResult();
+            } else {
+                entity = (T) query.getSingleResult();
+            }
+            em.refresh(entity);
             if (maxResult) {
                 entity = (T) query.setMaxResults(1).getSingleResult();
             } else {
@@ -94,7 +101,7 @@ public abstract class AbstractFacade<T> {
             EntityManager em = getEntityManager();
             Query query = em.createQuery(squery);
             //Refresh 
-            query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
+            //query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
             List<T> list;
             list = (List<T>) query.getResultList();
             for(T entity:list){

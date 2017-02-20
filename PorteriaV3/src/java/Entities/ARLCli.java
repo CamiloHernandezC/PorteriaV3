@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "ARL_Cli")
@@ -46,7 +45,7 @@ public class ARLCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "arl", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "arl")
     private List<PersonasCli> personasCliList;
 
     public ARLCli() {

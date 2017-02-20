@@ -3,7 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <f:view contentType="text/html">
         <h:head>
@@ -35,7 +35,7 @@
                             <p:commandButton value="#{bundle.Accept}" onclick="PF('blockedDialog').hide();" ajax="false"/>
                         </h:form>
                     </p:confirmDialog>
-                    <p:growl id="growl" sticky="true" />
+                    <p:growl id="growl" sticky="true" autoUpdate="true"/>
                     <ui:insert name="content"/>
                 </p:layoutUnit>
 

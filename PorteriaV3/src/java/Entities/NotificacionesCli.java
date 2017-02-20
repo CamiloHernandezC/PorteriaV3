@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Notificaciones_Cli")
@@ -120,31 +119,31 @@ public class NotificacionesCli implements Serializable {
     @Column(name = "B_Ente")
     private boolean bEnte;
     @JoinColumn(name = "Id_Categoria", referencedColumnName = "Id_Categoria")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private CategoriasCli idCategoria;
     @JoinColumn(name = "Id_Empresa_Origen", referencedColumnName = "Id_Emorigen")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private EmpresaOrigenCli idEmpresaOrigen;
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private EntidadesCli idEntidad;
     @JoinColumn(name = "Id_Objeto", referencedColumnName = "Id_Objeto")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private ObjetosCli idObjeto;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private PersonasCli idPersona;
     @JoinColumn(name = "Id_Porteria", referencedColumnName = "Id_Porteria")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Porterias idPorteria;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private SucursalesCli idSucursal;
     @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Id_Vehiculo")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private VehiculosCli idVehiculo;
 
     public NotificacionesCli() {

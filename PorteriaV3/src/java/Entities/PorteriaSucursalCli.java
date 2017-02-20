@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -20,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Porteria_Sucursal_Cli")
@@ -39,10 +38,10 @@ public class PorteriaSucursalCli implements Serializable {
     @Column(name = "campo")
     private String campo;
     @JoinColumn(name = "Porteria", referencedColumnName = "Id_Porteria", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Porterias porterias;
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private SucursalesCli sucursalesCli;
 
     public PorteriaSucursalCli() {

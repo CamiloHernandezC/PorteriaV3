@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Unidades_Cli")
@@ -57,11 +56,11 @@ public class UnidadesCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "unidadPeso", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "unidadPeso")
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(mappedBy = "unidadVolumen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "unidadVolumen")
     private List<VehiculosCli> vehiculosCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidad", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidad")
     private List<MaterialesCli> materialesCliList;
 
     public UnidadesCli() {

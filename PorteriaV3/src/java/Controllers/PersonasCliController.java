@@ -163,6 +163,8 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return
      */
     private String redirectToRegisterForm(Result result, boolean cleanToCreate) {
+        PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
+        personasSucursalCliController.clean();
         ConfigFormCliController configFormCliController = JsfUtil.findBean("configFormCliController");
         configFormCliController.showFieldsPerson();
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
@@ -176,6 +178,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             if (verifyBlockedPerson()) {
                 return null;
             }
+            verifyDatesPerson(configFormCliController);
             disableNoEditableFields(true);
         }
         return Navigation.PAGE_PERSON_REGISTER;
@@ -287,6 +290,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      * @return true if the person is blocked, false otherwise
      */
     private boolean verifyBlockedPerson() {
+        
         if(Objects.equals(selected.getEstado().getIdEstado(), Constants.STATUS_BLOCKED)){
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('blockedDialog').show();");
@@ -304,6 +308,9 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
         PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
         PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
+        if(personasSucursalCliController.verifyBlockPerson(selected)){
+            return Navigation.PAGE_PERSON_REGISTER;
+        }
         boolean existPerson = personFormEntry.isDisableNoEditableField();//If fields are disable that means person is in database
         if (existPerson) {
             update();
@@ -327,7 +334,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             personasSucursalCliController.create();
             movPersonasCliController.recordEntryMovement(Constants.CREATE);
         }
-        return Navigation.PAGE_SELECT_ENTRY;
+        return Navigation.PAGE_SELECT_ENTRY+"?faces-redirect=true";
     }
 
     public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent) {
@@ -411,7 +418,51 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      public String exit(){
         MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
         movPersonasCliController.recordOut();
-        return Navigation.PAGE_INDEX;
+        JsfUtil.addErrorMessage("Bien");
+        return "/index.xhtml?faces-redirect=true";
+        //JsfUtil.redirectTo(Navigation.PAGE_INDEX);
+        //JsfUtil.addSuccessMessage("SURE");
+        
+    }
+     
+    public void clean() {
+        selected = null;
+    }
+
+    /**
+     * Verifica las fechas de seguridad social ingresadas en el sistema.
+     * @param configFormController para poder determinar si se esta mostrando los campos de fechas en el formulario.
+     * @return True: Fechas son validas, False: Fechas vencidas
+     */
+    private boolean verifyDatesPerson(ConfigFormCliController configFormController) {
+        //return true;
+        boolean fechaEPS=true;
+        boolean fechaARL=true;
+        //Determina si se esta mostrando el campo seleccionado.
+        if(configFormController.isMostrarFecha_vigencia_ARL()==false || configFormController.isMostrarFecha_vigencia_EPS() == false){
+            return true;
+        }
+        //Determina si viene nulo dicho parametro.
+        if(selected.getFechavigenciaARL() == null){
+            JsfUtil.addErrorMessage("La persona no tiene asignada fecha de vigencia de  ARL");
+            return false;
+        }
+        if(selected.getFechavigenciaEPS()==null){
+                JsfUtil.addErrorMessage("La persona no tiene asignada fecha de vigencia de  EPS");
+                return false;
+        }
+        
+        if (selected.getFechavigenciaARL().before(new Date())) {
+            fechaARL=false;
+            selected.setFechavigenciaARL(null);
+            JsfUtil.addErrorMessage("Fecha de vigencia de ARL esta vencida");
+        }
+        if (selected.getFechavigenciaEPS().before(new Date())) {
+            fechaEPS=false;
+            selected.setFechavigenciaEPS(null);
+            JsfUtil.addErrorMessage("Fecha de vigencia de EPS esta vencida");
+        }
+        return fechaARL && fechaEPS;
     }
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">

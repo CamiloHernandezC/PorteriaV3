@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Mov_Vehiculos_Cli")
@@ -81,19 +80,19 @@ public class MovVehiculosCli implements Serializable {
     @Column(name = "Salida_Forzosa")
     private boolean salidaForzosa;
     @JoinColumn(name = "Id_Mov_Entrada", referencedColumnName = "Id_Movimiento")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private MovPersonasCli idMovEntrada;
     @JoinColumn(name = "Id_Mov_Salida", referencedColumnName = "Id_Movimiento")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private MovPersonasCli idMovSalida;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private SucursalesCli idSucursal;
     @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Id_Vehiculo")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private VehiculosCli idVehiculo;
 
     public MovVehiculosCli() {

@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Menu_Cliente")
@@ -69,7 +68,7 @@ public class MenuCliente implements Serializable {
     @NotNull
     @Column(name = "Estado")
     private boolean estado;
-    @OneToMany(mappedBy = "codigoMenu", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "codigoMenu")
     private List<PrivilegiosCliente> privilegiosClienteList;
 
     public MenuCliente() {

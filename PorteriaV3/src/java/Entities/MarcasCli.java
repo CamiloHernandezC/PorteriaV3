@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Marcas_Cli")
@@ -49,14 +48,14 @@ public class MarcasCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idMarca", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idMarca")
     private List<VehiculosCli> vehiculosCliList;
     @JoinColumn(name = "Id_Categoria", referencedColumnName = "Id_Categoria")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private CategoriasCli idCategoria;
-    @OneToMany(mappedBy = "idMarca", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idMarca")
     private List<ObjetosCli> objetosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMarca", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMarca")
     private List<LineasCli> lineasCliList;
 
     public MarcasCli() {

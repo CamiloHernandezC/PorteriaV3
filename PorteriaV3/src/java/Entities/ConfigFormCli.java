@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author amorales
  */
 @Entity
 @Table(name = "Config_Form_Cli")
@@ -56,7 +55,7 @@ public class ConfigFormCli implements Serializable {
     @Column(name = "Mostrar")
     private boolean mostrar;
     @JoinColumn(name = "Porteria", referencedColumnName = "Id_Porteria")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Porterias porteria;
 
     public ConfigFormCli() {
