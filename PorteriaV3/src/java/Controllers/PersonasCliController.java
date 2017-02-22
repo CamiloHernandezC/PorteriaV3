@@ -4,6 +4,7 @@ import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Entities.EmpresaOrigenCli;
+import Entities.EstadosCli;
 import Entities.PersonasSucursalCli;
 import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
@@ -125,6 +126,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     @Override
     public void prepareCreate() {
         selected.setIdPersona(calculatePrimaryKey());
+        selected.setEstado(new EstadosCli(Constants.STATUS_ENTRY));
         prepareUpdate();
     }
     
@@ -184,7 +186,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         return Navigation.PAGE_PERSON_REGISTER;
     }
 
-    private Result findPersonByDocument() {
+    public Result findPersonByDocument() {
         String squery = Querys.PERSONA_CLI_ALL + "WHERE" + Querys.PERSONA_CLI_DOC_TYPE + selected.getTipoDocumento().getTipodocumento() + "' AND"
                 + Querys.PERSONA_CLI_DOC_NUMBER + selected.getNumDocumento() + "'";
         return ejbFacade.findByQuery(squery, false);//Only one person should have document type, an document number (It is unique in database)
@@ -210,7 +212,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         if(pageToRedirect==null){//This happend when person is blocked
             return;
         }
-        JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
+        JsfUtil.redirectTo(Navigation.PAGE_REDIRECT_TO+pageToRedirect);
     }
     
     /**
@@ -220,7 +222,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     private Result findByCodeReader() {
         
         if(code.startsWith("C,")){//ID CARD (CEDULA)
-            String[] separatedWords = separateWords();
+            String[] separatedWords = separateWords(code);
             if (separatedWords != null) {
                 //Se debe asignar el tipo de documento y número de documento para poder buscar
                 selected.setTipoDocumento(new TiposDocumentoCli(Constants.DOCUMENT_TYPE_CEDULA));//Se asigna el tipo de documento como cedula
@@ -261,7 +263,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         return result;
     }
     
-    private String[] separateWords() {
+    public String[] separateWords(String code) {
         int commaCounter = 0;
         String[] separatedWords = new String[10];
         int oldi = 1;
@@ -308,11 +310,11 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
         PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
         PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
-        if(personasSucursalCliController.verifyBlockPerson(selected)){
-            return Navigation.PAGE_PERSON_REGISTER;
-        }
         boolean existPerson = personFormEntry.isDisableNoEditableField();//If fields are disable that means person is in database
         if (existPerson) {
+            if (personasSucursalCliController.verifyBlockPerson(selected)) {
+                return Navigation.PAGE_PERSON_REGISTER;
+            }
             update();
         }else{
             if(findPersonByDocument().errorCode!=Constants.NO_RESULT_EXCEPTION){//This person exist, so maybe was an error in identification number
@@ -327,14 +329,14 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             PersonasSucursalCli specificPerson = (PersonasSucursalCli) result.result;
             specificPerson.setArea(personasSucursalCliController.getSelected().getArea());
             personasSucursalCliController.setSelected(specificPerson);
-            //TODO VERIFY IF THIS PERSON IS BLOCKED FOR SPECIFIC BRANCH OFFICE
             personasSucursalCliController.update();
             movPersonasCliController.recordEntryMovement(Constants.UPDATE);
         }else{
             personasSucursalCliController.create();
             movPersonasCliController.recordEntryMovement(Constants.CREATE);
         }
-        return Navigation.PAGE_SELECT_ENTRY+"?faces-redirect=true";
+        //FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+        return Navigation.PAGE_SELECT_ENTRY + "?faces-redirect=true";
     }
 
     public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent) {
@@ -379,7 +381,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             pageToRedirect = redirectToExitForm(result);
         }
         code = null;
-        JsfUtil.redirectTo(Navigation.PAGE_INDEX+pageToRedirect);
+        JsfUtil.redirectTo(Navigation.PAGE_REDIRECT_TO+pageToRedirect);
         
     }
     
@@ -418,11 +420,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      public String exit(){
         MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
         movPersonasCliController.recordOut();
-        JsfUtil.addErrorMessage("Bien");
-        return "/index.xhtml?faces-redirect=true";
-        //JsfUtil.redirectTo(Navigation.PAGE_INDEX);
-        //JsfUtil.addSuccessMessage("SURE");
-        
+        return Navigation.PAGE_INDEX;
     }
      
     public void clean() {
