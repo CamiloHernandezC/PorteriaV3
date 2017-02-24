@@ -30,7 +30,7 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
     protected abstract void prepareCreate();
     protected abstract void prepareUpdate();
     
-    protected void create() {
+    public void create() {
         prepareCreate();
         persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyCreatedRegistry"));
         if (!JsfUtil.isValidationFailed()) {
@@ -38,7 +38,7 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
         }
     }
 
-    protected void update() {
+    public void update() {
         prepareUpdate();
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyUpdatedRegistry"));
     }
@@ -55,9 +55,12 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
         if (getSelected() != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != JsfUtil.PersistAction.DELETE) {
+                if (persistAction == JsfUtil.PersistAction.UPDATE) {
                     getFacade().edit(getSelected());
-                } else {
+                }if (persistAction == JsfUtil.PersistAction.CREATE) {
+                    getFacade().create(getSelected());
+                }
+                if (persistAction == JsfUtil.PersistAction.DELETE) {
                     getFacade().remove(getSelected());
                 }
                 JsfUtil.addSuccessMessage(successMessage);

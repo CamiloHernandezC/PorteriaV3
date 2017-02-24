@@ -126,31 +126,31 @@ public class PersonasCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<NovedadesCli> novedadesCliList;
     @OneToMany(mappedBy = "idPersona")
     private List<NovedadesCli> novedadesCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasCli")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "personasCli")
     private List<PersonasSucursalCli> personasSucursalCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<PersonasSucursalCli> personasSucursalCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<MaterialesCli> materialesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<MovVehiculosCli> movVehiculosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<NotificacionesCli> notificacionesCliList;
     @OneToMany(mappedBy = "idPersona")
     private List<NotificacionesCli> notificacionesCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasCli")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "personasCli")
     private List<VisitasEsperadasCli> visitasEsperadasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<VisitasEsperadasCli> visitasEsperadasCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<MovDocumentosCli> movDocumentosCliList;
     @JoinColumn(name = "ARL", referencedColumnName = "ARL")
     @ManyToOne
@@ -176,19 +176,19 @@ public class PersonasCli implements Serializable {
     @JoinColumn(name = "Tipo_Documento", referencedColumnName = "Tipo_documento")
     @ManyToOne(optional = false)
     private TiposDocumentoCli tipoDocumento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<ObjetosCli> objetosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<UsuariosCli> usuariosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "idPersona")
     private List<UsuariosCli> usuariosCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "idPersona")
     private List<MovPersonasCli> movPersonasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<MovPersonasCli> movPersonasCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<MovMaterialesCli> movMaterialesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "usuario")
     private List<MovHerramientasCli> movHerramientasCliList;
 
     public PersonasCli() {

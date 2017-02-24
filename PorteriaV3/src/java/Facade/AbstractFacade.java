@@ -91,7 +91,7 @@ public abstract class AbstractFacade<T> {
         } catch (NonUniqueResultException nure) {
             return new Result(null, Constants.NO_UNIQUE_RESULT_EXCEPTION);
         } catch (Exception e) {
-            return new Result(null, Constants.UNKNOWN_EXCEPTION);
+            throw e;
         }
     }
     

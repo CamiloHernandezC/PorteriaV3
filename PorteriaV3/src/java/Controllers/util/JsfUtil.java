@@ -85,14 +85,14 @@ public class JsfUtil {
     }
     
     public static void cancel() {
-        redirectTo(Navigation.PAGE_REDIRECT_TO);
+        redirectTo("");
     }
 
     public static void redirectTo(String page) {
         
         try {
             FacesContext contex = FacesContext.getCurrentInstance();
-            contex.getExternalContext().redirect(page);
+            contex.getExternalContext().redirect(Navigation.PAGE_REDIRECT_TO+page);
         } catch (Exception e) {
             System.out.println("Exception cancel " + e);
         }
