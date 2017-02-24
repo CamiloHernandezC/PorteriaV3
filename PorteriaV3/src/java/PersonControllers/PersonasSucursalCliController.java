@@ -1,33 +1,31 @@
-package Controllers;
+package PersonControllers;
 
+import Controllers.AbstractPersistenceController;
+import Controllers.ConfigFormCliController;
+import Controllers.PorteriaSucursalCliController;
 import Entities.PersonasSucursalCli;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Entities.EntidadesCli;
 import Entities.EstadosCli;
 import Entities.PersonasCli;
-import Entities.PersonasSucursalCliPK;
 import Entities.SucursalesCli;
 import Facade.PersonasSucursalCliFacade;
 import Querys.Querys;
 import Utils.Constants;
 import Utils.Result;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import org.primefaces.context.RequestContext;
 
 @Named("personasSucursalCliController")
 @SessionScoped
@@ -114,18 +112,21 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     public List<PersonasSucursalCli> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
-    Result findSpecificPerson() {
-        assignPrimaryKey();
-        String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL + "WHERE" + Querys.PERSONAS_SUCURSAL_CLI_PERSONA+ selected.getPersonasCli().getIdPersona()+
-                "' AND"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+selected.getSucursalesCli().getIdSucursal()+
+    
+    Result findSpecificPerson(String idPersona) {
+        return findSpecificPerson(idPersona, selected.getSucursalesCli().getIdSucursal());
+    }
+    
+    Result findSpecificPerson(String idPersona, Long idSucursal) {
+        String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL + "WHERE" + Querys.PERSONAS_SUCURSAL_CLI_PERSONA+idPersona+
+                "' AND"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+idSucursal+
                 "' AND" + Querys.PERSONAS_SUCURSAL_CLI_NO_ESTADO + "4'";//TODO ASSIGN REAL STATUS HERE
         return ejbFacade.findByQuery(squery, false);//False because only one person should appear*/
     }
 
     private void assignPrimaryKey() {
-        PersonasCliController personasCliController = JsfUtil.findBean("personasCliController");
-        selected.setPersonasCli(personasCliController.getSelected());
+        manualController manualController = JsfUtil.findBean("manualController");
+        selected.setPersonasCli(manualController.getSelected());
         ConfigFormCliController configFormCliController = JsfUtil.findBean("configFormCliController");
         if (!configFormCliController.isMostrarSucursal()) {
             PorteriaSucursalCliController porteriaSucursalCliController = JsfUtil.findBean("porteriaSucursalCliController");
@@ -142,14 +143,11 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     public void clean() {
         selected = null;
     }
-
-    public boolean verifyBlockPerson(PersonasCli person) {
-        String sQuery = "SELECT p FROM PersonasSucursalCli p WHERE p.personasSucursalCliPK.idPersona ='"+person.getIdPersona()+
-                "' and p.personasSucursalCliPK.sucursal ='"+selected.getSucursalesCli().getIdSucursal()+"'";
-        selected = (PersonasSucursalCli) ejbFacade.findByQuery(sQuery, false).result;
-        if(selected.getEstado().getIdEstado() ==2){
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('blockedDialog').show();");
+    //Aun no sirve para Express por que la sucursal viene nula.
+    public boolean verifyBlockSpecificPerson() {
+       
+        if(Objects.equals(selected.getEstado().getIdEstado(), Constants.STATUS_BLOCKED)){
+            JsfUtil.showModal("blockedDialog");
             return true;
         }
         return false;

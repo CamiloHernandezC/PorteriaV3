@@ -21,17 +21,17 @@
                     </p:selectOneRadio>
 
                     <p:outputLabel rendered="#{completeExit.selectExitMethod}" for="DocType" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
-                    <p:selectOneMenu id="DocType" value="#{personasCliController.selected.tipoDocumento}" rendered="#{completeExit.selectExitMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 165px">
+                    <p:selectOneMenu id="DocType" value="#{manualController.selected.tipoDocumento}" rendered="#{completeExit.selectExitMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 165px">
                         <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
                         <f:selectItems  value="#{tiposDocumentoCliController.items}" var="docType" itemLabel="#{docType.descripcion}" itemValue="#{docType}"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel rendered="#{completeExit.selectExitMethod}" for="numDoc" value="#{bundle.CreatePersonasCliLabel_numDocumento}" />
-                    <p:inputText id="numDoc" value="#{personasCliController.selected.numDocumento}" rendered="#{completeExit.selectExitMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" autocomplete="false" style="width: 200px"/>                    
+                    <p:inputText id="numDoc" value="#{manualController.selected.numDocumento}" rendered="#{completeExit.selectExitMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" autocomplete="false" style="width: 200px"/>                    
                     
                     <p:outputLabel rendered="#{!completeExit.selectExitMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
-                    <p:inputText  rendered="#{!completeExit.selectExitMethod}" autocomplete="false" id="cc" value="#{personasCliController.code}" required="#{!completeExit.selectExitMethod}">
-                        <p:ajax event="blur" listener="#{personasCliController.completeExitByCodeReader()}" process="search_form"/>
+                    <p:inputText  rendered="#{!completeExit.selectExitMethod}" autocomplete="false" id="cc" value="#{manualController.code}" required="#{!completeExit.selectExitMethod}">
+                        <p:ajax event="blur" listener="#{manualController.completeExitByCodeReader()}" process="search_form"/>
                     </p:inputText>
                     
                 </h:panelGrid>
@@ -40,8 +40,8 @@
 
             </h:panelGrid>
 
-            <p:commandButton rendered="#{completeExit.selectExitMethod}" value = "#{bundle.Search}" action="#{personasCliController.manualExit()}" icon="ui-icon-check" ajax="false"/>
-            <p:commandButton value ="#{bundle.Cancel}" action="#{personasCliController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            <p:commandButton rendered="#{completeExit.selectExitMethod}" value = "#{bundle.Search}" action="#{manualController.manualExit()}" icon="ui-icon-check" ajax="false"/>
+            <p:commandButton value ="#{bundle.Cancel}" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
 
         </h:form>
     </ui:define>

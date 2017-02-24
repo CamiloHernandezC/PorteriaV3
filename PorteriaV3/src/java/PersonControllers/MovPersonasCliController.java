@@ -1,5 +1,6 @@
-package Controllers;
+package PersonControllers;
 
+import Controllers.AbstractPersistenceController;
 import Entities.MovPersonasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
@@ -122,21 +123,24 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
     }
 
     public boolean verifyEntry(PersonasSucursalCli specificPerson){
-        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+specificPerson.getPersonasCli().getIdPersona()+"' AND"+ 
-                Querys.MOV_PERSONA_CLI_SUCURSAL+specificPerson.getSucursalesCli().getIdSucursal()+"' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
-        Result result = ejbFacade.findByQuery(squery,false);
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+specificPerson.getPersonasCli().getIdPersona() 
+                +"' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
+        Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode == Constants.NO_RESULT_EXCEPTION){
             return false;
         }
-        selected = (MovPersonasCli) result.result;
+        items = (List<MovPersonasCli>) result.result;
         return true;
     }
     
     public void recordForcedOut(){
-        selected.setFechaSalida(selected.getFechaEntrada());
-        selected.setHoraSalida(selected.getHoraEntrada());
-        selected.setSalidaForzosa(true);
-        update();
+        for(MovPersonasCli mov: items){
+            mov.setFechaSalida(mov.getFechaEntrada());
+            mov.setHoraSalida(mov.getHoraEntrada());
+            mov.setSalidaForzosa(true);
+            selected = mov;
+            update();
+        }
         selected =  null;
     }
 
