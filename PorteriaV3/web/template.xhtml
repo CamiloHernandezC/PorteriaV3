@@ -35,9 +35,9 @@
                             <p:commandButton value="#{bundle.Accept}" onclick="PF('blockedDialog').hide();" ajax="false"/>
                         </h:form>
                     </p:confirmDialog>
-                    <p:confirmDialog id="expressDialog" appendTo="@(body)" message="#{bundle.DontExistPersonMessage}" header="Atención" severity="error" showEffect="fade" hideEffect="fade" widgetVar="experssDialog" closable="false">
+                    <p:confirmDialog id="expressDialog" appendTo="@(body)" message="#{bundle.DontExistPersonMessage}" header="Atención" severity="error" showEffect="fade" hideEffect="fade" widgetVar="expressDialog" closable="false">
                         <h:form>
-                            <p:commandButton value="#{bundle.Accept}" onclick="PF('experssDialog').hide();" ajax="false"/>
+                            <p:commandButton value="#{bundle.Accept}" onclick="PF('expressDialog').hide();" ajax="false"/>
                             <p:commandButton value="Ir a Registrar Persona" action="#{expressController.redirecToPersonFormEntry()}" ajax="false"/>
                         </h:form>
                     </p:confirmDialog>

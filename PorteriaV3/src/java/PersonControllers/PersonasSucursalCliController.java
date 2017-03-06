@@ -35,6 +35,7 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     private Facade.PersonasSucursalCliFacade ejbFacade;
     private List<PersonasSucursalCli> items = null;
     private PersonasSucursalCli selected;
+    private MovPersonasCliController movPersonasCliController = JsfUtil.findBean("movPersonasCliController");
 
     public PersonasSucursalCliController() {
     }
@@ -151,6 +152,12 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
             return true;
         }
         return false;
+    }
+    
+    public void loadSpecificPersonByEntry(String idPersona) {
+        movPersonasCliController.lastEntry(idPersona);
+        Long branchOffice = movPersonasCliController.getSelected().getIdSucursal().getIdSucursal();
+        selected = (PersonasSucursalCli) findSpecificPerson(idPersona, branchOffice).result;
     }
 
     @FacesConverter(forClass = PersonasSucursalCli.class)

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Lineas_Cli")
@@ -47,12 +48,12 @@ public class LineasCli implements Serializable {
     @Size(min = 1, max = 120)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idLinea")
+    @OneToMany(mappedBy = "idLinea", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(mappedBy = "idLinea")
+    @OneToMany(mappedBy = "idLinea", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
     @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private MarcasCli idMarca;
 
     public LineasCli() {

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Municipios_Cli")
@@ -47,18 +48,18 @@ public class MunicipiosCli implements Serializable {
     @Size(min = 1, max = 120)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idMunicipio")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
-    @OneToMany(mappedBy = "idMunicipio")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(mappedBy = "municipio")
+    @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
     private List<SucursalesCli> sucursalesCliList;
-    @OneToMany(mappedBy = "idMunicipio")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
-    @OneToMany(mappedBy = "idMunicipio")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
 
     public MunicipiosCli() {

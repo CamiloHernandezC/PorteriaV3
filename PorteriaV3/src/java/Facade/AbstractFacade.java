@@ -72,14 +72,7 @@ public abstract class AbstractFacade<T> {
         try {
             EntityManager em = getEntityManager();
             Query query = em.createQuery(squery);
-            //query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
             T entity;
-            if (maxResult) {
-                entity = (T) query.setMaxResults(1).getSingleResult();
-            } else {
-                entity = (T) query.getSingleResult();
-            }
-            em.refresh(entity);
             if (maxResult) {
                 entity = (T) query.setMaxResults(1).getSingleResult();
             } else {
@@ -90,30 +83,19 @@ public abstract class AbstractFacade<T> {
             return new Result(null, Constants.NO_RESULT_EXCEPTION);
         } catch (NonUniqueResultException nure) {
             return new Result(null, Constants.NO_UNIQUE_RESULT_EXCEPTION);
-        } catch (Exception e) {
-            throw e;
         }
     }
     
     public Result findByQueryArray(String squery) {
         
-        try {
-            EntityManager em = getEntityManager();
-            Query query = em.createQuery(squery);
-            //Refresh 
-            //query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
-            List<T> list;
-            list = (List<T>) query.getResultList();
-            for(T entity:list){
-                em.refresh(entity);
-            }
-            list = (List<T>) query.getResultList();
-            return new Result(list, Constants.OK);
-        } catch (NoResultException nre) {
-            return new Result(new ArrayList<>(), Constants.NO_RESULT_EXCEPTION);
-        } catch (Exception e) {
-            return new Result(new ArrayList<>(), Constants.UNKNOWN_EXCEPTION);
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery(squery);
+        List<T> list;
+        list = (List<T>) query.getResultList();
+        if(list.isEmpty()){
+            return new Result(list, Constants.NO_RESULT_EXCEPTION);
         }
+        return new Result(list, Constants.OK);
     }
     
 }

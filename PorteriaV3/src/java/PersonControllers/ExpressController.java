@@ -6,6 +6,7 @@
 package PersonControllers;
 
 import Controllers.util.JsfUtil;
+import Entities.MovPersonasCli;
 import Entities.PersonasCli;
 import Entities.PersonasSucursalCli;
 import Entities.TiposDocumentoCli;
@@ -49,12 +50,14 @@ public class ExpressController extends PersonasCliController{
         if (result.errorCode == Constants.UNKNOWN_EXCEPTION) {//unaccepted text format
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
             JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_ENTRY);
+            clean();
         } else {
             configFormCliController.showFieldsPerson();
             //code = null;
             if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
                 disableNoEditableFields(false);
                 JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);
+                clean();
                 return;
             }
             if (code.startsWith("C,")) {//Cedula
@@ -73,14 +76,51 @@ public class ExpressController extends PersonasCliController{
                 }
             }
             if (verifyBlockedPerson()) {
-                JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_ENTRY);
+                clean();
                 return;
             }
             verifyDatesPerson();
             disableNoEditableFields(true);
             JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);
         }
-    }        
+        clean();
+    } 
+    
+    public void exitByCodeReader(){
+        if (code == null) {
+            return;
+        }
+        Result result = findByCodeReader();
+        if (result.errorCode == Constants.UNKNOWN_EXCEPTION) {//unaccepted text format
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
+            JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_EXIT);
+            clean();
+        } else {
+            configFormCliController.showFieldsPerson();
+            if (code.startsWith("C,")) {//Cedula
+                selected = (PersonasCli) result.result;//Assign for verirfy block
+                manualController.setSelected(selected);//Assign to model shown in form
+                personasSucursalCliController.loadSpecificPersonByEntry(selected.getIdPersona());
+            }
+            if (code.startsWith("B,")) {//Codigo de Barras
+                PersonasSucursalCli personasSucursalCli = (PersonasSucursalCli) result.result;
+                selected = personasSucursalCli.getPersonasCli();//Assign for verirfy block
+                manualController.setSelected(selected);//Assign to model shown in form
+                PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
+                personasSucursalCliController.setSelected(personasSucursalCli);
+            }
+            if(personasSucursalCliController.verifyBlockSpecificPerson()){
+                    clean();
+                    return;
+                }
+            if (verifyBlockedPerson()) {
+                clean();
+                return;
+            }
+            JsfUtil.redirectTo(Navigation.PAGE_PERSON_EXIT);
+        }
+        clean();
+    }
 
     private Result findByCodeReader() {
         if(code.startsWith("C,")){//ID CARD (CEDULA)
@@ -147,5 +187,8 @@ public class ExpressController extends PersonasCliController{
         return Navigation.PAGE_PERSON_REGISTER;
     }
     
+    public void clean(){
+        code = null;
+    }
      
 }

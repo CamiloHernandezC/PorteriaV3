@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Areas_Empresa_Cli")
@@ -48,14 +49,10 @@ public class AreasEmpresaCli implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "areaempresa")
-    private List<NovedadesCli> novedadesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
-    private List<PersonasSucursalCli> personasSucursalCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea", fetch = FetchType.LAZY)
     private List<MovPersonasCli> movPersonasCliList;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
 
     public AreasEmpresaCli() {
@@ -84,24 +81,6 @@ public class AreasEmpresaCli implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    @XmlTransient
-    public List<NovedadesCli> getNovedadesCliList() {
-        return novedadesCliList;
-    }
-
-    public void setNovedadesCliList(List<NovedadesCli> novedadesCliList) {
-        this.novedadesCliList = novedadesCliList;
-    }
-
-    @XmlTransient
-    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
-        return personasSucursalCliList;
-    }
-
-    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
-        this.personasSucursalCliList = personasSucursalCliList;
     }
 
     @XmlTransient
