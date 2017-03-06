@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Paises_Cli")
@@ -45,15 +46,15 @@ public class PaisesCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idPais")
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(mappedBy = "idPais")
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(mappedBy = "pais")
+    @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
     private List<SucursalesCli> sucursalesCliList;
-    @OneToMany(mappedBy = "idPais")
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
-    @OneToMany(mappedBy = "idPais")
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
 
     public PaisesCli() {

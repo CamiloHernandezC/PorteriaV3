@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Objetos_Cli")
@@ -91,36 +92,34 @@ public class ObjetosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(mappedBy = "idObjeto")
-    private List<NotificacionesCli> notificacionesCliList;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EntidadesCli idEntidad;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
     @JoinColumn(name = "Id_Linea", referencedColumnName = "Id_Linea")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private LineasCli idLinea;
     @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MarcasCli idMarca;
     @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MunicipiosCli idMunicipio;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id_Pais")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PaisesCli idPais;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idObjeto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idObjeto", fetch = FetchType.LAZY)
     private List<MovHerramientasCli> movHerramientasCliList;
 
     public ObjetosCli() {
@@ -230,15 +229,6 @@ public class ObjetosCli implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    @XmlTransient
-    public List<NotificacionesCli> getNotificacionesCliList() {
-        return notificacionesCliList;
-    }
-
-    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
-        this.notificacionesCliList = notificacionesCliList;
     }
 
     public DepartamentosCli getIdDepartamento() {

@@ -30,8 +30,8 @@
                     <p:inputText id="numDoc" value="#{manualController.selected.numDocumento}" rendered="#{completeExit.selectExitMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" autocomplete="false" style="width: 200px"/>                    
                     
                     <p:outputLabel rendered="#{!completeExit.selectExitMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
-                    <p:inputText  rendered="#{!completeExit.selectExitMethod}" autocomplete="false" id="cc" value="#{manualController.code}" required="#{!completeExit.selectExitMethod}">
-                        <p:ajax event="blur" listener="#{manualController.completeExitByCodeReader()}" process="search_form"/>
+                    <p:inputText  rendered="#{!completeExit.selectExitMethod}" autocomplete="false" id="cc" value="#{expressController.code}" required="#{!completeExit.selectExitMethod}">
+                        <p:ajax event="blur" listener="#{expressController.exitByCodeReader()}" process="search_form"/>
                     </p:inputText>
                     
                 </h:panelGrid>

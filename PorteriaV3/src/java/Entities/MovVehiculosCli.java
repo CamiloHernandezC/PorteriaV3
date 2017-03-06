@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Mov_Vehiculos_Cli")
@@ -39,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MovVehiculosCli.findByObservacinEntrada", query = "SELECT m FROM MovVehiculosCli m WHERE m.observacinEntrada = :observacinEntrada"),
     @NamedQuery(name = "MovVehiculosCli.findByObservacionSalida", query = "SELECT m FROM MovVehiculosCli m WHERE m.observacionSalida = :observacionSalida"),
     @NamedQuery(name = "MovVehiculosCli.findByFecha", query = "SELECT m FROM MovVehiculosCli m WHERE m.fecha = :fecha"),
-    @NamedQuery(name = "MovVehiculosCli.findBySalidaForzosa", query = "SELECT m FROM MovVehiculosCli m WHERE m.salidaForzosa = :salidaForzosa")})
+    @NamedQuery(name = "MovVehiculosCli.findBySalidaForzosa", query = "SELECT m FROM MovVehiculosCli m WHERE m.salidaForzosa = :salidaForzosa"),
+    @NamedQuery(name = "MovVehiculosCli.findByIngresoForzado", query = "SELECT m FROM MovVehiculosCli m WHERE m.ingresoForzado = :ingresoForzado")})
 public class MovVehiculosCli implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,20 +81,24 @@ public class MovVehiculosCli implements Serializable {
     @NotNull
     @Column(name = "Salida_Forzosa")
     private boolean salidaForzosa;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Ingreso_Forzado")
+    private boolean ingresoForzado;
     @JoinColumn(name = "Id_Mov_Entrada", referencedColumnName = "Id_Movimiento")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private MovPersonasCli idMovEntrada;
     @JoinColumn(name = "Id_Mov_Salida", referencedColumnName = "Id_Movimiento")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MovPersonasCli idMovSalida;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
     @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Id_Vehiculo")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private VehiculosCli idVehiculo;
 
     public MovVehiculosCli() {
@@ -102,12 +108,13 @@ public class MovVehiculosCli implements Serializable {
         this.idMovimiento = idMovimiento;
     }
 
-    public MovVehiculosCli(Long idMovimiento, Date fechaEntrada, Date horaEntrada, Date fecha, boolean salidaForzosa) {
+    public MovVehiculosCli(Long idMovimiento, Date fechaEntrada, Date horaEntrada, Date fecha, boolean salidaForzosa, boolean ingresoForzado) {
         this.idMovimiento = idMovimiento;
         this.fechaEntrada = fechaEntrada;
         this.horaEntrada = horaEntrada;
         this.fecha = fecha;
         this.salidaForzosa = salidaForzosa;
+        this.ingresoForzado = ingresoForzado;
     }
 
     public Long getIdMovimiento() {
@@ -180,6 +187,14 @@ public class MovVehiculosCli implements Serializable {
 
     public void setSalidaForzosa(boolean salidaForzosa) {
         this.salidaForzosa = salidaForzosa;
+    }
+
+    public boolean getIngresoForzado() {
+        return ingresoForzado;
+    }
+
+    public void setIngresoForzado(boolean ingresoForzado) {
+        this.ingresoForzado = ingresoForzado;
     }
 
     public MovPersonasCli getIdMovEntrada() {

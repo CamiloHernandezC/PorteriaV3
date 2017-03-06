@@ -74,14 +74,7 @@ public class manualController extends PersonasCliController {
         if (verifyBlockedPerson()) {
                 return null;
         }
-        result = movPersonasCliController.loadEntry(selected.getIdPersona());
-        if(result.errorCode!=Constants.OK){
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("No_Entry_Register"));
-            return Navigation.PAGE_COMPLETE_EXIT;
-        } 
-        MovPersonasCli movPersona = (MovPersonasCli) result.result;
-        result = personasSucursalCliController.findSpecificPerson(movPersona.getIdPersona().getIdPersona() ,movPersona.getIdSucursal().getIdSucursal());
-        personasSucursalCliController.setSelected((PersonasSucursalCli) result.result);
+        personasSucursalCliController.loadSpecificPersonByEntry(selected.getIdPersona());
         if(personasSucursalCliController.verifyBlockSpecificPerson()){
             return null;
         }
@@ -123,7 +116,7 @@ public class manualController extends PersonasCliController {
     }
     
     public String exit(){
-        movPersonasCliController.recordOut();
+        movPersonasCliController.recordExitMovement();
         return Navigation.PAGE_INDEX;
     }
 }

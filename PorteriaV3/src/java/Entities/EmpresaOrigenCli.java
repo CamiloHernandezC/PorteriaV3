@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author amorales
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Empresa_Origen_Cli")
@@ -73,28 +74,24 @@ public class EmpresaOrigenCli implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
     @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MunicipiosCli idMunicipio;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id_Pais")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PaisesCli idPais;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @OneToMany(mappedBy = "idemorigen")
-    private List<NovedadesCli> novedadesCliList;
-    @OneToMany(mappedBy = "idEmpresaOrigen")
-    private List<NotificacionesCli> notificacionesCliList;
-    @OneToMany(mappedBy = "idEmpresaOrigen")
+    @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
 
     public EmpresaOrigenCli() {
@@ -212,24 +209,6 @@ public class EmpresaOrigenCli implements Serializable {
 
     public void setIdSucursal(SucursalesCli idSucursal) {
         this.idSucursal = idSucursal;
-    }
-
-    @XmlTransient
-    public List<NovedadesCli> getNovedadesCliList() {
-        return novedadesCliList;
-    }
-
-    public void setNovedadesCliList(List<NovedadesCli> novedadesCliList) {
-        this.novedadesCliList = novedadesCliList;
-    }
-
-    @XmlTransient
-    public List<NotificacionesCli> getNotificacionesCliList() {
-        return notificacionesCliList;
-    }
-
-    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
-        this.notificacionesCliList = notificacionesCliList;
     }
 
     @XmlTransient

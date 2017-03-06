@@ -100,6 +100,17 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
         create();
     }
     
+    public void recordExitMovement() {
+        PersonasSucursalCliController personasSucursalCli = JsfUtil.findBean("personasSucursalCliController");
+        PersonasSucursalCli specificPerson = personasSucursalCli.getSelected();
+        if(!verifyEntry(specificPerson)){
+            recordForcedEntry(specificPerson);
+            return;
+        }
+        selected = items.get(0);
+        recordOut();
+    }
+    
     public void recordOut(){
         Date actualDate = new Date();
         selected.setFechaSalida(actualDate);
@@ -122,8 +133,8 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
         selected.setSalidaForzosa(false);
     }
 
-    public boolean verifyEntry(PersonasSucursalCli specificPerson){
-        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+specificPerson.getPersonasCli().getIdPersona() 
+    public boolean verifyEntry(String idPersona){
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+idPersona
                 +"' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode == Constants.NO_RESULT_EXCEPTION){
@@ -133,7 +144,21 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
         return true;
     }
     
+    public boolean verifyEntry(PersonasSucursalCli specificPerson){
+        return verifyEntry(specificPerson.getPersonasCli().getIdPersona());
+    }
+    
+    public void recordForcedEntry(PersonasSucursalCli specificPerson){
+        prepareEntityToCreate(specificPerson);
+        selected.setFechaSalida(selected.getFechaEntrada());
+        selected.setHoraSalida(selected.getHoraEntrada());
+        selected.setIngresoForzado(true);
+        create();
+        selected =  null;
+    }
+    
     public void recordForcedOut(){
+        Date actualDate = new Date();
         for(MovPersonasCli mov: items){
             mov.setFechaSalida(mov.getFechaEntrada());
             mov.setHoraSalida(mov.getHoraEntrada());
@@ -163,6 +188,11 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
     protected void prepareUpdate() {
         selected.setUsuario(new PersonasCli("1"));//TODO ASSIGN REAL USER HERE
         selected.setFecha(new Date());
+    }
+    
+    public void lastEntry(String idPersona) {
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+idPersona+"'"+Querys.MOV_PERSONA_CLI_ORDER_BY_ID;
+        selected = (MovPersonasCli) ejbFacade.findByQuery(squery, true).result;
     }
 
     public Result loadEntry(String idPersona) {
