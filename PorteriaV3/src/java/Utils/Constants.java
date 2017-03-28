@@ -43,7 +43,7 @@ public class Constants {
     //</editor-fold>
     
     // <editor-fold desc="ENTITIES" defaultstate="collapsed">
-    public static final String ENTITY_VISITANT = "1";
+    public static final String ENTITY_VISITANT = "5";
     //</editor-fold>
     
     // <editor-fold desc="STATUS" defaultstate="collapsed">

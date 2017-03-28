@@ -30,7 +30,7 @@
                     
                     <p:outputLabel rendered="#{!completeEntry.selectEntryMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
                     <p:inputText  rendered="#{!completeEntry.selectEntryMethod}" autocomplete="false" id="cc" value="#{expressController.code}" required="#{!completeEntry.selectEntryMethod}">
-                        <p:ajax event="blur" listener="#{expressController.entryByCodeReader()}" process="search_form"/>
+                        <p:ajax event="blur" listener="#{expressController.entryByCodeReader(false)}" process="search_form"/>
                     </p:inputText>
                     
                 </h:panelGrid>

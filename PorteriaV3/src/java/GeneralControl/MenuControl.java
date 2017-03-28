@@ -6,9 +6,11 @@
 package GeneralControl;
 
 import Utils.Navigation;
+import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+
 import javax.inject.Named;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
@@ -20,8 +22,8 @@ import org.primefaces.model.menu.MenuModel;
  * @author MAURICIO
  */
 @Named(value = "menuControl")
-@ApplicationScoped
-public class MenuControl {
+@SessionScoped
+public class MenuControl implements Serializable{
 
     
     private MenuModel menu;
@@ -42,16 +44,13 @@ public class MenuControl {
         //ENTRY SUBMENU
         DefaultSubMenu firstSubmenu = new DefaultSubMenu(rb.getString("Entry"));
         
-        
         DefaultMenuItem item = new DefaultMenuItem(rb.getString("Complete_Entry"));
-        item.setUrl(Navigation.PAGE_COMPLETE_ENTRY);
+        item.setCommand("#{generalController.clean('"+Navigation.PAGE_COMPLETE_ENTRY+"')}");
         firstSubmenu.addElement(item);
         
         item = new DefaultMenuItem(rb.getString("Express_Entry"));
-        item.setUrl(Navigation.PAGE_EXPRESS_ENTRY);
+        item.setCommand("#{generalController.clean('"+Navigation.PAGE_EXPRESS_ENTRY+"')}");
         firstSubmenu.addElement(item);
-        
-        
          
         menu.addElement(firstSubmenu);
          
@@ -59,11 +58,11 @@ public class MenuControl {
         DefaultSubMenu secondSubmenu = new DefaultSubMenu(rb.getString("Exit"));
  
         item = new DefaultMenuItem(rb.getString("Complete_Exit"));
-        item.setUrl(Navigation.PAGE_COMPLETE_EXIT);
+        item.setCommand("#{generalController.clean('"+Navigation.PAGE_COMPLETE_EXIT+"')}");
         secondSubmenu.addElement(item);
         
         item = new DefaultMenuItem(rb.getString("Express_Exit"));
-        item.setUrl(Navigation.PAGE_EXPRESS_EXIT);
+        item.setCommand("#{generalController.clean('"+Navigation.PAGE_EXPRESS_EXIT+"')}");
         secondSubmenu.addElement(item);
  
         menu.addElement(secondSubmenu);
@@ -72,9 +71,10 @@ public class MenuControl {
         DefaultSubMenu thirdSubmenu = new DefaultSubMenu(rb.getString("Configuration"));
 
         item = new DefaultMenuItem(rb.getString("Configuration"));
-        item.setUrl(Navigation.PAGE_CONFIGURATION);
+        item.setCommand("#{generalController.clean('"+Navigation.PAGE_CONFIGURATION+"')}");
+
         thirdSubmenu.addElement(item);
-        
+
         menu.addElement(thirdSubmenu);
         //</editor-fold>
     }
@@ -82,5 +82,5 @@ public class MenuControl {
     public MenuModel getMenu() {
         return menu;
     }   
-
+    
 }
