@@ -6,7 +6,6 @@
 package PersonControllers;
 
 import Controllers.util.JsfUtil;
-import Entities.MovPersonasCli;
 import Entities.PersonasCli;
 import Entities.PersonasSucursalCli;
 import Entities.TiposDocumentoCli;
@@ -27,36 +26,44 @@ import javax.inject.Named;
  */
 @Named(value = "expressController")
 @ApplicationScoped
-public class ExpressController extends PersonasCliController{
+public class ExpressController extends PersonasCliController {
 
-    
     //private persona menu;
     private String code;//Store code reader value
-    private manualController manualController =JsfUtil.findBean("manualController");
-
+    private manualController manualController = JsfUtil.findBean("manualController");
+    
     public String getCode() {
         return code;
     }
-
+    
     public void setCode(String code) {
         this.code = code;
     }
-     
-    public void entryByCodeReader() {
+    
+    public void entryByCodeReader(boolean express) {
         if (code == null) {
             return;
         }
         Result result = findByCodeReader();
+        //Verificacion del Formato aceptado
         if (result.errorCode == Constants.UNKNOWN_EXCEPTION) {//unaccepted text format
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
-            JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_ENTRY);
+            if (express) {
+                JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_ENTRY);
+            } else {
+                JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_ENTRY);
+            }
             clean();
         } else {
             configFormCliController.showFieldsPerson();
             //code = null;
             if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
                 disableNoEditableFields(false);
-                JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);
+                if (express) {
+                    JsfUtil.showModal("expressDialog");
+                } else {
+                    JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);                    
+                }
                 clean();
                 return;
             }
@@ -68,10 +75,9 @@ public class ExpressController extends PersonasCliController{
                 PersonasSucursalCli personasSucursalCli = (PersonasSucursalCli) result.result;
                 selected = personasSucursalCli.getPersonasCli();
                 manualController.setSelected(selected);
-                PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
                 personasSucursalCliController.setSelected(personasSucursalCli);
-                if(personasSucursalCliController.verifyBlockSpecificPerson()){
-                    JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_ENTRY);
+                if (personasSucursalCliController.verifyBlockSpecificPerson()) {
+                    clean();
                     return;
                 }
             }
@@ -79,14 +85,29 @@ public class ExpressController extends PersonasCliController{
                 clean();
                 return;
             }
-            verifyDatesPerson();
-            disableNoEditableFields(true);
-            JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);
+            boolean fechas = verifyDatesPerson();
+            if (express) {
+                if (code.startsWith("B")) {
+                    if(!fechas){
+                        JsfUtil.showModal("fechasDialog");
+                        clean();
+                        return;
+                    }
+                    movPersonasCliController.recordEntryMovement(Constants.UPDATE);
+                    JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_ENTRY);     
+                }
+                if (code.startsWith("C")) {
+                    JsfUtil.showModal("sucursalDialog");
+                }
+            } else {
+                disableNoEditableFields(true);
+                JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);                
+            }
         }
         clean();
-    } 
+    }    
     
-    public void exitByCodeReader(){
+    public void exitByCodeReader() {
         if (code == null) {
             return;
         }
@@ -96,7 +117,7 @@ public class ExpressController extends PersonasCliController{
             JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_EXIT);
             clean();
         } else {
-            configFormCliController.showFieldsPerson();
+            //configFormCliController.showFieldsPerson();
             if (code.startsWith("C,")) {//Cedula
                 selected = (PersonasCli) result.result;//Assign for verirfy block
                 manualController.setSelected(selected);//Assign to model shown in form
@@ -106,13 +127,12 @@ public class ExpressController extends PersonasCliController{
                 PersonasSucursalCli personasSucursalCli = (PersonasSucursalCli) result.result;
                 selected = personasSucursalCli.getPersonasCli();//Assign for verirfy block
                 manualController.setSelected(selected);//Assign to model shown in form
-                PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
                 personasSucursalCliController.setSelected(personasSucursalCli);
             }
-            if(personasSucursalCliController.verifyBlockSpecificPerson()){
-                    clean();
-                    return;
-                }
+            if (personasSucursalCliController.verifyBlockSpecificPerson()) {
+                clean();
+                return;
+            }
             if (verifyBlockedPerson()) {
                 clean();
                 return;
@@ -121,9 +141,9 @@ public class ExpressController extends PersonasCliController{
         }
         clean();
     }
-
+    
     private Result findByCodeReader() {
-        if(code.startsWith("C,")){//ID CARD (CEDULA)
+        if (code.startsWith("C,")) {//ID CARD (CEDULA)
             String[] separatedWords = separateWords();
             if (separatedWords != null) {
                 //Se debe asignar el tipo de documento y número de documento para poder buscar
@@ -136,33 +156,33 @@ public class ExpressController extends PersonasCliController{
                 manualController.getSelected().setNombre2(separatedWords[4]);
                 manualController.getSelected().setSexo(separatedWords[5].equals("M"));
                 DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-                try {                
+                try {                    
                     Date birthDate = formatter.parse(separatedWords[6]);
                     manualController.getSelected().setFechaNacimiento(birthDate);
                 } catch (ParseException ex) {
                     System.out.println(Constants.MESSAGE_DATE_FORMAT_EXCEPTION);
                 }
-                String RH = "¡".equals(separatedWords[7].substring(1)) ? "+":"-";
-                manualController.getSelected().setRh(separatedWords[7].substring(0, 1)+RH);
+                String RH = "¡".equals(separatedWords[7].substring(1)) ? "+" : "-";
+                manualController.getSelected().setRh(separatedWords[7].substring(0, 1) + RH);
                 //</editor-fold>
                 return manualController.findPersonByDocument();                
             }
         }
-        if(code.startsWith("B,")){//BAR CODE
+        if (code.startsWith("B,")) {//BAR CODE
             return findPersonByIdExterno(code.substring(2));
         }
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//Cuando el formato no coincide con los soportados
     }
-     
+    
     public String[] separateWords() {
         int commaCounter = 0;
         String[] separatedWords = new String[10];
         int oldi = 1;
-        for (int i = 2; i <code.length(); i++) {//Start in 2 to avoid "C,"
+        for (int i = 2; i < code.length(); i++) {//Start in 2 to avoid "C,"
             char c = code.charAt(i);
             if (c == ',') {
                 if (oldi + 1 != i) {
-                    separatedWords[commaCounter] = code.substring(oldi + 1, i);    
+                    separatedWords[commaCounter] = code.substring(oldi + 1, i);                    
                 } else {
                     separatedWords[commaCounter] = "";
                 }
@@ -171,24 +191,24 @@ public class ExpressController extends PersonasCliController{
             }
         }
         if (commaCounter == 9) {
-            separatedWords[0]= String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
+            separatedWords[0] = String.valueOf(Integer.parseInt(separatedWords[0]));//Las cedulas las completa con 0 a la izquierda, esta linea de codigo quita los 0
             return separatedWords;
         }
         return null;
     }
     
-    public Result findPersonByIdExterno(String code){
-        PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
+    public Result findPersonByIdExterno(String code) {
         return personasSucursalCliController.findPersonByIdExterno(code);
     }
     
-    public String redirecToPersonFormEntry(){
+    public String redirecToPersonFormEntry() {
         configFormCliController.showFieldsPerson();
         return Navigation.PAGE_PERSON_REGISTER;
     }
     
-    public void clean(){
+    @Override
+    public void clean() {
         code = null;
     }
-     
+    
 }

@@ -81,7 +81,7 @@ public class manualController extends PersonasCliController {
         return Navigation.PAGE_PERSON_EXIT;
     }
     
-    public String save() {
+    public String save(boolean express) {
         boolean existPerson = selected.getIdPersona()!=null;
         if (existPerson) {
             //Verifica existencia de registro en la sucursal determinada por el formulario.
@@ -112,6 +112,9 @@ public class manualController extends PersonasCliController {
             movPersonasCliController.recordEntryMovement(Constants.CREATE);
             //TODO METODO COMUN PARA LOS DOS
         }
+        if(express){
+          return Navigation.PAGE_EXPRESS_ENTRY; 
+        }
         return Navigation.PAGE_SELECT_ENTRY;
     }
     
@@ -119,4 +122,5 @@ public class manualController extends PersonasCliController {
         movPersonasCliController.recordExitMovement();
         return Navigation.PAGE_INDEX;
     }
+    
 }

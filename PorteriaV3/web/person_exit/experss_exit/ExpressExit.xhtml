@@ -6,25 +6,23 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h:form id="formularioExpress">
-            <p:focus context="formularioExpress" for="express"/>
+        <h:form id="formularioExpressExit">
+            <p:focus context="formularioExpressExit" for="express"/>
             <h:panelGrid columns="1" cellpadding="5">
-                <h:outputLabel value="#{bundle.expressEntry}" style="font-size: 110%; font-weight: bold " /> 
-                <p:graphicImage value="../../resources/images/cedulaProj.png" height="100px" width="250px"></p:graphicImage>
+                <h:outputLabel value="#{bundle.expressExit}" style="font-size: 110%; font-weight: bold " /> 
+                <p:graphicImage value="../../resources/images/cedulaProjSalida.png" height="100px" width="250px"></p:graphicImage>
             </h:panelGrid>
 
             <h:panelGrid columns="3" cellpadding="5">
 
                 <h:outputLabel for="express" value="Documento*" />
                 <p:inputText autocomplete="false" value="#{expressController.code}" id="express" required="true">
-                    <p:ajax event="blur" listener="#{expressController.entryByCodeReader(true)}"  update=":sucursalForm :fechasForm" process="formularioExpress"/>
+                    <p:ajax event="blur" listener="#{expressController.exitByCodeReader()}"  update=":sucursalForm :fechasForm" process="formularioExpressExit"/>
                 </p:inputText>
                 <p:message for="express" />
 
                 <p:commandButton value = "Cancelar"  ajax="false" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
             </h:panelGrid>
-
         </h:form>
     </ui:define>
-
 </ui:composition>

@@ -141,9 +141,6 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         return ejbFacade.findByQuery(squery, false);//ID EXTERNO MUST BE UNIQUE FOR NOW
     }
 
-    public void clean() {
-        selected = null;
-    }
     //Aun no sirve para Express por que la sucursal viene nula.
     public boolean verifyBlockSpecificPerson() {
        
@@ -207,6 +204,11 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
             }
         }
 
+    }
+    
+    public void clean(){
+        selected = null;
+        items = null;
     }
 
 }

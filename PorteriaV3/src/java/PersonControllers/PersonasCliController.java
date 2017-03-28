@@ -174,6 +174,11 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         JsfUtil.cancel();
     }
     
+    public void clean(){
+        selected = null;
+        items = null;
+    }
+    
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     
     public PersonasCli getPersonasCli(java.lang.String id) {
