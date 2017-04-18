@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuariosEditDlg" widgetVar="UsuariosEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUsuariosTitle}">
+            <h:form id="UsuariosEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuariosController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_idUsuario}" for="idUsuario" />
+                        <p:inputText id="idUsuario" value="#{usuariosController.selected.idUsuario}" title="#{bundle.EditUsuariosTitle_idUsuario}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_idUsuario}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_privilegios}" for="privilegios" />
+                        <p:inputText id="privilegios" value="#{usuariosController.selected.privilegios}" title="#{bundle.EditUsuariosTitle_privilegios}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_privilegios}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{usuariosController.selected.password}" title="#{bundle.EditUsuariosTitle_password}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_password}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_fechaDesde}" for="fechaDesde" />
+                        <p:calendar id="fechaDesde" pattern="MM/dd/yyyy" value="#{usuariosController.selected.fechaDesde}" title="#{bundle.EditUsuariosTitle_fechaDesde}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_fechaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_fechaHasta}" for="fechaHasta" />
+                        <p:calendar id="fechaHasta" pattern="MM/dd/yyyy" value="#{usuariosController.selected.fechaHasta}" title="#{bundle.EditUsuariosTitle_fechaHasta}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_fechaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_sesion}" for="sesion" />
+                        <p:selectBooleanCheckbox id="sesion" value="#{usuariosController.selected.sesion}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_sesion}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_IDSesion}" for="IDSesion" />
+                        <p:inputText id="IDSesion" value="#{usuariosController.selected.IDSesion}" title="#{bundle.EditUsuariosTitle_IDSesion}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_IDSesion}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{usuariosController.selected.mail}" title="#{bundle.EditUsuariosTitle_mail}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_mail}"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuariosController.selected.fecha}" title="#{bundle.EditUsuariosTitle_fecha}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_persona}" for="persona" />
+                        <p:selectOneMenu id="persona" value="#{usuariosController.selected.persona}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_persona}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="personaItem"
+                                           itemValue="#{personaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_estado}" for="estado" />
+                        <p:selectOneMenu id="estado" value="#{usuariosController.selected.estado}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_estado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadosController.itemsAvailableSelectOne}"
+                                           var="estadoItem"
+                                           itemValue="#{estadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUsuariosLabel_usuarioModifica}" for="usuarioModifica" />
+                        <p:selectOneMenu id="usuarioModifica" value="#{usuariosController.selected.usuarioModifica}" required="true" requiredMessage="#{bundle.EditUsuariosRequiredMessage_usuarioModifica}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="usuarioModificaItem"
+                                           itemValue="#{usuarioModificaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuariosController.update}" value="#{bundle.Save}" update="display,:UsuariosListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuariosEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UsuariosEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

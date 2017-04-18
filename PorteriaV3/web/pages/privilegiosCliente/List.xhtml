@@ -19,7 +19,7 @@
                     <p:dataTable id="datalist" value="#{privilegiosClienteController.items}" var="item"
                                  selectionMode="single" selection="#{privilegiosClienteController.selected}"
                                  paginator="true"
-                                 rowKey="#{item.id}"
+                                 rowKey="#{item.idPrivilegiosCliente}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
@@ -29,9 +29,9 @@
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPrivilegiosClienteTitle_id}"/>
+                                <h:outputText value="#{bundle.ListPrivilegiosClienteTitle_idPrivilegiosCliente}"/>
                             </f:facet>
-                            <h:outputText value="#{item.id}"/>
+                            <h:outputText value="#{item.idPrivilegiosCliente}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

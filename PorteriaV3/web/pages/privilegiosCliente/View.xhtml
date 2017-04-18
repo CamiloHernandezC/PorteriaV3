@@ -12,8 +12,8 @@
             <h:form id="PrivilegiosClienteViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{privilegiosClienteController.selected != null}">
-                        <h:outputText value="#{bundle.ViewPrivilegiosClienteLabel_id}"/>
-                        <h:outputText value="#{privilegiosClienteController.selected.id}" title="#{bundle.ViewPrivilegiosClienteTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewPrivilegiosClienteLabel_idPrivilegiosCliente}"/>
+                        <h:outputText value="#{privilegiosClienteController.selected.idPrivilegiosCliente}" title="#{bundle.ViewPrivilegiosClienteTitle_idPrivilegiosCliente}"/>
                         <h:outputText value="#{bundle.ViewPrivilegiosClienteLabel_ver}"/>
                         <p:selectBooleanCheckbox value="#{privilegiosClienteController.selected.ver}" disabled="true"/>
                         <h:outputText value="#{bundle.ViewPrivilegiosClienteLabel_codigoMenu}"/>

@@ -14,8 +14,6 @@
                     <p:panelGrid columns="2" rendered="#{porteriasController.selected != null}">
                         <p:outputLabel value="#{bundle.EditPorteriasLabel_idPorteria}" for="idPorteria" />
                         <p:inputText id="idPorteria" value="#{porteriasController.selected.idPorteria}" title="#{bundle.EditPorteriasTitle_idPorteria}" required="true" requiredMessage="#{bundle.EditPorteriasRequiredMessage_idPorteria}"/>
-                        <p:outputLabel value="#{bundle.EditPorteriasLabel_equipoAsignado}" for="equipoAsignado" />
-                        <p:inputText id="equipoAsignado" value="#{porteriasController.selected.equipoAsignado}" title="#{bundle.EditPorteriasTitle_equipoAsignado}" required="true" requiredMessage="#{bundle.EditPorteriasRequiredMessage_equipoAsignado}"/>
                         <p:outputLabel value="#{bundle.EditPorteriasLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{porteriasController.selected.descripcion}" title="#{bundle.EditPorteriasTitle_descripcion}" required="true" requiredMessage="#{bundle.EditPorteriasRequiredMessage_descripcion}"/>
                     </p:panelGrid>

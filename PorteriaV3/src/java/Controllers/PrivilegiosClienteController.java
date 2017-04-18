@@ -109,7 +109,7 @@ public class PrivilegiosClienteController implements Serializable {
         }
     }
 
-    public PrivilegiosCliente getPrivilegiosCliente(java.lang.Long id) {
+    public PrivilegiosCliente getPrivilegiosCliente(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
@@ -134,13 +134,13 @@ public class PrivilegiosClienteController implements Serializable {
             return controller.getPrivilegiosCliente(getKey(value));
         }
 
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.Long value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -153,7 +153,7 @@ public class PrivilegiosClienteController implements Serializable {
             }
             if (object instanceof PrivilegiosCliente) {
                 PrivilegiosCliente o = (PrivilegiosCliente) object;
-                return getStringKey(o.getId());
+                return getStringKey(o.getIdPrivilegiosCliente());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), PrivilegiosCliente.class.getName()});
                 return null;

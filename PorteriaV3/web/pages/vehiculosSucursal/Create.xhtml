@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VehiculosSucursalCreateDlg" widgetVar="VehiculosSucursalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVehiculosSucursalTitle}">
+            <h:form id="VehiculosSucursalCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vehiculosSucursalController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_idExterno}" for="idExterno" />
+                        <p:inputText id="idExterno" value="#{vehiculosSucursalController.selected.idExterno}" title="#{bundle.CreateVehiculosSucursalTitle_idExterno}" />
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_ingresoAutomatico}" for="ingresoAutomatico" />
+                        <p:selectBooleanCheckbox id="ingresoAutomatico" value="#{vehiculosSucursalController.selected.ingresoAutomatico}" required="true" requiredMessage="#{bundle.EditVehiculosSucursalRequiredMessage_ingresoAutomatico}"/>
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{vehiculosSucursalController.selected.fecha}" title="#{bundle.EditVehiculosSucursalTitle_fecha}" required="true" requiredMessage="#{bundle.EditVehiculosSucursalRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{vehiculosSucursalController.selected.usuario}" required="true" requiredMessage="#{bundle.EditVehiculosSucursalRequiredMessage_usuario}">
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_estado}" for="estado" />
+                        <p:selectOneMenu id="estado" value="#{vehiculosSucursalController.selected.estado}" required="true" requiredMessage="#{bundle.EditVehiculosSucursalRequiredMessage_estado}">
+                            <f:selectItems value="#{estadosController.itemsAvailableSelectOne}"
+                                           var="estadoItem"
+                                           itemValue="#{estadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_sucursales}" for="sucursales" />
+                        <p:selectOneMenu id="sucursales" value="#{vehiculosSucursalController.selected.sucursales}" required="true" requiredMessage="#{bundle.EditVehiculosSucursalRequiredMessage_sucursales}">
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="sucursalesItem"
+                                           itemValue="#{sucursalesItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateVehiculosSucursalLabel_vehiculos}" for="vehiculos" />
+                        <p:selectOneMenu id="vehiculos" value="#{vehiculosSucursalController.selected.vehiculos}" required="true" requiredMessage="#{bundle.EditVehiculosSucursalRequiredMessage_vehiculos}">
+                            <f:selectItems value="#{vehiculosController.itemsAvailableSelectOne}"
+                                           var="vehiculosItem"
+                                           itemValue="#{vehiculosItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vehiculosSucursalController.create}" value="#{bundle.Save}" update="display,:VehiculosSucursalListForm:datalist,:growl" oncomplete="handleSubmit(args,'VehiculosSucursalCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VehiculosSucursalCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

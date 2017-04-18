@@ -109,7 +109,7 @@ public class MenuClienteController implements Serializable {
         }
     }
 
-    public MenuCliente getMenuCliente(java.lang.Long id) {
+    public MenuCliente getMenuCliente(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
@@ -134,13 +134,13 @@ public class MenuClienteController implements Serializable {
             return controller.getMenuCliente(getKey(value));
         }
 
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.Long value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();

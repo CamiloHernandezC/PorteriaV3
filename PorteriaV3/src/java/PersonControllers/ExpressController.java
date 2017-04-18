@@ -6,9 +6,9 @@
 package PersonControllers;
 
 import Controllers.util.JsfUtil;
-import Entities.PersonasCli;
-import Entities.PersonasSucursalCli;
-import Entities.TiposDocumentoCli;
+import Entities.Personas;
+import Entities.PersonasSucursal;
+import Entities.TiposDocumento;
 import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Navigation;
@@ -26,7 +26,7 @@ import javax.inject.Named;
  */
 @Named(value = "expressController")
 @ApplicationScoped
-public class ExpressController extends PersonasCliController {
+public class ExpressController extends PersonasController {
 
     //private persona menu;
     private String code;//Store code reader value
@@ -55,7 +55,7 @@ public class ExpressController extends PersonasCliController {
             }
             clean();
         } else {
-            configFormCliController.showFieldsPerson();
+            configFormController.showFieldsPerson();
             //code = null;
             if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
                 disableNoEditableFields(false);
@@ -68,12 +68,12 @@ public class ExpressController extends PersonasCliController {
                 return;
             }
             if (code.startsWith("C,")) {//Cedula
-                selected = (PersonasCli) result.result;
+                selected = (Personas) result.result;
                 manualController.setSelected(selected);
             }
             if (code.startsWith("B,")) {//Codigo de Barras
-                PersonasSucursalCli personasSucursalCli = (PersonasSucursalCli) result.result;
-                selected = personasSucursalCli.getPersonasCli();
+                PersonasSucursal personasSucursalCli = (PersonasSucursal) result.result;
+                selected = personasSucursalCli.getPersonas();
                 manualController.setSelected(selected);
                 personasSucursalCliController.setSelected(personasSucursalCli);
                 if (personasSucursalCliController.verifyBlockSpecificPerson()) {
@@ -107,27 +107,30 @@ public class ExpressController extends PersonasCliController {
         clean();
     }    
     
-    public void exitByCodeReader() {
+    public void exitByCodeReader(boolean express) {
         if (code == null) {
             return;
         }
         Result result = findByCodeReader();
         if (result.errorCode == Constants.UNKNOWN_EXCEPTION) {//unaccepted text format
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UNACCEPTED_FORMAT"));
-            JsfUtil.redirectTo(Navigation.PAGE_COMPLETE_EXIT);
+            if (express) {
+                JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_EXIT);
+            } else {
+                JsfUtil.redirectTo(Navigation.PAGE_PERSON_EXIT);
+            }
             clean();
         } else {
             //configFormCliController.showFieldsPerson();
             if (code.startsWith("C,")) {//Cedula
-                selected = (PersonasCli) result.result;//Assign for verirfy block
+                selected = (Personas) result.result;//Assign for verirfy block
                 manualController.setSelected(selected);//Assign to model shown in form
                 personasSucursalCliController.loadSpecificPersonByEntry(selected.getIdPersona());
             }
             if (code.startsWith("B,")) {//Codigo de Barras
-                PersonasSucursalCli personasSucursalCli = (PersonasSucursalCli) result.result;
-                selected = personasSucursalCli.getPersonasCli();//Assign for verirfy block
+                PersonasSucursal personasSucursal = (PersonasSucursal) result.result;
+                selected = personasSucursal.getPersonas();//Assign for verirfy block
                 manualController.setSelected(selected);//Assign to model shown in form
-                personasSucursalCliController.setSelected(personasSucursalCli);
+                personasSucursalCliController.setSelected(personasSucursal);
             }
             if (personasSucursalCliController.verifyBlockSpecificPerson()) {
                 clean();
@@ -137,7 +140,12 @@ public class ExpressController extends PersonasCliController {
                 clean();
                 return;
             }
-            JsfUtil.redirectTo(Navigation.PAGE_PERSON_EXIT);
+            if (express) {
+                movPersonasCliController.recordExitMovement();
+                JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_EXIT);
+            } else {
+                JsfUtil.redirectTo(Navigation.PAGE_PERSON_EXIT);
+            }
         }
         clean();
     }
@@ -147,8 +155,8 @@ public class ExpressController extends PersonasCliController {
             String[] separatedWords = separateWords();
             if (separatedWords != null) {
                 //Se debe asignar el tipo de documento y número de documento para poder buscar
-                manualController.getSelected().setTipoDocumento(new TiposDocumentoCli(Constants.DOCUMENT_TYPE_CEDULA));//Se asigna el tipo de documento como cedula
-                manualController.getSelected().setNumDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
+                manualController.getSelected().setTipoDocumento(new TiposDocumento(Constants.DOCUMENT_TYPE_CEDULA));//Se asigna el tipo de documento como cedula
+                manualController.getSelected().setNumeroDocumento(separatedWords[0]);//Se le asigna el numero de cedula que fue leido por el lector de cedulas
                 //<editor-fold desc="Assign selected to info in id card" defaultstate="collapsed">
                 manualController.getSelected().setApellido1(separatedWords[1]);
                 manualController.getSelected().setApellido2(separatedWords[2]);
@@ -202,7 +210,7 @@ public class ExpressController extends PersonasCliController {
     }
     
     public String redirecToPersonFormEntry() {
-        configFormCliController.showFieldsPerson();
+        configFormController.showFieldsPerson();
         return Navigation.PAGE_PERSON_REGISTER;
     }
     

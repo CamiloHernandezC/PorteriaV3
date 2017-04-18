@@ -12,19 +12,19 @@
             <h:form id="PrivilegiosClienteCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{privilegiosClienteController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePrivilegiosClienteLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{privilegiosClienteController.selected.id}" title="#{bundle.CreatePrivilegiosClienteTitle_id}" required="true" requiredMessage="#{bundle.CreatePrivilegiosClienteRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreatePrivilegiosClienteLabel_idPrivilegiosCliente}" for="idPrivilegiosCliente" />
+                        <p:inputText id="idPrivilegiosCliente" value="#{privilegiosClienteController.selected.idPrivilegiosCliente}" title="#{bundle.CreatePrivilegiosClienteTitle_idPrivilegiosCliente}" required="true" requiredMessage="#{bundle.CreatePrivilegiosClienteRequiredMessage_idPrivilegiosCliente}"/>
                         <p:outputLabel value="#{bundle.CreatePrivilegiosClienteLabel_ver}" for="ver" />
                         <p:selectBooleanCheckbox id="ver" value="#{privilegiosClienteController.selected.ver}" required="true" requiredMessage="#{bundle.EditPrivilegiosClienteRequiredMessage_ver}"/>
                         <p:outputLabel value="#{bundle.CreatePrivilegiosClienteLabel_codigoMenu}" for="codigoMenu" />
-                        <p:selectOneMenu id="codigoMenu" value="#{privilegiosClienteController.selected.codigoMenu}" >
+                        <p:selectOneMenu id="codigoMenu" value="#{privilegiosClienteController.selected.codigoMenu}" required="true" requiredMessage="#{bundle.EditPrivilegiosClienteRequiredMessage_codigoMenu}">
                             <f:selectItems value="#{menuClienteController.itemsAvailableSelectOne}"
                                            var="codigoMenuItem"
                                            itemValue="#{codigoMenuItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreatePrivilegiosClienteLabel_usuario}" for="usuario" />
                         <p:selectOneMenu id="usuario" value="#{privilegiosClienteController.selected.usuario}" required="true" requiredMessage="#{bundle.EditPrivilegiosClienteRequiredMessage_usuario}">
-                            <f:selectItems value="#{usuariosCliController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{usuariosController.itemsAvailableSelectOne}"
                                            var="usuarioItem"
                                            itemValue="#{usuarioItem}"/>
                         </p:selectOneMenu>

@@ -6,8 +6,7 @@
 package GeneralControl;
 
 import Controllers.util.JsfUtil;
-import PersonControllers.PersonasCliController;
-import PersonControllers.PersonasSucursalCliController;
+import PersonControllers.PersonasSucursalController;
 import PersonControllers.manualController;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -24,7 +23,7 @@ public class GeneralController implements Serializable{
 
     
     private final manualController manualController = JsfUtil.findBean("manualController");
-    private final PersonasSucursalCliController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
+    private final PersonasSucursalController personasSucursalCliController = JsfUtil.findBean("personasSucursalCliController");
     /**
      * Creates a new instance of MenuController
      */

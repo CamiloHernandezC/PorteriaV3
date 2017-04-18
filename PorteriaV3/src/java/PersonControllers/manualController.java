@@ -1,10 +1,9 @@
 package PersonControllers;
 
 import Controllers.util.JsfUtil;
-import Entities.EmpresaOrigenCli;
-import Entities.MovPersonasCli;
-import Entities.PersonasCli;
-import Entities.PersonasSucursalCli;
+import Entities.EmpresaOrigen;
+import Entities.Personas;
+import Entities.PersonasSucursal;
 import PersonControllers.Views.PersonFormEntry;
 import Utils.BundleUtils;
 import Utils.Constants;
@@ -16,7 +15,7 @@ import javax.faces.event.ValueChangeEvent;
 
 @Named("manualController")
 @SessionScoped
-public class manualController extends PersonasCliController {
+public class manualController extends PersonasController {
 
     private String otherOriginEnterpriseName;
 
@@ -30,8 +29,8 @@ public class manualController extends PersonasCliController {
     
     public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent) {
         PersonFormEntry personFormEntry = JsfUtil.findBean("personFormEntry");
-        EmpresaOrigenCli selectedOriginEnterprise = (EmpresaOrigenCli) changeEvent.getNewValue();
-        if (selectedOriginEnterprise.getIdEmorigen() != null && selectedOriginEnterprise.getIdEmorigen().equals(Constants.ORIGIN_ENTERPRISE_OTHER)) {
+        EmpresaOrigen selectedOriginEnterprise = (EmpresaOrigen) changeEvent.getNewValue();
+        if (selectedOriginEnterprise.getIdEmpresaOrigen() != null && selectedOriginEnterprise.getIdEmpresaOrigen().equals(Constants.ORIGIN_ENTERPRISE_OTHER)) {
             personFormEntry.setDisableOtherEnterprise(false);
             return;
         }
@@ -46,14 +45,14 @@ public class manualController extends PersonasCliController {
      */
     public String manualEntry() {
         //Carga los campos del formulario.
-        configFormCliController.showFieldsPerson();
+        configFormController.showFieldsPerson();
         Result result = findPersonByDocument();
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Please_Register"));
-            selected = new PersonasCli();
+            selected = new Personas();
             disableNoEditableFields(false);
         }else{
-            selected = (PersonasCli) result.result;
+            selected = (Personas) result.result;
             if (verifyBlockedPerson()) {
                 return null;
             }
@@ -70,7 +69,7 @@ public class manualController extends PersonasCliController {
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("No_Entry_Register"));
             return Navigation.PAGE_COMPLETE_EXIT;
         }
-        selected = (PersonasCli) result.result;
+        selected = (Personas) result.result;
         if (verifyBlockedPerson()) {
                 return null;
         }
@@ -90,7 +89,7 @@ public class manualController extends PersonasCliController {
                 personasSucursalCliController.create();
                 movPersonasCliController.recordEntryMovement(Constants.CREATE);
             }else{
-                PersonasSucursalCli specificPerson = (PersonasSucursalCli) result.result;
+                PersonasSucursal specificPerson = (PersonasSucursal) result.result;
                 specificPerson.setArea(personasSucursalCliController.getSelected().getArea());
                 personasSucursalCliController.setSelected(specificPerson);
                 if(personasSucursalCliController.verifyBlockSpecificPerson()){
