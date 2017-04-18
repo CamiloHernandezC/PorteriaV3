@@ -43,16 +43,16 @@ public class Constants {
     //</editor-fold>
     
     // <editor-fold desc="ENTITIES" defaultstate="collapsed">
-    public static final String ENTITY_VISITANT = "5";
+    public static final int ENTITY_VISITANT = 5;
     //</editor-fold>
     
     // <editor-fold desc="STATUS" defaultstate="collapsed">
-    public static final Long STATUS_ENTRY = 3L;
-    public static final Long STATUS_BLOCKED= 2L;
+    public static final int STATUS_ENTRY = 3;
+    public static final int STATUS_BLOCKED= 2;
     //</editor-fold>
     
     // <editor-fold desc="DOCUMENT_TYPE" defaultstate="collapsed">
-    public static final String DOCUMENT_TYPE_CEDULA = "13";
+    public static final int DOCUMENT_TYPE_CEDULA = 13;
     //</editor-fold>
     
     // <editor-fold desc="ORIGIN ENTERPRISE" defaultstate="collapsed">

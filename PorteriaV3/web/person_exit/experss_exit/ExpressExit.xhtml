@@ -17,7 +17,7 @@
 
                 <h:outputLabel for="express" value="Documento*" />
                 <p:inputText autocomplete="false" value="#{expressController.code}" id="express" required="true">
-                    <p:ajax event="blur" listener="#{expressController.exitByCodeReader()}"  update=":sucursalForm :fechasForm" process="formularioExpressExit"/>
+                    <p:ajax event="blur" listener="#{expressController.exitByCodeReader(true)}"  update=":sucursalForm :fechasForm" process="formularioExpressExit"/>
                 </p:inputText>
                 <p:message for="express" />
 

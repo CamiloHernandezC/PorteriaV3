@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VisitasEsperadasViewDlg" widgetVar="VisitasEsperadasViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewVisitasEsperadasTitle}">
+            <h:form id="VisitasEsperadasViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{visitasEsperadasController.selected != null}">
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_fechaVisita}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.fechaVisita}" title="#{bundle.ViewVisitasEsperadasTitle_fechaVisita}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_horaInicio}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.horaInicio}" title="#{bundle.ViewVisitasEsperadasTitle_horaInicio}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_horaHasta}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.horaHasta}" title="#{bundle.ViewVisitasEsperadasTitle_horaHasta}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_fecha}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.fecha}" title="#{bundle.ViewVisitasEsperadasTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_usuario}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.usuario}" title="#{bundle.ViewVisitasEsperadasTitle_usuario}"/>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_sucursales}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.sucursales}" title="#{bundle.ViewVisitasEsperadasTitle_sucursales}"/>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_personas}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.personas}" title="#{bundle.ViewVisitasEsperadasTitle_personas}"/>
+                        <h:outputText value="#{bundle.ViewVisitasEsperadasLabel_funcionarioVisitado}"/>
+                        <h:outputText value="#{visitasEsperadasController.selected.funcionarioVisitado}" title="#{bundle.ViewVisitasEsperadasTitle_funcionarioVisitado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="VisitasEsperadasViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

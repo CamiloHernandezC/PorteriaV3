@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VisitasEsperadasEditDlg" widgetVar="VisitasEsperadasEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditVisitasEsperadasTitle}">
+            <h:form id="VisitasEsperadasEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{visitasEsperadasController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_fechaVisita}" for="fechaVisita" />
+                        <p:calendar id="fechaVisita" pattern="MM/dd/yyyy" value="#{visitasEsperadasController.selected.fechaVisita}" title="#{bundle.EditVisitasEsperadasTitle_fechaVisita}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_fechaVisita}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_horaInicio}" for="horaInicio" />
+                        <p:calendar id="horaInicio" pattern="HH:mm:ss" value="#{visitasEsperadasController.selected.horaInicio}" title="#{bundle.EditVisitasEsperadasTitle_horaInicio}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_horaInicio}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_horaHasta}" for="horaHasta" />
+                        <p:calendar id="horaHasta" pattern="HH:mm:ss" value="#{visitasEsperadasController.selected.horaHasta}" title="#{bundle.EditVisitasEsperadasTitle_horaHasta}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_horaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{visitasEsperadasController.selected.fecha}" title="#{bundle.EditVisitasEsperadasTitle_fecha}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{visitasEsperadasController.selected.usuario}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_sucursales}" for="sucursales" />
+                        <p:selectOneMenu id="sucursales" value="#{visitasEsperadasController.selected.sucursales}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_sucursales}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="sucursalesItem"
+                                           itemValue="#{sucursalesItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_personas}" for="personas" />
+                        <p:selectOneMenu id="personas" value="#{visitasEsperadasController.selected.personas}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_personas}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="personasItem"
+                                           itemValue="#{personasItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVisitasEsperadasLabel_funcionarioVisitado}" for="funcionarioVisitado" />
+                        <p:selectOneMenu id="funcionarioVisitado" value="#{visitasEsperadasController.selected.funcionarioVisitado}" required="true" requiredMessage="#{bundle.EditVisitasEsperadasRequiredMessage_funcionarioVisitado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="funcionarioVisitadoItem"
+                                           itemValue="#{funcionarioVisitadoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{visitasEsperadasController.update}" value="#{bundle.Save}" update="display,:VisitasEsperadasListForm:datalist,:growl" oncomplete="handleSubmit(args, 'VisitasEsperadasEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VisitasEsperadasEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
