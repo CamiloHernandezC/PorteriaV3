@@ -8,6 +8,7 @@ import PersonControllers.Views.PersonFormEntry;
 import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Navigation;
+import Utils.NotificationControl;
 import Utils.Result;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -111,6 +112,8 @@ public class manualController extends PersonasController {
             movPersonasCliController.recordEntryMovement(Constants.CREATE);
             //TODO METODO COMUN PARA LOS DOS
         }
+        NotificationControl notificationControl = JsfUtil.findBean("notificationControl");
+        notificationControl.notifyEvent(personasSucursalCliController.getSelected(),Constants.STRING_ENTRY);
         if(express){
           return Navigation.PAGE_EXPRESS_ENTRY; 
         }

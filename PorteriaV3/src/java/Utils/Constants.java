@@ -60,6 +60,11 @@ public class Constants {
     //</editor-fold>
     //</editor-fold>
     
+    // <editor-fold desc="CATEGORIES" defaultstate="collapsed">
+    static int CATEGORY_PERSON =1;
+    //</editor-fold>
     
-    
+    // <editor-fold desc="EVENT TYPE" defaultstate="collapsed">
+    public static String STRING_ENTRY="E";
+    public static String STRING_EXIT="S";
 }

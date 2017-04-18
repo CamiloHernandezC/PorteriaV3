@@ -24,7 +24,7 @@ import javax.faces.convert.FacesConverter;
 public class NotificacionesController implements Serializable {
 
     @EJB
-    private Facade.NotificacionesFacade ejbFacade;
+    protected Facade.NotificacionesFacade ejbFacade;
     private List<Notificaciones> items = null;
     private Notificaciones selected;
 
