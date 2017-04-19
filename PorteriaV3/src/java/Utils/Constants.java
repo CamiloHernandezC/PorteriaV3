@@ -65,6 +65,6 @@ public class Constants {
     //</editor-fold>
     
     // <editor-fold desc="EVENT TYPE" defaultstate="collapsed">
-    public static String STRING_ENTRY="E";
-    public static String STRING_EXIT="S";
+    public static final String STRING_ENTRY="E";
+    public static final String STRING_EXIT="S";
 }

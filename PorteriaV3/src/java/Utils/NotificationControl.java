@@ -5,13 +5,13 @@
  */
 package Utils;
 
-import Controllers.NotificacionesController;
 import Entities.EmpresaOrigen;
 import Entities.Notificaciones;
 import Entities.PersonasSucursal;
-import Facade.NotificacionesFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -27,27 +27,35 @@ public class NotificationControl implements Serializable{
     @EJB
     protected Facade.NotificacionesFacade ejbFacade;
     private Notificaciones selected;
+     
     
-    public void notifyEvent(Object object,String tipoEvento){
+    public void notifyEvent(Object object,String tipoEvento,String rutaArchivo){
+        
         String squery = "";
         if(object instanceof PersonasSucursal){
             PersonasSucursal persona = (PersonasSucursal) object;
-            squery = findNotifyEvent(persona.getPersonas().getEmpresaOrigen(),persona.getEntidad().getIdEntidad(),persona.getPersonas().getEstado().getIdEstado(),persona.getPersonas().getIdPersona(),0,null,Constants.CATEGORY_PERSON,persona.getSucursales().getIdSucursal(),tipoEvento); 
+            squery = createQuery(persona.getPersonas().getEmpresaOrigen(),persona.getEntidad().getIdEntidad(),persona.getPersonas().getEstado().getIdEstado(),persona.getPersonas().getIdPersona(),0,null,Constants.CATEGORY_PERSON,persona.getSucursales().getIdSucursal(),tipoEvento); 
         }
-        ejbFacade.findByQueryArray(squery);
+        Result result = ejbFacade.findByQueryArray(squery);
+        if(result.errorCode != Constants.OK ){
+            return;
+        }
+        List<Notificaciones> items = (List<Notificaciones>) result.result;
+        for (Notificaciones notification : items) {
+            Email.crearEmail(notification, rutaArchivo, object, tipoEvento);
+        }
     }
     
 
-    private String findNotifyEvent(EmpresaOrigen pIdEmOrigen, int pIdEntidad, int pIdEstado, int pIdPersona,int pIdobjeto, String pPlacaVehiculo, int pCategoria, int pIdSucursal, String pTipoEvento) {
+    private String createQuery(EmpresaOrigen pIdEmOrigen, int pIdEntidad, int pIdEstado, int pIdPersona,int pIdobjeto, String pPlacaVehiculo, int pCategoria, int pIdSucursal, String pTipoEvento) {
         
         Date actualDate = new Date();
         java.sql.Date jpqlDate = new java.sql.Date(actualDate.getTime());
         java.sql.Time jpqlTime = new java.sql.Time(actualDate.getTime());
         
         int pIdPorteria = 1;//TODO - Obtener la porteria Real
-        /*idPorteria*/
+
         String sIdPorteria = "n.porteria is NULL or n.porteria.idPorteria ='" + pIdPorteria + "'";
-        /*idSucursal*/
 
         String sIdSucursal = "n.sucursal is NULL or n.sucursal.idSucursal ='" + pIdSucursal + "'";
 
