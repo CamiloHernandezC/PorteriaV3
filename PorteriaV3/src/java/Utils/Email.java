@@ -5,6 +5,8 @@
  */
 package Utils;
 
+import Entities.Notificaciones;
+import Entities.PersonasSucursal;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -16,37 +18,92 @@ import javax.mail.internet.*;
  *
  * @author MAURICIO
  */
-public class Email {    
+public class Email implements Runnable{    
     
     //final String senderEmailID = "cager@seracis.com"; //Correo emisor 
     //final String senderPassword = "Veryown2015";  // PW emisor 
     //final String emailSMTPserver = "mail.seracis.com"; //Servidor SMTP 
     
-    final String senderEmailID = "controlacceso.cager@gmail.com"; //Correo emisor 
-    final String senderPassword = "Colombia2015*";  // PW emisor 
-    final String emailSMTPserver = "smtp.gmail.com"; //Servidor SMTP 
-    
     //final String senderEmailID = "camilo.hernandez.castillo@gmail.com"; //Correo emisor 
     //final String senderPassword = "KMILO_15";  // PW emisor 
     //final String emailSMTPserver = "smtp.gmail.com"; //Servidor SMTP 
     
-    final String emailServerPort = "465"; // SSL
-    
-    String receiverEmails = ""; //Dato de receptor y mensaje por defecto 
-    String ccEmails = "";
-    String emailSubject = "Hola";
-    String emailBody = "Hola mundo";
+    private static final String senderEmailID = "controlacceso.cager@gmail.com"; //Correo emisor 
+    private static final String senderPassword = "Colombia2015*";  // PW emisor 
+    private static final String emailSMTPserver = "smtp.gmail.com"; //Servidor SMTP 
+    private static final String emailServerPort = "465"; // SSL
+    private static final Properties props = new Properties();
+    private String receiverEmails;
+    private String ccEmails;
+    private String emailSubject;
+    private String emailBody;
+    private String rutaArchivo;
 
-    public Email() {
+    private static String buildMessage(Notificaciones notification,Object object, String tipoEvento) {
+        String empresaOrigen="";
+        String ente="";
+        String entidad="";
+        String sucursal="";
+        String id="";
+        
+        String message="";
+        
+        switch(tipoEvento){
+            case Constants.STRING_ENTRY:
+                message += "Acaba de entrar ";//TODO CRFEATE BUNDLE PROPERTY
+                break;
+            case Constants.STRING_EXIT:
+                message += "Acaba de salir ";//TODO CRFEATE BUNDLE PROPERTY
+                break;
+                
+        }
+        
+        if(object instanceof PersonasSucursal){
+            PersonasSucursal persona = (PersonasSucursal) object;
+            if(persona.getPersonas().getEmpresaOrigen()!=null){
+                empresaOrigen=persona.getPersonas().getEmpresaOrigen().getNombre1();
+            }
+            ente = "la persona";
+            entidad = "el "+persona.getEntidad().getDescripcion();
+            sucursal = persona.getSucursales().getNombre();
+            id = " " +persona.getPersonas().getNombre1() + " " + persona.getPersonas().getApellido1() +" identificado con "+ persona.getPersonas().getTipoDocumento().getDescripcion() + ": " + persona.getPersonas().getNumeroDocumento();
+        }
+        
+        if(notification.getMostrarEntidad()){
+            message+=entidad;
+        }else{
+            if(notification.getMostrarEnte()){
+                message+=ente;
+            }
+        }
+        message += id;
+        if(notification.getMostrarEmpresaOrigen()){
+            message+=" de la empresa "+empresaOrigen;
+        }
+        
+        if(notification.getMostrarSucursal()){
+            message +=" en la sucursal "+sucursal;
+        }
+        if(notification.getMostrarPorteria()){
+            message += " por la porteria Prueba";//TODO ASSIGN REAL ENTRY HERE
+        }
+        message+=". \n"+notification.getMensaje();
+        return message;
     }
+    
 
-    public Email(String receiverEmails, String ccEmails, String emailSubject, String emailBody, String rutaArchivo) {
+    public Email(Notificaciones notification,String rutaArchivo, Object object, String tipoEvento) {
+        receiverEmails = notification.getMail(); //Dato de receptor y mensaje por defecto 
+        ccEmails = null;
+        emailSubject = notification.getAsunto();
+        emailBody = buildMessage(notification,object,tipoEvento);
+        /*
         this.receiverEmails = receiverEmails;
+        this.ccEmails = ccEmails;
         this.emailSubject = emailSubject;
         this.emailBody = emailBody;
-        this.ccEmails = ccEmails;
-        // Ajusta propiedades para enviar mail 
-        Properties props = new Properties();
+        this.rutaArchivo = rutaArchivo;*/
+        // Ajusta propiedades para enviar mail
         props.put("mail.user", senderEmailID);
         props.put("mail.password", senderPassword);
         props.put("mail.smtp.auth", "true");
@@ -54,13 +111,33 @@ public class Email {
         props.put("mail.smtp.host", emailSMTPserver);
         props.put("mail.smtp.port", emailServerPort);
         props.put("mail.smtp.socketFactory.port", emailServerPort);
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.put("mail.smtp.connectiontimeout", "7000");
         props.put("mail.smtp.timeout", "10000");
         props.put("mail.smtps.ssl.checkserveridentity", "false");
         props.put("mail.smtps.ssl.trust", "*");
+    }
+
+    public static class SMTPAuthenticator extends javax.mail.Authenticator {
+        @Override
+        public PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(senderEmailID, senderPassword);
+        }
+    }
+
+    public static void crearEmail(Notificaciones notification,String rutaArchivo, Object object, String tipoEvento){
+        (new Thread(new Email(notification, rutaArchivo, object, tipoEvento))).start();
+    }
+    
+    //(new Thread(this, "notificaciones")).start();
+    
+    @Override
+    public void run() {
+        sendEmail();
+    }
+    
+    public void sendEmail(){
         //Construye mail 
         try {
             Authenticator auth = new SMTPAuthenticator();
@@ -71,7 +148,7 @@ public class Email {
             
             msg.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(receiverEmails));
-            if (ccEmails != null && !ccEmails.isEmpty()) {
+            if (ccEmails != null && !ccEmails.isEmpty()){
                 msg.setRecipients(Message.RecipientType.CC,
                         InternetAddress.parse(ccEmails));
             }
@@ -106,13 +183,4 @@ public class Email {
             System.out.println("Email: mal"+mex);
         }
     }
-
-    public class SMTPAuthenticator extends javax.mail.Authenticator {
-        @Override
-        public PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(senderEmailID, senderPassword);
-        }
-    }
-
-    
 }

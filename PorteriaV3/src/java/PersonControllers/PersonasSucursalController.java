@@ -8,6 +8,7 @@ import Entities.Entidades;
 import Entities.Estados;
 import Entities.Personas;
 import Entities.PersonasSucursal;
+import Entities.PorteriasSucursal;
 import Entities.Sucursales;
 import Facade.PersonasSucursalFacade;
 import Querys.Querys;
@@ -128,12 +129,7 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
     private void assignPrimaryKey() {
         manualController manualController = JsfUtil.findBean("manualController");
         selected.setPersonas(manualController.getSelected());
-        ConfigFormController configFormCliController = JsfUtil.findBean("configFormController");
-        if (!configFormCliController.isMostrarSucursal()) {
-            PorteriasSucursalController porteriaSucursalCliController = JsfUtil.findBean("porteriaSucursalController");
-            Sucursales branchOffice = ((List<Sucursales>) porteriaSucursalCliController.findBranchOfficeByEntry("1").result).get(0);//TODO ASSIGN REAL ENTRY HERE
-            selected.setSucursales(branchOffice);
-        }
+        //branch office is already assigned
     }
 
     public Result findPersonByIdExterno(String code) {

@@ -112,8 +112,9 @@ public class manualController extends PersonasController {
             movPersonasCliController.recordEntryMovement(Constants.CREATE);
             //TODO METODO COMUN PARA LOS DOS
         }
+        //NOTIFICATION//////////////////////////////////////////////////////////
         NotificationControl notificationControl = JsfUtil.findBean("notificationControl");
-        notificationControl.notifyEvent(personasSucursalCliController.getSelected(),Constants.STRING_ENTRY);
+        notificationControl.notifyEvent(personasSucursalCliController.getSelected(),Constants.STRING_ENTRY,null);
         if(express){
           return Navigation.PAGE_EXPRESS_ENTRY; 
         }
