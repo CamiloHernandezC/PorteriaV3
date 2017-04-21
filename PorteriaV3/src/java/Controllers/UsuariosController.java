@@ -2,16 +2,13 @@ package Controllers;
 
 import Entities.Usuarios;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Facade.UsuariosFacade;
 
-import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -21,7 +18,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("usuariosController")
 @SessionScoped
-public class UsuariosController implements Serializable {
+public class UsuariosController extends AbstractPersistenceController<Usuarios>{
 
     @EJB
     private Facade.UsuariosFacade ejbFacade;
@@ -31,47 +28,51 @@ public class UsuariosController implements Serializable {
     public UsuariosController() {
     }
 
+    @Override
     public Usuarios getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(Usuarios selected) {
         this.selected = selected;
     }
 
+    @Override
     protected void setEmbeddableKeys() {
+        //Nothing to do here
     }
 
+    @Override
     protected void initializeEmbeddableKey() {
+        //Nothing to do here
     }
 
-    private UsuariosFacade getFacade() {
+    @Override
+    protected UsuariosFacade getFacade() {
         return ejbFacade;
     }
 
-    public Usuarios prepareCreate() {
-        selected = new Usuarios();
-        initializeEmbeddableKey();
-        return selected;
+    @Override
+    public void prepareCreate() {
+        prepareUpdate();
+    }
+    
+    @Override
+    protected void setItems(List<Usuarios> items) {
+        this.items = items;
     }
 
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuariosCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+    @Override
+    protected void prepareUpdate() {
+        //Here we didn't use assign parameters to update method because session user could be null
+        Usuarios actualUser = JsfUtil.getSessionUser();
+        if(actualUser!=null){
+            selected.setUsuarioModifica(actualUser.getPersona());
+        }else{
+            selected.setUsuarioModifica(selected.getUsuarioModifica());
         }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuariosUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuariosDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+        selected.setFecha(new Date());
     }
 
     public List<Usuarios> getItems() {
@@ -81,44 +82,14 @@ public class UsuariosController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public Usuarios getUsuarios(java.lang.String id) {
         return getFacade().find(id);
     }
 
-    public List<Usuarios> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Usuarios> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @FacesConverter(forClass = Usuarios.class)

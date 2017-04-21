@@ -7,6 +7,8 @@ package Utils;
 
 import Entities.Notificaciones;
 import Entities.PersonasSucursal;
+import Entities.Usuarios;
+import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -91,19 +93,36 @@ public class Email implements Runnable{
         return message;
     }
     
-
     public Email(Notificaciones notification,String rutaArchivo, Object object, String tipoEvento) {
         receiverEmails = notification.getMail(); //Dato de receptor y mensaje por defecto 
         ccEmails = null;
         emailSubject = notification.getAsunto();
         emailBody = buildMessage(notification,object,tipoEvento);
-        /*
-        this.receiverEmails = receiverEmails;
-        this.ccEmails = ccEmails;
-        this.emailSubject = emailSubject;
-        this.emailBody = emailBody;
-        this.rutaArchivo = rutaArchivo;*/
-        // Ajusta propiedades para enviar mail
+        initProps();
+        
+    }
+    
+    public Email(Usuarios user) {
+        receiverEmails = user.getMail(); //Dato de receptor y mensaje por defecto 
+        ccEmails = null;
+        emailSubject = "Recover Password";//TODO CREATE BUNDLE PROPERTIES FOR STRINGS BELOW
+        emailBody = new Date()+"\n"
+                + " \n"
+                + "Your requested password\n"
+                + " \n"
+                + "This is an automatically generated message.\n"
+                + "\n"
+                + "Below you will find the correct username and password.\n"
+                + "\n"
+                + "Your username : "+user.getIdUsuario()+"\n"
+                + "\n"
+                + "Your password : "+user.getPassword()+"\n"
+                + "\n"
+                + "Best regards, Support Team";
+        initProps();
+    }
+    
+    public void initProps(){
         props.put("mail.user", senderEmailID);
         props.put("mail.password", senderPassword);
         props.put("mail.smtp.auth", "true");
@@ -125,12 +144,14 @@ public class Email implements Runnable{
             return new PasswordAuthentication(senderEmailID, senderPassword);
         }
     }
+    
+    public static void crearEmail(Usuarios user) {
+        (new Thread(new Email(user))).start();
+    }
 
     public static void crearEmail(Notificaciones notification,String rutaArchivo, Object object, String tipoEvento){
         (new Thread(new Email(notification, rutaArchivo, object, tipoEvento))).start();
     }
-    
-    //(new Thread(this, "notificaciones")).start();
     
     @Override
     public void run() {

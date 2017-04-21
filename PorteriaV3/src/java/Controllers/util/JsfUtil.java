@@ -1,5 +1,7 @@
 package Controllers.util;
 
+import Entities.Usuarios;
+import Utils.Constants;
 import Utils.Navigation;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -7,6 +9,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 public class JsfUtil {
@@ -54,6 +57,11 @@ public class JsfUtil {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
+    }
+    
+    public static Usuarios getSessionUser() {
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        return (Usuarios) httpSession.getAttribute(Constants.SESSION_USER);
     }
 
     public static String getRequestParameter(String key) {

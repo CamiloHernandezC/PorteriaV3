@@ -115,6 +115,7 @@ public class manualController extends PersonasController {
         //NOTIFICATION//////////////////////////////////////////////////////////
         NotificationControl notificationControl = JsfUtil.findBean("notificationControl");
         notificationControl.notifyEvent(personasSucursalCliController.getSelected(),Constants.STRING_ENTRY,null);
+        JsfUtil.addSuccessMessage("Ingreso exitoso");  
         if(express){
           return Navigation.PAGE_EXPRESS_ENTRY; 
         }
@@ -123,6 +124,7 @@ public class manualController extends PersonasController {
     
     public String exit(){
         movPersonasCliController.recordExitMovement();
+        JsfUtil.addSuccessMessage("Salida exitosa");  
         return Navigation.PAGE_INDEX;
     }
     

@@ -23,6 +23,8 @@ public class Constants {
     public static final int NO_RESULT_EXCEPTION = 3;
     public static final int NO_UNIQUE_RESULT_EXCEPTION = 4;
     public static final int VALIDATION_ERROR = 5;
+    public static final int PERSISTANCE_EXCEPTION= 6;
+    public static final int REPEATED_RECORD=7;
     //</editor-fold>
     
     //THIS ERRORS MESSAGES ARE ONLY FOR INTERNAL USE
@@ -64,7 +66,12 @@ public class Constants {
     static int CATEGORY_PERSON =1;
     //</editor-fold>
     
+     // <editor-fold desc="HTTP SESSION" defaultstate="collapsed">
+    public static final String SESSION_USER="USER";
+    //</editor-fold>
+    
     // <editor-fold desc="EVENT TYPE" defaultstate="collapsed">
     public static final String STRING_ENTRY="E";
     public static final String STRING_EXIT="S";
+    //</editor-fold>
 }

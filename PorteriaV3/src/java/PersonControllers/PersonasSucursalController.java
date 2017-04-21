@@ -81,19 +81,12 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
     
     @Override
     protected void prepareUpdate() {
-        selected.setUsuario(new Personas(1));//TODO ASSIGN REAL USER HERE
-        selected.setFecha(new Date());
+        assignParametersToUpdate();
     }
     
     @Override
     protected void setItems(List<PersonasSucursal> items) {
         this.items = items;
-    }
-
-    @Override
-    protected String calculatePrimaryKey() {
-        //Nothing to do here
-        return null;
     }
 
     public List<PersonasSucursal> getItems() {

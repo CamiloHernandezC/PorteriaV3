@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MovPersonas.findBySalidaForzosa", query = "SELECT m FROM MovPersonas m WHERE m.salidaForzosa = :salidaForzosa"),
     @NamedQuery(name = "MovPersonas.findByIngresoForzado", query = "SELECT m FROM MovPersonas m WHERE m.ingresoForzado = :ingresoForzado"),
     @NamedQuery(name = "MovPersonas.findByFecha", query = "SELECT m FROM MovPersonas m WHERE m.fecha = :fecha")})
-public class MovPersonas implements Serializable {
+public class MovPersonas extends AbstractEntity{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -297,6 +297,26 @@ public class MovPersonas implements Serializable {
     @Override
     public String toString() {
         return "Entities.MovPersonas[ idMovPersona=" + idMovPersona + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        return idMovPersona;
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        idMovPersona = primaryKey;
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
     }
     
 }

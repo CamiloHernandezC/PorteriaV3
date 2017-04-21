@@ -7,9 +7,7 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,33 +16,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author a.morales
  */
 @Entity
 @Table(name = "usuarios")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findByIdUsuario", query = "SELECT u FROM Usuarios u WHERE u.idUsuario = :idUsuario"),
-    @NamedQuery(name = "Usuarios.findByPrivilegios", query = "SELECT u FROM Usuarios u WHERE u.privilegios = :privilegios"),
-    @NamedQuery(name = "Usuarios.findByPassword", query = "SELECT u FROM Usuarios u WHERE u.password = :password"),
-    @NamedQuery(name = "Usuarios.findByFechaDesde", query = "SELECT u FROM Usuarios u WHERE u.fechaDesde = :fechaDesde"),
-    @NamedQuery(name = "Usuarios.findByFechaHasta", query = "SELECT u FROM Usuarios u WHERE u.fechaHasta = :fechaHasta"),
-    @NamedQuery(name = "Usuarios.findBySesion", query = "SELECT u FROM Usuarios u WHERE u.sesion = :sesion"),
-    @NamedQuery(name = "Usuarios.findByIDSesion", query = "SELECT u FROM Usuarios u WHERE u.iDSesion = :iDSesion"),
-    @NamedQuery(name = "Usuarios.findByMail", query = "SELECT u FROM Usuarios u WHERE u.mail = :mail"),
-    @NamedQuery(name = "Usuarios.findByFecha", query = "SELECT u FROM Usuarios u WHERE u.fecha = :fecha")})
+    @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u")
+    , @NamedQuery(name = "Usuarios.findByIdUsuario", query = "SELECT u FROM Usuarios u WHERE u.idUsuario = :idUsuario")
+    , @NamedQuery(name = "Usuarios.findByPrivilegios", query = "SELECT u FROM Usuarios u WHERE u.privilegios = :privilegios")
+    , @NamedQuery(name = "Usuarios.findByPassword", query = "SELECT u FROM Usuarios u WHERE u.password = :password")
+    , @NamedQuery(name = "Usuarios.findByFechaDesde", query = "SELECT u FROM Usuarios u WHERE u.fechaDesde = :fechaDesde")
+    , @NamedQuery(name = "Usuarios.findByFechaHasta", query = "SELECT u FROM Usuarios u WHERE u.fechaHasta = :fechaHasta")
+    , @NamedQuery(name = "Usuarios.findBySesion", query = "SELECT u FROM Usuarios u WHERE u.sesion = :sesion")
+    , @NamedQuery(name = "Usuarios.findByIDSesion", query = "SELECT u FROM Usuarios u WHERE u.iDSesion = :iDSesion")
+    , @NamedQuery(name = "Usuarios.findByMail", query = "SELECT u FROM Usuarios u WHERE u.mail = :mail")
+    , @NamedQuery(name = "Usuarios.findByFecha", query = "SELECT u FROM Usuarios u WHERE u.fecha = :fecha")})
 public class Usuarios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -101,10 +97,9 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "Usuario_Modifica", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuarioModifica;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<PrivilegiosCliente> privilegiosClienteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<AccesoUsuario> accesoUsuarioList;
+    @JoinColumn(name = "Tema", referencedColumnName = "Id_Tema")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Theme tema;
 
     public Usuarios() {
     }
@@ -221,22 +216,12 @@ public class Usuarios implements Serializable {
         this.usuarioModifica = usuarioModifica;
     }
 
-    @XmlTransient
-    public List<PrivilegiosCliente> getPrivilegiosClienteList() {
-        return privilegiosClienteList;
+    public Theme getTema() {
+        return tema;
     }
 
-    public void setPrivilegiosClienteList(List<PrivilegiosCliente> privilegiosClienteList) {
-        this.privilegiosClienteList = privilegiosClienteList;
-    }
-
-    @XmlTransient
-    public List<AccesoUsuario> getAccesoUsuarioList() {
-        return accesoUsuarioList;
-    }
-
-    public void setAccesoUsuarioList(List<AccesoUsuario> accesoUsuarioList) {
-        this.accesoUsuarioList = accesoUsuarioList;
+    public void setTema(Theme tema) {
+        this.tema = tema;
     }
 
     @Override

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TemasViewDlg" widgetVar="TemasViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTemasTitle}">
+            <h:form id="TemasViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{temasController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTemasLabel_idTema}"/>
+                        <h:outputText value="#{temasController.selected.idTema}" title="#{bundle.ViewTemasTitle_idTema}"/>
+                        <h:outputText value="#{bundle.ViewTemasLabel_displayName}"/>
+                        <h:outputText value="#{temasController.selected.displayName}" title="#{bundle.ViewTemasTitle_displayName}"/>
+                        <h:outputText value="#{bundle.ViewTemasLabel_nombre}"/>
+                        <h:outputText value="#{temasController.selected.nombre}" title="#{bundle.ViewTemasTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TemasViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

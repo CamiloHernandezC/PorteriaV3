@@ -15,3 +15,7 @@
 .ui-button {
     margin-top: 10px !important;
 }
+
+ .ui-layout-unit-content{
+     background-image:url('#{request.contextPath}images/fondo1.jpg');
+ }
