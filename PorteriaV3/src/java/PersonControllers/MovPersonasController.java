@@ -59,7 +59,8 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
 
     @Override
     public void prepareCreate() {
-        selected.setIdMovPersona(calculatePrimaryKey());
+        calculatePrimaryKey(Querys.MOV_PERSONA_CLI_PRIMARY_KEY);
+        prepareUpdate();
     }
 
     public List<MovPersonas> getItems() {
@@ -170,7 +171,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         this.items = items;
     }
 
-    @Override
+    /*@Override
     protected Integer calculatePrimaryKey() {
         Result result = ejbFacade.findByQuery(Querys.MOV_PERSONA_CLI_PRIMARY_KEY, true);
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {//First record will be created
@@ -178,7 +179,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         }
         MovPersonas lastPerson = (MovPersonas) result.result;
         return lastPerson.getIdMovPersona()+1;
-    }
+    }*/
 
     @Override
     protected void prepareUpdate() {
@@ -199,6 +200,11 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
             selected = (MovPersonas) result.result;
         }
         return result;
+    }
+
+    @Override
+    protected void clean() {
+        selected = null;
     }
 
     @FacesConverter(forClass = MovPersonas.class)

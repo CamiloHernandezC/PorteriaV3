@@ -1,0 +1,36 @@
+@import url("normalizeAllBROWSERS.css");
+
+body { background: url("../images/fondo1.png'") repeat fixed 100% 100% #ffffff; }
+.contentLogin{
+   	background-color: #FFFFFF;
+	position: absolute;
+   	height: auto; width: 420px; border-radius: 10px; padding: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-box-shadow: 8px 8px 6px 4px #0079c1;
+	-webkit-box-shadow: 8px 8px 6px 4px #0079c1;
+	box-shadow: 8px 8px 6px 4px #0079c1;
+	 border-style: solid;
+    border-color: #097DC3  #097DC3 ;
+}
+.logoLogin { background: url(../images/logo2_97X131.png) no-repeat; background-position: 100%; float: left; height: 131px; width: 97px; margin-left: 8px; }
+.textoLogin { color: #00559d; font-family: Arial; font-size: 17px; font-weight: bold; margin: 18px 0 0 8px; text-align: justify; }
+#frmLogin table { margin: 0 auto; }
+#frmLogin label { color: #00559d; font-size: 15px; font-weight: bold; }
+#frmLogin table td { padding: 5.5px; }
+#frmLogin button span { font-size: 14px; padding: 2px 5px; }
+#frmLogin input{
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	font-size: 15px; letter-spacing: 2px; text-indent: 2px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D4D4D4', endColorstr='#EEEEEE');/* IE */
+	background-image: -ms-linear-gradient(center top, #D4D4D4 0%, #EEEEEE 100%);/* IE10 Consumer Preview */
+	background-image: -moz-linear-gradient(center top, #D4D4D4 0%, #EEEEEE 100%);/* Mozilla Firefox */
+	background-image: -o-linear-gradient(center top, #D4D4D4 0%, #EEEEEE 100%);/* Opera */
+	background-image: -webkit-gradient(linear, center top, center bottom, color-stop(0, #D4D4D4), color-stop(1, #EEEEEE));/* Webkit (Safari/Chrome 10) */
+	background-image: -webkit-linear-gradient(center top, #D4D4D4 0%, #EEEEEE 100%);/* Webkit (Chrome 11+) */
+	background-image: linear-gradient(to bottom, #D4D4D4 0%, #EEEEEE 100%);/* W3C Markup, IE10 Release Preview */
+}
+::-ms-clear { display: none; }

@@ -3,7 +3,6 @@ package PersonControllers;
 import Controllers.AbstractPersistenceController;
 import Controllers.ConfigFormController;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Entities.Estados;
 import Entities.Personas;
 import Facade.PersonasFacade;
@@ -69,41 +68,20 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
     protected void initializeEmbeddableKey() {
         //Nothing to do here
     }
-
-    @Override
-    protected Integer calculatePrimaryKey() {
-        Result result = ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true);
-        if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {//First record will be created
-            return 1;
-        }
-        Personas lastPerson = (Personas) ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true).result;
-        int lastPrimaryKey = lastPerson.getIdPersona();
-        return lastPrimaryKey + 1;
-    }
-
-    @Override
-    protected void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            selected.setUsuario(1);//TODO ASSIGN REAL USER
-            selected.setFecha(new Date());
-        }
-        super.persist(persistAction, successMessage);
-    }
     
     /**
      * 
      */
     @Override
     public void prepareCreate() {
-        selected.setIdPersona(calculatePrimaryKey());
+        calculatePrimaryKey(Querys.PERSONA_CLI_PRIMARY_KEY);
         selected.setEstado(new Estados(Constants.STATUS_ENTRY));
         prepareUpdate();
     }
     
     @Override
     protected void prepareUpdate() {
-        selected.setUsuario(selected.getIdPersona());//TODO ASSIGN REAL USER HERE
-        selected.setFecha(new Date());
+        assignParametersToUpdate();
     }
     //</editor-fold>
 

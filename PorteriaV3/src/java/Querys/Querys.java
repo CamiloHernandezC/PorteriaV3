@@ -43,6 +43,14 @@ public class Querys {
     public static String PORTERIA_SUCURSAL_CLI_PORTERIA= "SELECT a FROM PorteriasSucursal a WHERE a.porteriasSucursalPK.porteria = '";
     //</editor-fold>
 
-    
+     //<editor-fold desc="USUARIOS QUERY" defaultstate="collapsed">
+    public static final String USUARIOS_ALL = "SELECT a FROM Usuarios a";
+    public static final String USUARIOS_ID=" a.idUsuario = '";
+    public static final String USUARIOS_PASSWORD=" a.password = '";
+    public static final String USUARIOS_SESION= " a.sesion = '";
+    public static final String USUARIOS_ID_SESION= " a.iDSesion = '";
+    public static final String USUARIOS_FECHA_DESDE= " a.fechaDesde <= '";
+    public static final String USUARIOS_FECHA_HASTA= " a.fechaHasta >= '";
+    //</editor-fold>
     
 }
