@@ -6,12 +6,23 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+
+
     <ui:define name="content">
+
+        <h:form>   
+            <p:dialog header="Capturar Foto" modal="false" widgetVar="dialogoFotoPersona" closable="true" >
+                <h:form>
+                    <p:photoCam widgetVar="pc" listener="#{manualController.oncapture}"  />
+                    <p:commandButton value="Tomar foto" onclick="PF('pc').capture();PF('dialogoFotoPersona').hide();" update=":formularioCrear:panelFoto" ajax="true"/>
+                </h:form>
+            </p:dialog>
+        </h:form>
+
         <h:form id="formularioCrear">
 
             <h:panelGrid columns="2" cellpadding="30%" >
                 <h:panelGrid>
-
                     <h:panelGrid columns="4" cellpadding="5" >
 
                         <p:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}" rendered="true" />
@@ -67,8 +78,6 @@
                         <p:inputText id="phoneContactPerson" value="#{manualController.selected.telPersonaContacto}" rendered="#{configFormController.mostrarTelefono}"  required="#{configFormController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telPersonaContacto}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
                         <p:outputLabel style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}" for="address" rendered="#{configFormController.mostrarDireccion}"/>
                         <p:inputText  id="address" value="#{manualController.selected.direccion}" rendered="#{configFormController.mostrarDireccion}" required="#{configFormController.mostrarDireccion}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_Direccion}" style="text-transform:uppercase;width: 200px" maxlength="120"/>
-
-
 
                         <p:outputLabel for="idDepartamento" value="#{bundle.CreatePersonasCliLabel_idDepartamento}" rendered="#{configFormController.mostrarDepartamento}" />
                         <p:selectOneMenu id="idDepartamento" value="#{manualController.selected.idDepartamento}" rendered="#{configFormController.mostrarDepartamento}" required="#{configFormController.mostrarDepartamento}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_Departamento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idDepartamento">                
@@ -149,7 +158,14 @@
 
                 </h:panelGrid>
 
-                <p:graphicImage width="100px" height="100px"/>
+                <h:panelGrid id="panelFoto">
+                    <h:outputText value="Tomar Foto" rendered="#{manualController.imagen==null}"/>
+                    <p:commandLink oncomplete="PF('dialogoFotoPersona').show();" immediate="true">
+                        <p:graphicImage value="../../resources/images/camara.png" width="50" height="50"></p:graphicImage>
+                    </p:commandLink>
+                    <p:graphicImage id="foto" value="#{photo.getUltimaImagen(manualController.imagen)}" width="150" height="150" rendered="#{manualController.imagen!=null}" cache="false"/>
+                    <h:outputLabel value="Foto Cargada: " for="foto" rendered="#{manualController.imagen!=null}"/>  
+                </h:panelGrid>
             </h:panelGrid>
 
 

@@ -97,7 +97,7 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "Usuario_Modifica", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuarioModifica;
-    @JoinColumn(name = "Tema", referencedColumnName = "Id_Tema")
+    @JoinColumn(name = "Tema", referencedColumnName = "Id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Theme tema;
 

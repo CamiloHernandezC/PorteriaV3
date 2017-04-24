@@ -58,8 +58,7 @@ public class Constants {
     //</editor-fold>
     
     // <editor-fold desc="ORIGIN ENTERPRISE" defaultstate="collapsed">
-    public static final String ORIGIN_ENTERPRISE_OTHER = "1";
-    //</editor-fold>
+    public static final int ORIGIN_ENTERPRISE_OTHER = 1;
     //</editor-fold>
     
     // <editor-fold desc="CATEGORIES" defaultstate="collapsed">
@@ -73,5 +72,9 @@ public class Constants {
     // <editor-fold desc="EVENT TYPE" defaultstate="collapsed">
     public static final String STRING_ENTRY="E";
     public static final String STRING_EXIT="S";
+    //</editor-fold>
+    
+    // <editor-fold desc="OBJECT TYPE" defaultstate="collapsed">
+    public static final String OBJECT_PERSON = "Persona";
     //</editor-fold>
 }

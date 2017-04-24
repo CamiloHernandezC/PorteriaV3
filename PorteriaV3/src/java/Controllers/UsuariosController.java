@@ -2,6 +2,7 @@ package Controllers;
 
 import Entities.Usuarios;
 import Controllers.util.JsfUtil;
+import Entities.Theme;
 import Facade.UsuariosFacade;
 
 import java.util.Date;
@@ -90,6 +91,11 @@ public class UsuariosController extends AbstractPersistenceController<Usuarios>{
     @Override
     protected void clean() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void saveTheme(Theme tema) {
+        this.selected.setTema(tema);
+        update();
     }
 
     @FacesConverter(forClass = Usuarios.class)
