@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
+
     <f:view contentType="text/html">
         <h:head>
             <f:facet name="first">
@@ -12,16 +12,30 @@
                 <title>PrimeFaces</title>
             </f:facet>
             <script src="assets/js/custom.js"></script>
-            
-            
         </h:head>
 
+        <!--***************Código para evitar que pueda ir hacia atras***********-->
+        <meta http-equiv="Expires" content="0" /> 
+        <meta http-equiv="Pragma" content="no-cache" />
+        <script type="text/javascript">
+            if (history.forward(1)) {
+                location.replace(history.forward(1));
+            }
+        </script>
+        <!--*********************************************************************-->
+
         <h:body id="body" onload="nobackbutton();">
+
+            <!--Test for unique actived session************************************-->
+            <c:if test="#{loginControl.validSession()}"/>
+            <!--*********************************************************************-->
 
             <p:layout fullPage="true">
 
                 <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                    Header
+                    <h:form style="float:right !important;margin:0px 0px 3px 0px;">
+                        <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.Logout}" action="#{loginControl.logout()}" immediate=""/>
+                    </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
@@ -30,10 +44,10 @@
 
                 <p:layoutUnit position="west" size="175" header="#{bundle.Menu_Name}" collapsible="false">
                     <div id="menuwe" class="clearfix">
-                    <h:form>
-                        <p:panelMenu model="#{menuControl.menu}" />
-                    </h:form>
-                </div>
+                        <h:form>
+                            <p:panelMenu model="#{menuControl.menu}" />
+                        </h:form>
+                    </div>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -48,7 +62,7 @@
                             <p:commandButton value="Ir a Registrar Persona" action="#{expressController.redirecToPersonFormEntry()}" ajax="false"/>
                         </h:form>
                     </p:confirmDialog>
-                    
+
                     <p:confirmDialog id="sucursalDialog" appendTo="@(body)" message="Seleccione los siguientes datos para la entrada" header="Sucursal" severity="error" showEffect="fade" hideEffect="fade" widgetVar="sucursalDialog" closable="false">
                         <h:form id="sucursalForm">
                             <h:panelGrid columns="4" cellpadding="5">
@@ -72,8 +86,8 @@
                             <p:commandButton value="Aceptar" action="#{manualController.save(true)}" ajax="true"/>
                         </h:form>
                     </p:confirmDialog>
-                    
-                    
+
+
                     <p:confirmDialog id="fechasDialog" appendTo="@(body)" message="Seleccione los siguientes datos para la entrada" header="Sucursal" severity="error" showEffect="fade" hideEffect="fade" widgetVar="fechasDialog" closable="false">
                         <h:form id="fechasForm">
                             <h:panelGrid columns="4" cellpadding="5">
@@ -87,7 +101,7 @@
                             <p:commandButton value="Aceptar" action="#{manualController.save(true)}" ajax="true"/>
                         </h:form>
                     </p:confirmDialog>
-                    
+
                     <p:growl id="growl" sticky="false" autoUpdate="true" life="4000"/>
                     <ui:insert name="content"/>
                 </p:layoutUnit>

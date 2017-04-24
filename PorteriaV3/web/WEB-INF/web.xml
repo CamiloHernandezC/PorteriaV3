@@ -15,7 +15,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            -1
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -23,6 +23,6 @@
     </welcome-file-list>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{themeController.theme}</param-value>
+        <param-value>#{temasController.selected}</param-value>
   </context-param>
 </web-app>

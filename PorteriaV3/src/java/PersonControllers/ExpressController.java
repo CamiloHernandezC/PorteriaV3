@@ -12,7 +12,9 @@ import Entities.TiposDocumento;
 import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Navigation;
+import Utils.Photo;
 import Utils.Result;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,15 +33,15 @@ public class ExpressController extends PersonasController {
     //private persona menu;
     private String code;//Store code reader value
     private manualController manualController = JsfUtil.findBean("manualController");
-    
+
     public String getCode() {
         return code;
     }
-    
+
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public void entryByCodeReader(boolean express) {
         if (code == null) {
             return;
@@ -62,7 +64,7 @@ public class ExpressController extends PersonasController {
                 if (express) {
                     JsfUtil.showModal("expressDialog");
                 } else {
-                    JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);                    
+                    JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);
                 }
                 clean();
                 return;
@@ -88,25 +90,31 @@ public class ExpressController extends PersonasController {
             boolean fechas = verifyDatesPerson();
             if (express) {
                 if (code.startsWith("B")) {
-                    if(!fechas){
+                    if (!fechas) {
                         JsfUtil.showModal("fechasDialog");
                         clean();
                         return;
                     }
                     movPersonasCliController.recordEntryMovement(Constants.UPDATE);
-                    JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_ENTRY);     
+                    JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_ENTRY);
                 }
                 if (code.startsWith("C")) {
                     JsfUtil.showModal("sucursalDialog");
                 }
             } else {
                 disableNoEditableFields(true);
-                JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);                
+                try {
+                    manualController.setImagen(Photo.obtenerFotoCarpeta(String.valueOf(selected.getIdPersona()), Constants.OBJECT_PERSON));
+                } catch (IOException ex) {
+                    System.out.println("Manual Entry: Error al obtener la foto de la personas con id" + selected.getIdPersona());
+                    System.out.println("Exception Manual Entry" + ex);
+                }
+                JsfUtil.redirectTo(Navigation.PAGE_PERSON_REGISTER);
             }
         }
         clean();
-    }    
-    
+    }
+
     public void exitByCodeReader(boolean express) {
         if (code == null) {
             return;
@@ -140,17 +148,23 @@ public class ExpressController extends PersonasController {
                 clean();
                 return;
             }
-            JsfUtil.addSuccessMessage("Salida exitosa"); 
+            JsfUtil.addSuccessMessage("Salida exitosa");
             if (express) {
                 movPersonasCliController.recordExitMovement();
                 JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_EXIT);
             } else {
+                try {
+                    manualController.setImagen(Photo.obtenerFotoCarpeta(String.valueOf(selected.getIdPersona()), Constants.OBJECT_PERSON));
+                } catch (IOException ex) {
+                    System.out.println("Manual Entry: Error al obtener la foto de la personas con id" + selected.getIdPersona());
+                    System.out.println("Exception Manual Entry" + ex);
+                }
                 JsfUtil.redirectTo(Navigation.PAGE_PERSON_EXIT);
             }
         }
         clean();
     }
-    
+
     private Result findByCodeReader() {
         if (code.startsWith("C,")) {//ID CARD (CEDULA)
             String[] separatedWords = separateWords();
@@ -165,7 +179,7 @@ public class ExpressController extends PersonasController {
                 manualController.getSelected().setNombre2(separatedWords[4]);
                 manualController.getSelected().setSexo(separatedWords[5].equals("M"));
                 DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-                try {                    
+                try {
                     Date birthDate = formatter.parse(separatedWords[6]);
                     manualController.getSelected().setFechaNacimiento(birthDate);
                 } catch (ParseException ex) {
@@ -174,7 +188,7 @@ public class ExpressController extends PersonasController {
                 String RH = "¡".equals(separatedWords[7].substring(1)) ? "+" : "-";
                 manualController.getSelected().setRh(separatedWords[7].substring(0, 1) + RH);
                 //</editor-fold>
-                return manualController.findPersonByDocument();                
+                return manualController.findPersonByDocument();
             }
         }
         if (code.startsWith("B,")) {//BAR CODE
@@ -182,7 +196,7 @@ public class ExpressController extends PersonasController {
         }
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//Cuando el formato no coincide con los soportados
     }
-    
+
     public String[] separateWords() {
         int commaCounter = 0;
         String[] separatedWords = new String[10];
@@ -191,7 +205,7 @@ public class ExpressController extends PersonasController {
             char c = code.charAt(i);
             if (c == ',') {
                 if (oldi + 1 != i) {
-                    separatedWords[commaCounter] = code.substring(oldi + 1, i);                    
+                    separatedWords[commaCounter] = code.substring(oldi + 1, i);
                 } else {
                     separatedWords[commaCounter] = "";
                 }
@@ -205,19 +219,19 @@ public class ExpressController extends PersonasController {
         }
         return null;
     }
-    
+
     public Result findPersonByIdExterno(String code) {
         return personasSucursalCliController.findPersonByIdExterno(code);
     }
-    
+
     public String redirecToPersonFormEntry() {
         configFormController.showFieldsPerson();
         return Navigation.PAGE_PERSON_REGISTER;
     }
-    
+
     @Override
     public void clean() {
         code = null;
     }
-    
+
 }

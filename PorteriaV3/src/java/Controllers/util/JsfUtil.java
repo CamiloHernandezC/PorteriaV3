@@ -93,7 +93,7 @@ public class JsfUtil {
     }
     
     public static void cancel() {
-        redirectTo("");
+        redirectTo(Navigation.PAGE_INDEX);
     }
 
     public static void redirectTo(String page) {
