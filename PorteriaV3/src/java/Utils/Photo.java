@@ -95,4 +95,22 @@ public class Photo implements Serializable{
         }
 
     }
+    /**
+     * 
+     * @param propiedad - El nombre que tiene en el archivo properties. TIENE QUE IR ENTRE COMILLAS
+     * @param nombre Nombre del archivo que se busca (Por lo general se almacena en idObjeto)
+     * @return Devuelve la direccion donde esta almacenada la foto para poderla adjuntar
+     */
+    public static String cargarFoto(String propiedad, String nombre) {
+        Properties propiedades = new Properties();
+        try {
+            propiedades.load(new FileInputStream("C:/Program Files/Porteria/Properties/archivo.properties"));
+        } catch (IOException ex) {
+            System.out.println("No se ha podido cargar el archivo Properties Porteria: " + ex);
+        }
+        String direccion = "";
+        direccion = propiedades.getProperty(propiedad);
+        direccion = direccion + String.valueOf(nombre) + ".jpg";
+        return direccion;
+    }
 }

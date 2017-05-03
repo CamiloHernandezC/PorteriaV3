@@ -161,7 +161,7 @@
                 <h:panelGrid id="panelFoto">
                     <h:outputText value="Tomar Foto" rendered="#{manualController.imagen==null}"/>
                     <p:commandLink oncomplete="PF('dialogoFotoPersona').show();" immediate="true">
-                        <p:graphicImage value="../../resources/images/camara.png" width="50" height="50"></p:graphicImage>
+                        <p:graphicImage value="../../resources/images/camera2.png" width="50" height="50"></p:graphicImage>
                     </p:commandLink>
                     <p:graphicImage id="foto" value="#{photo.getUltimaImagen(manualController.imagen)}" width="150" height="150" rendered="#{manualController.imagen!=null}" cache="false"/>
                     <h:outputLabel value="Foto Cargada: " for="foto" rendered="#{manualController.imagen!=null}"/>  

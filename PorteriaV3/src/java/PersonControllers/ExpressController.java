@@ -19,7 +19,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
@@ -27,7 +27,7 @@ import javax.inject.Named;
  * @author MAURICIO
  */
 @Named(value = "expressController")
-@ApplicationScoped
+@SessionScoped
 public class ExpressController extends PersonasController {
 
     //private persona menu;

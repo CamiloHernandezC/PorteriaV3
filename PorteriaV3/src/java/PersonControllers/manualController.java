@@ -137,8 +137,9 @@ public class manualController extends PersonasController {
             //TODO METODO COMUN PARA LOS DOS
         }
         //NOTIFICATION//////////////////////////////////////////////////////////
+        
         NotificationControl notificationControl = JsfUtil.findBean("notificationControl");
-        notificationControl.notifyEvent(personasSucursalCliController.getSelected(), Constants.STRING_ENTRY, null);
+        notificationControl.notifyEvent(personasSucursalCliController.getSelected(), Constants.STRING_ENTRY, Photo.cargarFoto("DireccionPersona", String.valueOf(selected.getIdPersona())));
         JsfUtil.addSuccessMessage("Ingreso exitoso");
         ////////////////////////////////////////////////////////////////////////
         if (express) {
