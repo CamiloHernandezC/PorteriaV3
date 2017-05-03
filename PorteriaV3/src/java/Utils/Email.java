@@ -8,6 +8,7 @@ package Utils;
 import Entities.Notificaciones;
 import Entities.PersonasSucursal;
 import Entities.Usuarios;
+import java.io.File;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -98,6 +99,14 @@ public class Email implements Runnable{
         ccEmails = null;
         emailSubject = notification.getAsunto();
         emailBody = buildMessage(notification,object,tipoEvento);
+        File f = new File(rutaArchivo);
+        if(f.exists()) { 
+            this.rutaArchivo = rutaArchivo;
+        }else{
+            this.rutaArchivo = null;
+        }
+        
+        
         initProps();
         
     }

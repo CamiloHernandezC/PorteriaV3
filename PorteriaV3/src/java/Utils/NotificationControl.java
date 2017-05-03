@@ -9,7 +9,6 @@ import Entities.EmpresaOrigen;
 import Entities.Notificaciones;
 import Entities.PersonasSucursal;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
