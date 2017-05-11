@@ -17,53 +17,62 @@
     </script>
     <!--*********************************************************************-->
 
-    <h:body style="background-image: url(#{resource['images/fondo2.jpg']}">
-        <h:outputStylesheet library="css" name="styleLogin.css"/>
-        <div class="contentLogin" style="width:620px; position: absolute;top: 50%; left: 50%;  transform: translate(-50%, -50%)">
-            <div id="loginForm"  style="width:620px" >
-                
-                <p:confirmDialog id="confirmDialog" appendTo="@(body)" header="#{bundle.recoverPassword}" message="Por favor ingrese su usuario" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogRecoverPassword" closable="false">
-                    <h:form >
-                        
-                        <p:messages id="errorMsg" autoUpdate="true" closable="true"/>
-                        <h:panelGrid columns="2" cellpadding="5" >
-                            <p:outputLabel for="usuario" value="Usuario" />
-                            <p:inputText value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
-                            <br/>
-                        </h:panelGrid>
-                        <h:panelGrid columns="2">
-                            <p:commandButton icon="ui-icon-mail-closed" value="#{bundle.sendMail}" action="#{loginControl.recoverPassword()}" ajax="true" update="errorMsg"/>
-                            <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogRecoverPassword').hide();"/>
-                        </h:panelGrid>
+    <h:body style="background-color: white">
+
+
+
+        <style type="text/css">
+            #centerLU div{background-image: url(#{resource['images/fondo2.jpg']});}
+        </style>
+
+        <style type="text/css">
+            .ui-widget{font-size:90% !important;}
+            .ui-layout-unit-content{background: white}
+        </style>
+
+        <p:confirmDialog style="background: white" id="confirmDialog" appendTo="@(body)" header="#{bundle.recoverPassword}" message="Por favor ingrese su usuario" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogRecoverPassword" closable="false">
+
+            <h:form>
+                <p:messages id="errorMsg" autoUpdate="true" closable="true"/>
+
+                <h:panelGrid columns="1" cellpadding="5px" >
+
+                    <p:outputLabel for="usuario" value="Usuario" />
+                    <p:inputText style="width: 300px" value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
+
+                    <h:panelGrid columns="2" style="width: 300px">
+
+                        <p:commandButton style="width: 150px" icon="ui-icon-mail-closed" value="#{bundle.sendMail}" action="#{loginControl.recoverPassword()}" ajax="true" update="errorMsg"/>
+                        <p:commandButton style="width: 150px" id="decline" value="#{bundle.Cancel}" onclick="PF('dialogRecoverPassword').hide();" immediate="true"/>
+
+                    </h:panelGrid>
+                </h:panelGrid>
+
+            </h:form>
+        </p:confirmDialog>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit position="center" size="100%" id="centerLU">
+                <p:panel style="border-color: blue;background-color: white;width: fit-content;position: relative;margin: 10% 0 0 38%;">
+                    <p:growl id="growl" showDetail="true" />
+                    <h:form>
+                        <h:panelGrid  columns="1" cellpadding="5px" >
+                            <p:graphicImage style="margin: 0 0 0 30%" url="resources\images\userLogin.png"/>
+                            
+                            <h:outputLabel value="#{bundle.User}" style="width: fit-content"/>
+                            <p:inputText value="#{loginControl.selected.idUsuario}" style="width: 300px"/>
+
+                            <h:outputLabel value="#{bundle.Password}" style="width: fit-content"/>
+                            <p:inputText value="#{loginControl.selected.password}" style="width: 300px"/>
+
+                            <p:commandButton style="width: 50%;background: #339900" icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}" action="#{loginControl.login()}" update="growl" /> 
+                            <p:commandLink value="#{bundle.forgotPassword}" style="color: #00cc00" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
+                        </h:panelGrid>    
                     </h:form>
-                </p:confirmDialog>
+                </p:panel>
 
-                <h:form>
-
-                    <p:panel style="border-color: blue;background-color: white">
-                        <h:graphicImage url="resources\images\Firma_Seracis.png"/>
-                        <p:panel style="border-color: blue; background-color: white">
-                            <p:growl id="growl" showDetail="true" />
-
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <p:outputLabel for="usuario" value="#{bundle.User}" />
-                                <p:inputText value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
-                                <p:outputLabel for="clave" value="#{bundle.Password}" />
-                                <p:password value="#{loginControl.selected.password}" id="clave" />
-                                <br/>
-                            </h:panelGrid>
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <p:column/>
-                                <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}"
-                                                 action="#{loginControl.login()}" update="growl" /> 
-
-                            </h:panelGrid>
-                            <p:commandLink value="#{bundle.forgotPassword}" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
-                        </p:panel>
-                    </p:panel>
-                </h:form>
-            </div>
-        </div>
+            </p:layoutUnit>
+        </p:layout>
     </h:body>
 </html>
 
