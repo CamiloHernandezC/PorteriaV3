@@ -16,13 +16,13 @@ body {
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
-    background: url('../images/fondo4.jpg') center center;
+    background: url('../images/fondo1.png') center center;
 }
 
 div.container {
     align-items: center;
     align-self: center;
-    background: url('../images/fondo4.jpg') center center;
+    background: url('../images/fondo3.jpg') center center;
     border-radius: 100%;
     display: flex;
     flex-direction: column;
