@@ -1,5 +1,7 @@
-package Controllers;
+package GeneralControl;
 
+import Controllers.PorteriasSucursalController;
+import Controllers.SucursalesController;
 import Entities.ConfigForm;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
@@ -359,7 +361,6 @@ public class ConfigFormController implements Serializable {
                 return null;
             }
         }
-
     }
-
+    
 }

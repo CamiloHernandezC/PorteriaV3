@@ -21,4 +21,7 @@ public class Navigation {
     public static final String PAGE_CONFIGURATION ="/configuration/Configuration.xhtml?faces-redirect=true";
     public static final String PAGE_SELECT_ENTRY="/person_entry/complete_entry/SelectEntry.xhtml?faces-redirect=true";
     public static String PAGE_LOGIN="/login.xhtml?faces-redirect=true";
+    
+    
+    public static final String PAGE_INDEX_PRUEBA = "/index2.xhtml?faces-redirect=true";
 }

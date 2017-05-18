@@ -1,7 +1,7 @@
 package PersonControllers;
 
 import Controllers.AbstractPersistenceController;
-import Controllers.ConfigFormController;
+import GeneralControl.ConfigFormController;
 import Controllers.PorteriasSucursalController;
 import Controllers.util.JsfUtil;
 import Entities.Entidades;

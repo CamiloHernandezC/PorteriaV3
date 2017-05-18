@@ -143,6 +143,7 @@ public class manualController extends PersonasController {
         JsfUtil.addSuccessMessage("Ingreso exitoso");
         ////////////////////////////////////////////////////////////////////////
         if (express) {
+            personasSucursalCliController.setSelected(null);
             return Navigation.PAGE_EXPRESS_ENTRY;
         }
         //Almacenar Foto////////////////////////////////////////////////////////

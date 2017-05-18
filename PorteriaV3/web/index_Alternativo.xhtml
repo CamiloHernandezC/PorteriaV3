@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>.: Aplicación Porteria</title>
+            </f:facet>
+            <script src="assets/js/custom.js"></script>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>.: Aplicación Porteria</title>
+            </f:facet>
+            <script src="assets/js/custom.js"></script>
+        </h:head>
+
+        <!--***************Código para evitar que pueda ir hacia atras***********-->
+        <meta http-equiv="Expires" content="0" /> 
+        <meta http-equiv="Pragma" content="no-cache" />
+        <script type="text/javascript">
+            if (history.forward(1)) {
+                location.replace(history.forward(1));
+            }
+        </script>
+        <!--*********************************************************************-->
+
+        <h:body id="body" onload="nobackbutton();">
+
+            <!--Test for unique actived session************************************-->
+            <c:if test="#{loginControl.validSession()}"/>
+            <!--*********************************************************************-->
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    <h:form style="float:right !important;margin:0px 0px 3px 0px;">
+                        <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.Logout}" action="#{loginControl.logout()}" immediate=""/>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="#{bundle.Menu_Name}" collapsible="false">
+                    <div id="menuwe" class="clearfix">
+                        <h:form>
+                            <p:panelMenu model="#{menuControl.menu}" />
+                        </h:form>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h1>Gooey Menu</h1>
+                    <h2>Using CSS and SVG Filters</h2>
+                    <h3>By <a href="http://codepen.io/lbebber">Lucas Bebber</a></h3>
+                    <h4><a href="http://codepen.io/lbebber/pen/LELBEo" target="_blank">Version 1</a> - <a href="http://codepen.io/lbebber/pen/RNgBPP" target="_blank">Version 2</a> - <a href="http://codepen.io/lbebber/pen/pvwZJp" target="_blank">Version 3</a> - Version 4</h4>
+                    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+                    <nav class="menu">
+                      <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open"/>
+                      <label class="menu-open-button" for="menu-open">
+                        <span class="hamburger hamburger-1"></span>
+                        <span class="hamburger hamburger-2"></span>
+                        <span class="hamburger hamburger-3"></span>
+                      </label>
+
+                      <a href="#" class="menu-item"> <i class="fa fa-bar-chart"></i> </a>
+                      <a href="#" class="menu-item"> <i class="fa fa-plus"></i> </a>
+                      <a href="#" class="menu-item"> <i class="fa fa-heart"></i> </a>
+                      <a href="#" class="menu-item"> <i class="fa fa-envelope"></i> </a>
+
+
+                    </nav>
+
+
+                    <!-- filters -->
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                        <defs>
+                          <filter id="shadowed-goo">
+
+                              <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+                              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+                              <feGaussianBlur in="goo" stdDeviation="3" result="shadow" />
+                              <feColorMatrix in="shadow" mode="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 -0.2" result="shadow" />
+                              <feOffset in="shadow" dx="1" dy="1" result="shadow" />
+                              <feComposite in2="shadow" in="goo" result="goo" />
+                              <feComposite in2="goo" in="SourceGraphic" result="mix" />
+                          </filter>
+                          <filter id="goo">
+                              <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+                              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+                              <feComposite in2="goo" in="SourceGraphic" result="mix" />
+                          </filter>
+                        </defs>
+                    </svg>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+
+
