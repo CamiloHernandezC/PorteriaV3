@@ -9,8 +9,10 @@
     <ui:define name="content">
         <h:form id="search_form">
             <p:focus context="search_form" for="cc"/>
-            <p:outputLabel value="#{bundle.Entry}" style="font-size: 110%; font-weight: bold" /> 
             <h:panelGrid columns="2" cellpadding="5">
+                <h:panelGrid columns="1" cellpadding="5">
+                <p:outputLabel value="#{bundle.Entry}" style="font-size: 110%; font-weight: bold" /> 
+                <h:panelGrid/>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="selec_entry" value="#{bundle.P_Complete_Entry_Select_Entry_Method}" />
                     <p:selectOneRadio  id="selec_entry" value="#{completeEntry.selectEntryMethod}">
@@ -34,8 +36,10 @@
                     </p:inputText>
                     
                 </h:panelGrid>
+                
+            </h:panelGrid>
                 <p:graphicImage value="../../resources/images/LectorProj.png" height="100px" width="200px" rendered="#{!completeEntry.selectEntryMethod}"/>
-                <p:graphicImage value="../../resources/images/TecladoProj.png" height="100px" width="250px" rendered="#{completeEntry.selectEntryMethod}"/>
+                <p:graphicImage value="../../resources/images/Keyboard_2.png"  rendered="#{completeEntry.selectEntryMethod}"/>
 
             </h:panelGrid>
 

@@ -5,6 +5,8 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>.: Inicio de sesión - Porteria</title>
+        <link href='https://fonts.googleapis.com/css?family=Playfair+Display:900|Raleway:300' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
     </h:head>
 
     <!--***************Código para evitar que pueda ir hacia atras***********-->
@@ -16,25 +18,9 @@
         }
     </script>
     <!--*********************************************************************-->
-
-    <h:body style="background-color: white; overflow: hidden">
-
-        <style type="text/css">
-            html,body{
-                margin:0px;
-                height:100%;
-            }
-        </style>
-
-        <style type="text/css">
-            #centerLU div{background-image: url(#{resource['images/fondo2.jpg']});}
-        </style>
-
-        <style type="text/css">
-            .ui-widget{font-size:90% !important;}
-            .ui-layout-unit-content{background: white}
-        </style>
-
+    
+    <body>
+        
         <p:confirmDialog style="background: white" id="confirmDialog" appendTo="@(body)" header="#{bundle.recoverPassword}" message="Por favor ingrese su usuario" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogRecoverPassword" closable="false">
 
             <h:form>
@@ -43,7 +29,7 @@
                 <h:panelGrid  columns="1" cellpadding="5px" >
 
                     <p:outputLabel for="usuario" value="Usuario" />
-                    <p:inputText style="width: 300px" value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
+                    <h:inputText value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
 
                     <h:panelGrid columns="2" style="width: 300px">
 
@@ -55,28 +41,27 @@
 
             </h:form>
         </p:confirmDialog>
-
-        <div  style="background-image: url(#{resource['images/fondo2.jpg']});width:100%; height:100%;" id="centerLU">
-            <div align="center" style="margin-top: 10%;">
-                <p:panel style="border-color: blue;background-color: white;width: 20%;">
+        
+        <div class="container">
+            <h1>Login</h1>
                     <p:growl id="growl" showDetail="true" />
                     <h:form>
                         <h:panelGrid  style="width: 97%"  columns="1" cellpadding="5px" >
+                            
                             <p:graphicImage style="margin-left: 22%" url="resources\images\userLogin.png"/>
                             
                             <h:outputLabel value="#{bundle.User}" style="width: fit-content"/>
-                            <p:inputText value="#{loginControl.selected.idUsuario}" style="width: 100%"/>
+                            <h:inputText autocomplete="off" value="#{loginControl.selected.idUsuario}" style="width: 100%"/>
 
-                            <h:outputLabel value="#{bundle.Password}" style="width: fit-content"/>
-                            <p:inputText value="#{loginControl.selected.password}" style="width: 100%"/>
+                            <h:outputLabel value="#{bundle.Password}"/>
+                            <h:inputSecret autocomplete="off" value="#{loginControl.selected.password}" style="width: 100%"/>
 
-                            <p:commandButton style="width: 100%;background: #339900" icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}" action="#{loginControl.login()}" update="growl" /> 
+                            <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}" action="#{loginControl.login()}" update="growl" /> 
                             <p:commandLink value="#{bundle.forgotPassword}" style="color: #00cc00" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
+                        
                         </h:panelGrid>    
                     </h:form>
-                </p:panel>
-            </div>
         </div>
-    </h:body>
+    </body>
 </html>
 

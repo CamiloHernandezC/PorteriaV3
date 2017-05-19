@@ -23,5 +23,5 @@ public class Navigation {
     public static String PAGE_LOGIN="/login.xhtml?faces-redirect=true";
     
     
-    public static final String PAGE_INDEX_PRUEBA = "/index2.xhtml?faces-redirect=true";
+    public static final String PAGE_INDEX_PRUEBA = "/index_Alternativo.xhtml?faces-redirect=true";
 }

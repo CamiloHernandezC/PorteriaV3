@@ -96,4 +96,17 @@ public abstract class AbstractFacade<T> {
         return new Result(list, Constants.OK);
     }
     
+    public Result findByQueryArray(String squery, int top) {
+        
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery(squery);
+        query.setMaxResults(top);
+        List<T> list;
+        list = (List<T>) query.getResultList();
+        if(list.isEmpty()){
+            return new Result(list, Constants.NO_RESULT_EXCEPTION);
+        }
+        return new Result(list, Constants.OK);
+    }
+    
 }

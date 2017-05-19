@@ -151,6 +151,7 @@ public class ExpressController extends PersonasController {
             JsfUtil.addSuccessMessage("Salida exitosa");
             if (express) {
                 movPersonasCliController.recordExitMovement();
+                movPersonasCliController.findLastMovements();
                 JsfUtil.redirectTo(Navigation.PAGE_EXPRESS_EXIT);
             } else {
                 try {

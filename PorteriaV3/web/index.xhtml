@@ -1,40 +1,41 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="/template.xhtml"
+                template="./template.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="content">
-        <h:form id="TiposDocumentoCliListForm">
-                <p:panel header="#{bundle.ListTiposDocumentoCliTitle}">
-                    <p:dataTable id="datalist" value="#{tiposDocumentoController.items}" var="item"
-                                 selectionMode="single" selection="#{tiposDocumentoController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.tipoDocumento}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+        <h:form>
+            
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_tipodocumento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tipoDocumento}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_descripcion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.descripcion}"/>
-                        </p:column>
-                        <f:facet name="footer">
+            <h:panelGrid columns="2" cellpadding="10px" style="width: 85%; margin-top: 5%">
 
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+                <h:panelGrid  columns="1" style="width: 100%">
+                    <h:panelGrid columns="1" style="margin-left: 45%;width: 100%" >
+                        <p:commandLink action="#{generalViewControl.irIngresoManual()}">
+                            <p:graphicImage style="width: 40%" url="resources/images/Ingreso.png"/>
+                        </p:commandLink>
+                        <p:commandLink style="margin-top: 100px" action="#{generalViewControl.irIngresoExpress()}">
+                            <p:graphicImage style="width: 40%" url="resources/images/BarCode.png"/>
+                        </p:commandLink>
+                        
+                    </h:panelGrid>
+                </h:panelGrid>
+
+                <h:panelGrid columns="1" style="width: 100%">
+                    <h:panelGrid columns="1" style="width: 100%;margin-left: 15%" >
+                        <p:commandLink style="margin-top: 100px" action="#{generalViewControl.irSalidaManual()}">
+                            <p:graphicImage style="width: 40%" url="resources/images/Person.png"/>
+                        </p:commandLink>
+                        
+                        <p:commandLink style="margin-top: 100px" action="#{generalViewControl.irSalidaExpress()}">
+                            <p:graphicImage style="width: 40%" url="resources/images/BarCode.png"/>
+                        </p:commandLink>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:panelGrid>  
+        </h:form>
     </ui:define>
 
 </ui:composition>

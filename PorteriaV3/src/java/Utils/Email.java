@@ -105,10 +105,28 @@ public class Email implements Runnable{
         }else{
             this.rutaArchivo = null;
         }
-        
-        
         initProps();
-        
+    }
+    
+    public Email(String Nombre,String correo,String Descripcion) {
+        receiverEmails="camilo.hernandez.castillo@gmail.com";
+        ccEmails = null;
+        emailSubject = "Contacto al Servicio Tecnico";
+        emailBody = new Date()+"\n"
+                + " \n"
+                + "Email enviado por \n"
+                + " \n"
+                + Nombre
+                + "\n"
+                + " Donde la descripcion fue : "
+                + "\n"
+                + Descripcion
+                + "\n"
+                + "Con direccion o telefono de contacto "
+                + "\n"
+                + correo;
+        initProps();
+                
     }
     
     public Email(Usuarios user) {
@@ -156,6 +174,10 @@ public class Email implements Runnable{
     
     public static void crearEmail(Usuarios user) {
         (new Thread(new Email(user))).start();
+    }
+    
+    public static void crearEmail(String Nombre,String correo,String Descripcion) {
+        (new Thread(new Email(Nombre,correo,Descripcion))).start();
     }
 
     public static void crearEmail(Notificaciones notification,String rutaArchivo, Object object, String tipoEvento){

@@ -5,6 +5,8 @@
  */
 package ViewControllers;
 
+import Controllers.util.JsfUtil;
+import Utils.Navigation;
 import java.io.Serializable;
 import java.util.Date;
 import javax.inject.Named;
@@ -34,5 +36,39 @@ public class GeneralViewControl implements Serializable{
      */
     public GeneralViewControl() {
     }
+    
+    //<editor-fold desc="NAVEGACION INDEX" defaultstate="collapsed">
+    public String irConfiguracion(){
+        return Navigation.PAGE_CONFIGURATION;
+    }
+    
+    public void irContactanos(){
+        JsfUtil.showModal("diagContact");
+    }
+    
+    public void irVerTodosMovimientos(){
+        JsfUtil.showModal("diagMovCompletos");
+    }
+    
+    public String irIndex(){
+        return Navigation.PAGE_INDEX;
+    }
+    
+    public String irIngresoManual(){
+        return Navigation.PAGE_COMPLETE_ENTRY;
+    }
+    
+    public String irIngresoExpress(){
+        return Navigation.PAGE_EXPRESS_ENTRY;
+    }
+    
+      public String irSalidaManual(){
+        return Navigation.PAGE_COMPLETE_EXIT;
+    }
+    
+    public String irSalidaExpress(){
+        return Navigation.PAGE_EXPRESS_EXIT;
+    }
+    //</editor-fold>
     
 }

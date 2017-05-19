@@ -29,6 +29,8 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
     @EJB
     private Facade.MovPersonasFacade ejbFacade;
     private List<MovPersonas> items = null;
+    private List<MovPersonas> ultimosMovimientos = null;
+    private List<MovPersonas> movimientosDiarios = null;
     private MovPersonas selected;
 
     public MovPersonasController() {
@@ -81,6 +83,26 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
 
     public List<MovPersonas> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+
+    public List<MovPersonas> getUltimosMovimientos() {
+        return ultimosMovimientos;
+    }
+
+    public void setUltimosMovimientos(List<MovPersonas> ultimosMovimientos) {
+        this.ultimosMovimientos = ultimosMovimientos;
+    }
+
+    public List<MovPersonas> getMovimientosDiarios() {
+        java.util.Date fechaActual = new java.util.Date();
+        java.sql.Date hoy = new java.sql.Date(fechaActual.getTime()); 
+        String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+hoy+"' ORDER BY a.idMovPersona DESC";
+        movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
+        return movimientosDiarios;
+    }
+
+    public void setMovimientosDiarios(List<MovPersonas> movimientosDiarios) {
+        this.movimientosDiarios = movimientosDiarios;
     }
     
     public void recordEntryMovement(int persistAction) {
@@ -205,6 +227,11 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
     @Override
     protected void clean() {
         selected = null;
+    }
+
+    public void findLastMovements() {
+         String squery = Querys.MOV_PERSONA_CLI_ALL+" ORDER BY a.idMovPersona DESC";
+         ultimosMovimientos = (List<MovPersonas>) ejbFacade.findByQueryArray(squery,20).result;
     }
 
     @FacesConverter(forClass = MovPersonas.class)

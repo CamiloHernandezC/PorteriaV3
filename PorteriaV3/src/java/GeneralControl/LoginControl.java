@@ -77,6 +77,7 @@ public class LoginControl implements Serializable {
         usuariosController.update();
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         httpSession.setAttribute(Constants.SESSION_USER, selected);
+        //CAMBIAR
         JsfUtil.redirectTo(Navigation.PAGE_INDEX);
         selected = null;
     }

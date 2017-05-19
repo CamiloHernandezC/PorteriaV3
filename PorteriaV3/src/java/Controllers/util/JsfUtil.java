@@ -110,4 +110,9 @@ public class JsfUtil {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('"+nombreModal+"').show();");
     }
+    
+    public static void exitModal(String nombreModal){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('"+nombreModal+"').hide();");
+    }
 }

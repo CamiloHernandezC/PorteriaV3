@@ -89,16 +89,16 @@ public class Usuarios implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @JoinColumn(name = "Persona", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Personas persona;
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Estados estado;
     @JoinColumn(name = "Usuario_Modifica", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Personas usuarioModifica;
     @JoinColumn(name = "Tema", referencedColumnName = "Id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Theme tema;
 
     public Usuarios() {

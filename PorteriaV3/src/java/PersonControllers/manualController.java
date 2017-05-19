@@ -141,6 +141,7 @@ public class manualController extends PersonasController {
         NotificationControl notificationControl = JsfUtil.findBean("notificationControl");
         notificationControl.notifyEvent(personasSucursalCliController.getSelected(), Constants.STRING_ENTRY, Photo.cargarFoto("DireccionPersona", String.valueOf(selected.getIdPersona())));
         JsfUtil.addSuccessMessage("Ingreso exitoso");
+        movPersonasCliController.findLastMovements();
         ////////////////////////////////////////////////////////////////////////
         if (express) {
             personasSucursalCliController.setSelected(null);
@@ -165,6 +166,7 @@ public class manualController extends PersonasController {
     public String exit() {
         movPersonasCliController.recordExitMovement();
         JsfUtil.addSuccessMessage("Salida exitosa");
+        movPersonasCliController.findLastMovements();
         return Navigation.PAGE_INDEX;
     }
 
