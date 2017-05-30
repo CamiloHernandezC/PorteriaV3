@@ -108,23 +108,29 @@ public class Email implements Runnable{
         initProps();
     }
     
-    public Email(String Nombre,String correo,String Descripcion) {
-        receiverEmails="camilo.hernandez.castillo@gmail.com";
+    public Email(String Nombre,String correo,String Descripcion,String ciudad) {
+        receiverEmails="andresmaomorales@gmail.com";
         ccEmails = null;
         emailSubject = "Contacto al Servicio Tecnico";
         emailBody = new Date()+"\n"
                 + " \n"
-                + "Email enviado por \n"
-                + " \n"
-                + Nombre
+                + "Email enviado por: \n"
                 + "\n"
-                + " Donde la descripcion fue : "
+                + Nombre +"\n"
                 + "\n"
-                + Descripcion
+                + "ubicado en la ciudad de : \n"
                 + "\n"
-                + "Con direccion o telefono de contacto "
+                + ciudad +"\n"
                 + "\n"
-                + correo;
+                + "Donde la descripcion fue : \n"
+                + "\n"
+                + Descripcion +"\n"
+                + "\n"
+                + "Con direccion o telefono de contacto \n"
+                + "\n"
+                + correo +"\n"
+                +"\n"
+                + "Best regards, Support Team";
         initProps();
                 
     }
@@ -176,8 +182,8 @@ public class Email implements Runnable{
         (new Thread(new Email(user))).start();
     }
     
-    public static void crearEmail(String Nombre,String correo,String Descripcion) {
-        (new Thread(new Email(Nombre,correo,Descripcion))).start();
+    public static void crearEmail(String Nombre,String correo,String Descripcion,String ciudad) {
+        (new Thread(new Email(Nombre,correo,Descripcion,ciudad))).start();
     }
 
     public static void crearEmail(Notificaciones notification,String rutaArchivo, Object object, String tipoEvento){

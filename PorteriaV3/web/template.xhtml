@@ -41,6 +41,12 @@
                                     <h:outputText value="#{personas.personasSucursal.personas.apellido1}"/>
                                 </p:column>
 
+                                <p:column style="font-size:11px" headerText="Fecha Entrada">
+                                    <h:outputText value="#{personas.fechaEntrada}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
                                 <p:column style="font-size:12px" headerText="Hora Entrada">
                                     <h:outputText value="#{personas.horaEntrada}">
                                         <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
@@ -54,7 +60,14 @@
                                 </p:column>
 
                             </p:dataTable>
-                            <p:commandButton value="Ver todos" action="#{generalViewControl.irVerTodosMovimientos()}" />
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="Ver todos" action="#{generalViewControl.irVerTodosMovimientos()}" />
+                                <p:commandLink immediate="true" style="margin-top: 100px" action="#{helpUtils.showModalHelpVerMovimientos()}">
+                                    <p:graphicImage style="width: 60%" url="#{resource['/images/Help.png']}"/>
+                                </p:commandLink>
+                            </h:panelGrid>
+                                
+                            
                         </h:form>
                     </div>
                 </p:layoutUnit>
@@ -68,7 +81,7 @@
                             </h:form>
 
                             <h:form style="float:left !important;margin:0px 0px 3px 0px;">
-                                <p:commandButton icon="ui-icon-back" id="loginButton" value="Inicio" action="#{generalViewControl.irIndex()}" immediate=""/>
+                                <p:commandButton icon="ui-icon-home" id="loginButton" value="Inicio" action="#{generalViewControl.irIndex()}" immediate=""/>
                             </h:form>
                         </p:layoutUnit>
 
@@ -78,7 +91,7 @@
                                     <p:stack  expanded="false" icon="#{resource['/images/up.png']}">
                                         <p:menuitem value="Configuracion" icon="#{resource['images/Config.png']}" url="#{generalViewControl.irConfiguracion()}"/>
                                         <p:menuitem value="Novedades" icon="#{resource['images/Novedades_1.png']}" url="#"/>
-                                        <p:menuitem value="Contactanos" icon="#{resource['images/Email_1.png']}" action="#{generalViewControl.irContactanos()}"/>
+                                        <p:menuitem value="Contactenos" update=":formContact" icon="#{resource['images/Email_1.png']}" action="#{generalViewControl.irContactanos()}"/>
                                     </p:stack>
                                 </h:form>
 
@@ -188,6 +201,17 @@
                                     <p:graphicImage url="#{resource['/images/Info.png']}"/>
                                 </h:panelGrid>
                             </p:dialog>
+                            
+                            <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpMov" modal="true" closable="true" minHeight="40">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:panelGrid columns="1" cellpadding="10">
+                                        <p>  </p>
+                                        <p> Permite ver todos los movimientos de personas realizados con fecha de entrada de HOY</p>
+                                    </h:panelGrid>
+                                    <p:graphicImage url="#{resource['/images/Info.png']}"/>
+                                </h:panelGrid>
+                            </p:dialog>
+                            
 
                             <p:dialog header="Contacto servicio tecnico" closable="true" appendTo="@(body)" widgetVar="diagContact" modal="true" minHeight="40">
                                 <h:form id="formContact">
@@ -196,6 +220,9 @@
                                         <h:panelGrid columns="2">
                                             <p:outputLabel value="Nombre (COMPLETO): "/>
                                             <p:inputText requiredMessage="Nombre" required="true" value="#{helpUtils.nombre}"/>
+                                            
+                                            <p:outputLabel value="Ciudad: "/>
+                                            <p:inputText requiredMessage="Ingrese la Ciudad" required="true" value="#{helpUtils.ciudad}"/>
 
                                             <p:outputLabel value="Correo de Contacto y/o Telefono: "/>
                                             <p:inputText requiredMessage="Ingrese medio de contacto" required="true" value="#{helpUtils.correoContacto}"/>
@@ -215,56 +242,71 @@
                             <p:dialog header="Movimientos Completos" closable="true" appendTo="@(body)" widgetVar="diagMovCompletos" modal="true" minHeight="40">
                                 <h:form>
                                     <p:dataTable paginator="true" rows="10" var="personas" value="#{movPersonasController.movimientosDiarios}" >
-                                        <p:column filterBy="#{personas.personasSucursal.personas.nombre1}" style="font-size:12px" headerText="1ER Nombre">
+                                        <p:column filterBy="#{personas.personasSucursal.personas.nombre1}" style="font-size:11px" headerText="1ER Nombre">
                                             <h:outputText  value="#{personas.personasSucursal.personas.nombre1}"/>
                                         </p:column>
-                                        
-                                        <p:column filterBy="#{personas.personasSucursal.personas.nombre2}" style="font-size:12px" headerText="2DO Nombre">
+
+                                        <p:column filterBy="#{personas.personasSucursal.personas.nombre2}" style="font-size:11px" headerText="2DO Nombre">
                                             <h:outputText  value="#{personas.personasSucursal.personas.nombre2}"/>
                                         </p:column>
 
-                                        <p:column filterBy="#{personas.personasSucursal.personas.apellido1}" style="font-size:12px" headerText="1ER Apellido">
+                                        <p:column filterBy="#{personas.personasSucursal.personas.apellido1}" style="font-size:11px" headerText="1ER Apellido">
                                             <h:outputText value="#{personas.personasSucursal.personas.apellido1}"/>
                                         </p:column>
-                                        
-                                        <p:column filterBy="#{personas.personasSucursal.personas.apellido2}" style="font-size:12px" headerText="2DO Apellido">
+
+                                        <p:column filterBy="#{personas.personasSucursal.personas.apellido2}" style="font-size:11px" headerText="2DO Apellido">
                                             <h:outputText value="#{personas.personasSucursal.personas.apellido2}"/>
                                         </p:column>
-                                        
-                                        <p:column filterBy="#{personas.personasSucursal.personas.tipoDocumento.descripcion}" style="font-size:12px" headerText="Apellido">
+
+                                        <p:column filterBy="#{personas.personasSucursal.personas.tipoDocumento.descripcion}" style="font-size:11px" headerText="Tipo Doc">
                                             <h:outputText value="#{personas.personasSucursal.personas.tipoDocumento.descripcion}"/>
                                         </p:column>
-                                        
-                                        <p:column filterBy="#{personas.personasSucursal.personas.numeroDocumento}" style="font-size:12px" headerText="Apellido">
+
+                                        <p:column filterBy="#{personas.personasSucursal.personas.numeroDocumento}" style="font-size:11px" headerText="Documento">
                                             <h:outputText value="#{personas.personasSucursal.personas.numeroDocumento}"/>
                                         </p:column>
+                                        
+                                        <p:column filterBy="#{personas.personasSucursal.entidad.descripcion}" style="font-size:11px" headerText="Entidad">
+                                            <h:outputText value="#{personas.personasSucursal.entidad.descripcion}"/>
+                                        </p:column>
 
+                                        <p:column style="font-size:11px" headerText="Fecha Entrada">
+                                            <h:outputText value="#{personas.fechaEntrada}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
 
-                                        <p:column style="font-size:12px" headerText="Hora Entrada">
+                                        <p:column style="font-size:11px" headerText="Hora Entrada">
                                             <h:outputText value="#{personas.horaEntrada}">
                                                 <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
                                             </h:outputText>
                                         </p:column>
 
-                                        <p:column style="font-size:12px" headerText="Hora Salida">
+                                        <p:column style="font-size:11px" headerText="Fecha Salida">
+                                            <h:outputText value="#{personas.fechaSalida}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column style="font-size:11px" headerText="Hora Salida">
                                             <h:outputText value="#{personas.horaSalida}">
                                                 <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
                                             </h:outputText>
                                         </p:column>
-                                        
-                                        <p:column filterBy="#{personas.personasSucursal.area.descripcion}" style="font-size:12px" headerText="Area Visitada">
+
+                                        <p:column filterBy="#{personas.personasSucursal.area.descripcion}" style="font-size:11px" headerText="Area Visitada">
                                             <h:outputText value="#{personas.personasSucursal.area.descripcion}"/>
                                         </p:column>
-                                        
-                                        <p:column filterBy="#{personas.personasSucursal.personas.empresaOrigen.nombre1}" style="font-size:12px" headerText="Empresa Origen">
+
+                                        <p:column filterBy="#{personas.personasSucursal.personas.empresaOrigen.nombre1}" style="font-size:11px" headerText="Empresa">
                                             <h:outputText value="#{personas.personasSucursal.personas.empresaOrigen.nombre1}"/>
                                         </p:column>
-                                        
-                                        <p:column style="font-size:12px" headerText="Celular">
+
+                                        <p:column style="font-size:11px" headerText="Celular">
                                             <h:outputText value="#{personas.personasSucursal.personas.celular}"/>
                                         </p:column>
                                     </p:dataTable>
-                                    </h:form>
+                                </h:form>
                             </p:dialog>
                             <p:growl id="growl" sticky="false" autoUpdate="true" life="4000"/>
                             <ui:insert name="content"/>

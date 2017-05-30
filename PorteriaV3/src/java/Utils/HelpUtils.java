@@ -22,6 +22,15 @@ public class HelpUtils implements Serializable{
     private String Nombre;
     private String correoContacto;
     private String Descripcion;
+    private String ciudad;
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
 
     public String getDescripcion() {
         return Descripcion;
@@ -55,10 +64,21 @@ public class HelpUtils implements Serializable{
         JsfUtil.showModal("dlgHelpContact");
     }
     
+    public void showModalHelpVerMovimientos(){
+        JsfUtil.showModal("dlgHelpMov");
+    }
+    
     public void enviarCorreoContacto(){
-        Email.crearEmail(Nombre, correoContacto, Descripcion);
+        Email.crearEmail(Nombre, correoContacto, Descripcion,ciudad);
+        limpiar();
         JsfUtil.addSuccessMessage("Correo electornico enviado al servicio tecnico");
         JsfUtil.exitModal("diagContact");
+    }
+
+    public void limpiar() {
+        Nombre=null;
+        Descripcion=null;
+        correoContacto=null;
     }
     
 }

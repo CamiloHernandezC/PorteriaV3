@@ -6,6 +6,7 @@
 package ViewControllers;
 
 import Controllers.util.JsfUtil;
+import Utils.HelpUtils;
 import Utils.Navigation;
 import java.io.Serializable;
 import java.util.Date;
@@ -43,6 +44,8 @@ public class GeneralViewControl implements Serializable{
     }
     
     public void irContactanos(){
+        HelpUtils helpUtils = JsfUtil.findBean("helpUtils");
+        helpUtils.limpiar();
         JsfUtil.showModal("diagContact");
     }
     
