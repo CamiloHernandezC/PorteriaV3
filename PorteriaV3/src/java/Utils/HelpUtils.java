@@ -76,6 +76,7 @@ public class HelpUtils implements Serializable{
     }
 
     public void limpiar() {
+        ciudad = null;
         Nombre=null;
         Descripcion=null;
         correoContacto=null;

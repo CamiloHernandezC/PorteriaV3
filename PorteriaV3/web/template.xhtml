@@ -24,7 +24,6 @@
         <!--*********************************************************************-->
 
         <h:body id="body">
-            <!--<link rel="stylesheet" type="text/css" href="#{resource['css/styleMenu.css']}"/>-->
             <!--Test for unique actived session************************************-->
             <c:if test="#{loginControl.validSession()}"/>
             <!--*********************************************************************-->
@@ -89,12 +88,11 @@
                             <h:panelGrid columns="1" style="width: 40%">
                                 <h:form>
                                     <p:stack  expanded="false" icon="#{resource['/images/up.png']}">
-                                        <p:menuitem value="Configuracion" icon="#{resource['images/Config.png']}" url="#{generalViewControl.irConfiguracion()}"/>
+                                        <p:menuitem style="background-color: white" value="Configuracion" icon="#{resource['images/Config.png']}" url="#{generalViewControl.irConfiguracion()}"/>
                                         <p:menuitem value="Novedades" icon="#{resource['images/Novedades_1.png']}" url="#"/>
                                         <p:menuitem value="Contactenos" update=":formContact" icon="#{resource['images/Email_1.png']}" action="#{generalViewControl.irContactanos()}"/>
                                     </p:stack>
                                 </h:form>
-
                             </h:panelGrid>
 
                             <p:confirmDialog id="blockedDialog" appendTo="@(body)" message="BLOQUEADO" header="BLOQUEADO" severity="error" showEffect="fade" hideEffect="fade" widgetVar="blockedDialog" closable="false">
