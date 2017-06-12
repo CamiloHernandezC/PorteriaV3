@@ -84,13 +84,14 @@
                             </h:form>
                         </p:layoutUnit>
 
-                        <p:layoutUnit style="background: white;overflow-x: hidden" position="center">
+                        <p:layoutUnit style="background: white;" position="center">
                             <h:panelGrid columns="1" style="width: 40%">
+                                
                                 <h:form>
-                                    <p:stack  expanded="false" icon="#{resource['/images/up.png']}">
-                                        <p:menuitem style="background-color: white" value="Configuracion" icon="#{resource['images/Config.png']}" url="#{generalViewControl.irConfiguracion()}"/>
+                                    <p:stack   expanded="false" icon="#{resource['/images/up.png']}">
+                                        <p:menuitem id="id1" style="background-color: white" value="Configuracion" icon="#{resource['images/Config.png']}" url="#{generalViewControl.irConfiguracion()}"/>
                                         <p:menuitem value="Novedades" icon="#{resource['images/Novedades_1.png']}" url="#"/>
-                                        <p:menuitem value="Contactenos" update=":formContact" icon="#{resource['images/Email_1.png']}" action="#{generalViewControl.irContactanos()}"/>
+                                        <p:menuitem id="id3" value="Contactenos" update=":formContact" icon="#{resource['images/Email_1.png']}" action="#{generalViewControl.irContactanos()}"/>
                                     </p:stack>
                                 </h:form>
                             </h:panelGrid>

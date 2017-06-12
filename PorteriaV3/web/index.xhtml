@@ -9,54 +9,43 @@
     <ui:define name="content">
         <h:form>
 
-        <link rel="stylesheet" type="text/css" href="resources/css/styleMenu.css"/>
-        <link rel="stylesheet" type="text/css" href="styleMenu.css"/>
-        <div class="wrapper">
-            <nav class="vertical">
+            <link rel="stylesheet" type="text/css" href="resources/css/styleMenu2.css"/>
+            <div id='cssmenu'>
                 <ul>
-                    <li>
-                        <label for="home">Ingreso</label>
-                        <input type="radio" name="verticalMenu" id="home" />
-                        <div>
-                            <ul>
-                                <li> 
-                                   
-                                    <p:commandLink action="#{generalViewControl.irIngresoManual()}" >
-                                        <p:graphicImage style="margin-right: 10px" url="resources/images/manualIN.png"/>
-                                        <h:outputLabel value="Ingreso Manual"/>
-                                    </p:commandLink>
-                                </li>
-                                <li> 
-                                    <p:commandLink action="#{generalViewControl.irIngresoExpress()}">
-                                        <p:graphicImage style="margin-right: 10px" url="resources/images/personIN.png"/>
-                                        <h:outputLabel value="Ingreso Express"/>
-                                    </p:commandLink>
-                                </li>
-                            </ul>
-                        </div>
+                    <li class='active'><a>Ingreso</a></li>
+                    <li class="secondChild">
+                        <p:commandLink style="width: 100%" action="#{generalViewControl.irIngresoManual()}" >
+                            <p:graphicImage style="margin-right: 10px" url="resources/images/manualIN.png"/>
+                            <h:outputLabel value="Ingreso Manual"/>
+                        </p:commandLink>
                     </li>
                     <li>
-                        <label for="blog">Salida</label>
-                        <input type="radio" name="verticalMenu" id="blog" />
-                        <div>
-                            <ul>
-                                <li> 
-                                    <p:commandLink action="#{generalViewControl.irSalidaManual()}">
-                                        <p:graphicImage style="margin-right: 10px" url="resources/images/manualOUT.png"/>
-                                        <h:outputLabel value="Salida Manual"/>
-                                    </p:commandLink>
-                                </li>
-                                <li> <p:commandLink action="#{generalViewControl.irSalidaExpress()}">
-                                        <p:graphicImage style="margin-right: 10px" url="resources/images/expressOUT.png"/>
-                                        <h:outputLabel value="Salida Express"/>
-                                    </p:commandLink>
-                                </li>
-                            </ul>
-                        </div>
+                        <p:commandLink action="#{generalViewControl.irIngresoExpress()}">
+                            <p:graphicImage style="margin-right: 10px" url="resources/images/personIN.png"/>
+                            <h:outputLabel value="Ingreso Express"/>
+                        </p:commandLink>
                     </li>
                 </ul>
-            </nav>
-        </div>
+            </div>
+
+            <div id='cssmenu'>
+                <ul>
+                    <li class='active'><a>Salida</a></li>
+                    <li class="secondChild">
+                        <p:commandLink action="#{generalViewControl.irSalidaManual()}">
+                            <p:graphicImage style="margin-right: 10px" url="resources/images/manualOUT.png"/>
+                            <h:outputLabel value="Salida Manual"/>
+                        </p:commandLink>
+                    </li>
+                    <li>
+                        <p:commandLink action="#{generalViewControl.irSalidaExpress()}">
+                            <p:graphicImage style="margin-right: 10px" url="resources/images/expressOUT.png"/>
+                            <h:outputLabel value="Salida Express"/>
+                        </p:commandLink>
+                    </li>
+                </ul>
+            </div>
+
         </h:form>
     </ui:define>
 </ui:composition>
