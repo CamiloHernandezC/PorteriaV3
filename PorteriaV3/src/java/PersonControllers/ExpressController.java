@@ -32,7 +32,7 @@ public class ExpressController extends PersonasController {
 
     //private persona menu;
     private String code;//Store code reader value
-    private manualController manualController = JsfUtil.findBean("manualController");
+    private ManualController manualController = JsfUtil.findBean("manualController");
 
     public String getCode() {
         return code;

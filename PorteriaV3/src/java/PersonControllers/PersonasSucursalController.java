@@ -120,7 +120,7 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
     }
 
     private void assignPrimaryKey() {
-        manualController manualController = JsfUtil.findBean("manualController");
+        ManualController manualController = JsfUtil.findBean("manualController");
         selected.setPersonas(manualController.getSelected());
         //branch office is already assigned
     }

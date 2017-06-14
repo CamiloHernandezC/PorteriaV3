@@ -6,6 +6,11 @@
 package ViewControllers;
 
 import Controllers.util.JsfUtil;
+import PersonControllers.ExpressController;
+import PersonControllers.MovPersonasController;
+import PersonControllers.PersonasController;
+import PersonControllers.PersonasSucursalController;
+import PersonControllers.ManualController;
 import Utils.HelpUtils;
 import Utils.Navigation;
 import java.io.Serializable;
@@ -58,20 +63,46 @@ public class GeneralViewControl implements Serializable{
     }
     
     public String irIngresoManual(){
+        cleanPersonControllers();
         return Navigation.PAGE_COMPLETE_ENTRY;
     }
     
     public String irIngresoExpress(){
+        cleanPersonControllers();
         return Navigation.PAGE_EXPRESS_ENTRY;
     }
     
       public String irSalidaManual(){
+          cleanPersonControllers();
         return Navigation.PAGE_COMPLETE_EXIT;
     }
     
     public String irSalidaExpress(){
+        cleanPersonControllers();
         return Navigation.PAGE_EXPRESS_EXIT;
     }
     //</editor-fold>
-    
+    public void cleanPersonControllers(){
+        PersonasController personasController = JsfUtil.findBean("personasController");
+        PersonasSucursalController personasSucursalController =  JsfUtil.findBean("personasSucursalController");
+        MovPersonasController movPersonasController = JsfUtil.findBean("movPersonasController");
+        ManualController manualController = JsfUtil.findBean("manualController");
+        ExpressController expressController = JsfUtil.findBean("expressController");
+        
+        if(expressController!=null){
+            expressController.clean();
+        }
+        if(manualController!=null){
+            manualController.clean();
+        }
+        if(personasController!=null){
+            personasController.clean();
+        }
+        if(personasSucursalController!=null){
+            personasSucursalController.clean();
+        }
+        if(movPersonasController!=null){
+            movPersonasController.clean();
+        }
+    }
 }

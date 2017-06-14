@@ -89,8 +89,9 @@ public class UsuariosController extends AbstractPersistenceController<Usuarios>{
 
     
     @Override
-    protected void clean() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void clean() {
+        selected = null;
+        items = null;
     }
 
     public void saveTheme(Theme tema) {

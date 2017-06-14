@@ -225,8 +225,9 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
     }
 
     @Override
-    protected void clean() {
+    public void clean() {
         selected = null;
+        items = null;
     }
 
     public void findLastMovements() {

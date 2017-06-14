@@ -6,7 +6,6 @@
 package Entities;
 
 import Utils.Constants;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +76,7 @@ public class PersonasSucursal extends AbstractEntity {
     @JoinColumn(name = "Horario", referencedColumnName = "Id_Horario")
     @ManyToOne(fetch = FetchType.LAZY)
     private Horarios horario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasSucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "personasSucursal", fetch = FetchType.LAZY)
     private List<MovPersonas> movPersonasList;
 
     public PersonasSucursal() {
@@ -210,32 +209,37 @@ public class PersonasSucursal extends AbstractEntity {
         return "Entities.PersonasSucursal[ personasSucursalPK=" + personasSucursalPK + " ]";
     }
     
-    public boolean isLocked(){
-    if(Objects.equals(estado.getIdEstado(), Constants.STATUS_BLOCKED)){
-        return true;
+    public boolean isLocked() {
+        if (Objects.equals(estado.getIdEstado(), Constants.STATUS_BLOCKED)) {
+            return true;
+}
+        return false;
     }
-    return false;
-}
 
-@Override
-public int getPrimaryKey() {
-    //Nothing to do here
-    return 0;
-}
+    @Override
+    public int getPrimaryKey() {
+        //Nothing to do here
+        return 0;
+    }
 
-@Override
-public void setPrimaryKey(int primaryKey) {
-    //Nothing to do here
-}
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        //Nothing to do here
+    }
 
-@Override
-public void setUser(Personas user) {
-    usuario = user;
-}
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
 
-@Override
-public void setDate(Date date) {
-    fecha = date;
-}
-    
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
+    }
+
+    @Override
+    public void setStatus(Integer STATUS_INACTIVE) {
+        estado = new Estados(STATUS_INACTIVE);
+    }
+
 }

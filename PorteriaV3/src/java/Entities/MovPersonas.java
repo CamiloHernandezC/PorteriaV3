@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "mov_personas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MovPersonas.findAll", query = "SELECT m FROM MovPersonas m ORDER BY m.idMovPersona DESC"),
+    @NamedQuery(name = "MovPersonas.findAll", query = "SELECT m FROM MovPersonas m"),
     @NamedQuery(name = "MovPersonas.findByIdMovPersona", query = "SELECT m FROM MovPersonas m WHERE m.idMovPersona = :idMovPersona"),
     @NamedQuery(name = "MovPersonas.findByFechaEntrada", query = "SELECT m FROM MovPersonas m WHERE m.fechaEntrada = :fechaEntrada"),
     @NamedQuery(name = "MovPersonas.findByHoraEntrada", query = "SELECT m FROM MovPersonas m WHERE m.horaEntrada = :horaEntrada"),
@@ -81,6 +81,8 @@ public class MovPersonas extends AbstractEntity{
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersona", fetch = FetchType.LAZY)
+    private List<MovRemisiones> movRemisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -97,8 +99,6 @@ public class MovPersonas extends AbstractEntity{
     private PersonasSucursal personasSucursal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
-    private List<MovMateriales> movMaterialesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList;
     @OneToMany(mappedBy = "movPersonaSalida", fetch = FetchType.LAZY)
@@ -188,6 +188,15 @@ public class MovPersonas extends AbstractEntity{
         this.fecha = fecha;
     }
 
+    @XmlTransient
+    public List<MovRemisiones> getMovRemisionesList() {
+        return movRemisionesList;
+    }
+
+    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
+        this.movRemisionesList = movRemisionesList;
+    }
+
     public Personas getUsuario() {
         return usuario;
     }
@@ -227,15 +236,6 @@ public class MovPersonas extends AbstractEntity{
 
     public void setMovDocumentosList(List<MovDocumentos> movDocumentosList) {
         this.movDocumentosList = movDocumentosList;
-    }
-
-    @XmlTransient
-    public List<MovMateriales> getMovMaterialesList() {
-        return movMaterialesList;
-    }
-
-    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
-        this.movMaterialesList = movMaterialesList;
     }
 
     @XmlTransient
@@ -317,6 +317,11 @@ public class MovPersonas extends AbstractEntity{
     @Override
     public void setDate(Date date) {
         fecha = date;
+    }
+
+    @Override
+    public void setStatus(Integer STATUS_INACTIVE) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
