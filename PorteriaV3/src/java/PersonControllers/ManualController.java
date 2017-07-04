@@ -19,7 +19,7 @@ import org.primefaces.event.CaptureEvent;
 
 @Named("manualController")
 @SessionScoped
-public class manualController extends PersonasController {
+public class ManualController extends PersonasController {
 
     private String otherOriginEnterpriseName;
     private byte[] imagen;
