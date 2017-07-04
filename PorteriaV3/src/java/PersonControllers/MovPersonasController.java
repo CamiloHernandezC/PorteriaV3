@@ -32,6 +32,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
     private List<MovPersonas> ultimosMovimientos = null;
     private List<MovPersonas> movimientosDiarios = null;
     private MovPersonas selected;
+    private Date fechaMov = null;
 
     public MovPersonasController() {
     }
@@ -93,12 +94,39 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         this.ultimosMovimientos = ultimosMovimientos;
     }
 
+    public Date getFechaMov() {
+        return fechaMov;
+    }
+
+    public void setFechaMov(Date fechaMov) {
+        this.fechaMov = fechaMov;
+    }
+    
+    
+    
     public List<MovPersonas> getMovimientosDiarios() {
-        java.util.Date fechaActual = new java.util.Date();
+        /*java.util.Date fechaActual = new java.util.Date();
         java.sql.Date hoy = new java.sql.Date(fechaActual.getTime()); 
         String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+hoy+"' ORDER BY a.idMovPersona DESC";
-        movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
+        movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;*/
         return movimientosDiarios;
+    }
+    
+    public void buscarMovFecha() {
+        if(fechaMov==null){
+            java.util.Date fechaActual = new java.util.Date();
+            java.sql.Date hoy = new java.sql.Date(fechaActual.getTime()); 
+            String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+hoy+"' ORDER BY a.idMovPersona DESC";
+            movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
+        }else{
+            java.sql.Date fecha = new java.sql.Date(fechaMov.getTime()); 
+            String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+fecha+"' ORDER BY a.idMovPersona DESC";
+            movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
+        }
+        if(movimientosDiarios==null){
+            JsfUtil.addErrorMessage("No hay movimientos para mostrar");
+        }
+        
     }
 
     public void setMovimientosDiarios(List<MovPersonas> movimientosDiarios) {
@@ -232,7 +260,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
 
     public void findLastMovements() {
          String squery = Querys.MOV_PERSONA_CLI_ALL+" ORDER BY a.idMovPersona DESC";
-         ultimosMovimientos = (List<MovPersonas>) ejbFacade.findByQueryArray(squery,20).result;
+         ultimosMovimientos = (List<MovPersonas>) ejbFacade.findByQueryArray(squery,15).result;
     }
 
     @FacesConverter(forClass = MovPersonas.class)

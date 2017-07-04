@@ -55,6 +55,8 @@ public class GeneralViewControl implements Serializable{
     }
     
     public void irVerTodosMovimientos(){
+        MovPersonasController movPersonasController = JsfUtil.findBean("movPersonasController");
+        movPersonasController.buscarMovFecha();
         JsfUtil.showModal("diagMovCompletos");
     }
     

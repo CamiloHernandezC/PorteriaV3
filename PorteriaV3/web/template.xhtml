@@ -31,6 +31,8 @@
                 <p:layoutUnit collapsible="true" position="west" size="375" header="Movimientos Registrados">
                     <div id="menuwe" >
                         <h:form>
+                            
+                            
                             <p:dataTable var="personas" value="#{movPersonasController.ultimosMovimientos}" >
                                 <p:column style="font-size:11px" headerText="Nombre">
                                     <h:outputText  value="#{personas.personasSucursal.personas.nombre1}"/>
@@ -239,8 +241,15 @@
                             </p:dialog>
 
                             <p:dialog header="Movimientos Completos" closable="true" appendTo="@(body)" widgetVar="diagMovCompletos" modal="true" minHeight="40">
-                                <h:form>
-                                    <p:dataTable paginator="true" rows="10" var="personas" value="#{movPersonasController.movimientosDiarios}" >
+                                <h:form id="formAll">
+                                   <p:messages id="messages" showDetail="false"  autoUpdate="true" closable="true"/>
+                                    <h:panelGrid columns="3" cellpadding="5px">
+                                        <p:outputLabel value="Fecha"/>
+                                        <p:calendar maxdate="#{generalViewControl.actualDate}" onfocus="false" id="fechaMov" locale="es" value="#{movPersonasController.fechaMov}" />   
+                                        <p:commandButton update="formAll" value="Buscar" action="#{movPersonasController.buscarMovFecha()}"/>
+                                    </h:panelGrid>
+
+                                    <p:dataTable id="tablaMovs" paginator="true" rows="10" var="personas" value="#{movPersonasController.movimientosDiarios}" >
                                         <p:column filterBy="#{personas.personasSucursal.personas.nombre1}" style="font-size:11px" headerText="1ER Nombre">
                                             <h:outputText  value="#{personas.personasSucursal.personas.nombre1}"/>
                                         </p:column>
