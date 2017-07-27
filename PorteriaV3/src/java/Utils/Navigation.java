@@ -10,6 +10,9 @@ package Utils;
  * @author MAURICIO
  */
 public class Navigation {
+    
+    
+    //PERSONAS
     public static final String PAGE_COMPLETE_ENTRY ="/person_entry/complete_entry/CompleteEntry.xhtml?faces-redirect=true";
     public static final String PAGE_COMPLETE_EXIT ="/person_exit/complete_exit/CompleteExit.xhtml?faces-redirect=true";
     public static final String PAGE_EXPRESS_ENTRY ="/person_entry/express_entry/expressEntry.xhtml?faces-redirect=true";
@@ -21,6 +24,9 @@ public class Navigation {
     public static final String PAGE_CONFIGURATION ="/configuration/Configuration.xhtml?faces-redirect=true";
     public static final String PAGE_SELECT_ENTRY="/person_entry/complete_entry/SelectEntry.xhtml?faces-redirect=true";
     public static String PAGE_LOGIN="/login.xhtml?faces-redirect=true";
+    
+    //VEHICULOS
+    public static final String PAGE_VEHICLE_ENTRY ="/vehicles_entry/VehicleEntry.xhtml?faces-redirect=true";
     
     
     public static final String PAGE_INDEX_PRUEBA = "/index_Alternativo.xhtml?faces-redirect=true";

@@ -21,7 +21,6 @@ import org.primefaces.event.CaptureEvent;
 @SessionScoped
 public class ManualController extends PersonasController {
 
-    private String otherOriginEnterpriseName;
     private byte[] imagen;
 
     public byte[] getImagen() {
@@ -30,14 +29,6 @@ public class ManualController extends PersonasController {
 
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
-    }
-
-    public String getOtherOriginEnterpriseName() {
-        return otherOriginEnterpriseName;
-    }
-
-    public void setOtherOriginEnterpriseName(String otherOriginEnterpriseName) {
-        this.otherOriginEnterpriseName = otherOriginEnterpriseName;
     }
 
     public void valueChangeHandlerOriginEnterprise(ValueChangeEvent changeEvent) {
@@ -107,6 +98,22 @@ public class ManualController extends PersonasController {
 
     public String save(boolean express) {
         boolean existPerson = selected.getIdPersona() != null;
+        
+        //<editor-fold desc="CREACION EMPRESA" defaultstate="collapsed">
+        if (selected.getEmpresaOrigen().getIdEmpresaOrigen() == 1) {
+            //Determina la existencia de la empresa cuando se ingresa desde formulario
+            EmpresaOrigenController empresaController = JsfUtil.findBean("empresaOrigenController");
+            EmpresaOrigen empresa = empresaController.buscarEmpresaNombre();
+            if(empresa != null){
+                selected.setEmpresaOrigen(empresa);
+            }else{
+                empresaController.create();
+                empresa = empresaController.getSelected();
+                selected.setEmpresaOrigen(empresa);
+            }
+        }
+        //</editor-fold>
+        
         if (existPerson) {
             //Verifica existencia de registro en la sucursal determinada por el formulario.
             Result result = personasSucursalCliController.findSpecificPerson(selected.getIdPersona());
@@ -142,6 +149,7 @@ public class ManualController extends PersonasController {
         notificationControl.notifyEvent(personasSucursalCliController.getSelected(), Constants.STRING_ENTRY, Photo.cargarFoto("DireccionPersona", String.valueOf(selected.getIdPersona())));
         JsfUtil.addSuccessMessage("Ingreso exitoso");
         movPersonasCliController.findLastMovements();
+        
         ////////////////////////////////////////////////////////////////////////
         if (express) {
             personasSucursalCliController.setSelected(null);
@@ -149,7 +157,15 @@ public class ManualController extends PersonasController {
         }
         //Almacenar Foto////////////////////////////////////////////////////////
         Photo.almacenarFoto(Constants.OBJECT_PERSON, imagen, selected.getIdPersona());
-        return Navigation.PAGE_SELECT_ENTRY;
+        //Limpieza campo otra empresa///////////////////////////////////////////
+        PersonFormEntry form = JsfUtil.findBean("personFormEntry");
+        form.setDisableOtherEnterprise(true);
+        EmpresaOrigenController empresaController = JsfUtil.findBean("empresaOrigenController");
+        empresaController.clean();
+        ////////////////////////////////////////////////////////////////////////
+        //SELECT ENTRY
+        //return Navigation.PAGE_SELECT_ENTRY;
+        return Navigation.PAGE_INDEX;
     }
 
     public void oncapture(CaptureEvent captureEvent) {
@@ -169,5 +185,13 @@ public class ManualController extends PersonasController {
         movPersonasCliController.findLastMovements();
         return Navigation.PAGE_INDEX;
     }
+
+    @Override
+    public void clean() {
+        super.clean();
+        imagen = null;//To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 }

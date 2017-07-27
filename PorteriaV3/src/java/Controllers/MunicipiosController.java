@@ -3,7 +3,10 @@ package Controllers;
 import Entities.Municipios;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.Departamentos;
+
 import Facade.MunicipiosFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -111,6 +114,16 @@ public class MunicipiosController implements Serializable {
 
     public Municipios getMunicipios(java.lang.Integer id) {
         return getFacade().find(id);
+    }
+    
+    public List<Municipios> getItemsOfDepartment(Departamentos department) {
+        if(department==null){
+            items = null;
+            return items;
+        }
+        String squery = Querys.MUNICIPIOS_CLI_DEPARTAMENTO+department.getIdDepartamento()+"'";
+        items = (List<Municipios>) ejbFacade.findByQueryArray(squery).result;
+        return items;
     }
 
     public List<Municipios> getItemsAvailableSelectMany() {

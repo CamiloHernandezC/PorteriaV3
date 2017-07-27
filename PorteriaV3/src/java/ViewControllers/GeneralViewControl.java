@@ -83,6 +83,10 @@ public class GeneralViewControl implements Serializable{
         cleanPersonControllers();
         return Navigation.PAGE_EXPRESS_EXIT;
     }
+    
+    public String irCrearVehiculo(){
+        return Navigation.PAGE_VEHICLE_ENTRY;
+    }
     //</editor-fold>
     public void cleanPersonControllers(){
         PersonasController personasController = JsfUtil.findBean("personasController");

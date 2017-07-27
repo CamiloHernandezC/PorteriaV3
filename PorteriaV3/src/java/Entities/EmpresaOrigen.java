@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "EmpresaOrigen.findByDireccion", query = "SELECT e FROM EmpresaOrigen e WHERE e.direccion = :direccion"),
     @NamedQuery(name = "EmpresaOrigen.findByTelefono", query = "SELECT e FROM EmpresaOrigen e WHERE e.telefono = :telefono"),
     @NamedQuery(name = "EmpresaOrigen.findByFecha", query = "SELECT e FROM EmpresaOrigen e WHERE e.fecha = :fecha")})
-public class EmpresaOrigen implements Serializable {
+public class EmpresaOrigen extends AbstractEntity{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -129,7 +129,7 @@ public class EmpresaOrigen implements Serializable {
     }
 
     public void setNombre1(String nombre1) {
-        this.nombre1 = nombre1;
+        this.nombre1 = nombre1.toUpperCase();
     }
 
     public String getNombre2() {
@@ -254,6 +254,31 @@ public class EmpresaOrigen implements Serializable {
     @Override
     public String toString() {
         return "Entities.EmpresaOrigen[ idEmpresaOrigen=" + idEmpresaOrigen + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        return idEmpresaOrigen;
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        idEmpresaOrigen = primaryKey;
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha=date;
+    }
+
+    @Override
+    public void setStatus(Integer status) {
+        estado = new Estados(status);
     }
     
 }

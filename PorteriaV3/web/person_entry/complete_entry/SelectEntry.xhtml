@@ -6,10 +6,21 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h:panelGrid style="margin-top: 7%" columns="1">
-            <p:graphicImage style="margin-left: 22%;margin-bottom: 7%" url="#{resource['/images/Material2.png']}"/>
-            <p:outputLabel value="Materiales" style="margin-left: 55%; font-size: 120%; font-family: cursive" />
-        </h:panelGrid>
-    </ui:define>
+        <h:form>
+            <h:panelGrid cellpadding="17px" style="margin-top: 3%" columns="3">
 
+                <p:graphicImage style="margin-left: 20%;margin-bottom: 7%" url="#{resource['/images/Doc1.png']}"/>
+                
+                <p:commandLink id="vehiculo"  action="#{generalViewControl.irCrearVehiculo()}">
+                    <p:graphicImage style="margin-left: 20%;margin-bottom: 7%" url="#{resource['/images/Car.png']}"/>
+                </p:commandLink>
+                <p:graphicImage style="margin-left: 20%;margin-bottom: 7%" url="#{resource['/images/Tools.png']}"/>
+
+                <p:outputLabel value="Documentos" style="margin-left: 45%; font-size: 130%; font-family: cursive"/>
+                <p:outputLabel value="Vehiculos" style="margin-left: 45%; font-size: 130%; font-family: cursive"/>
+                <p:outputLabel value="Herramientas" style="margin-left: 45%; font-size: 130%; font-family: cursive"/>
+
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
 </ui:composition>

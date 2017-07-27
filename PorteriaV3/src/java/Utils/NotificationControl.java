@@ -5,7 +5,6 @@
  */
 package Utils;
 
-import Entities.EmpresaOrigen;
 import Entities.Notificaciones;
 import Entities.PersonasSucursal;
 import java.io.Serializable;
@@ -33,7 +32,7 @@ public class NotificationControl implements Serializable{
         String squery = "";
         if(object instanceof PersonasSucursal){
             PersonasSucursal persona = (PersonasSucursal) object;
-            squery = createQuery(persona.getPersonas().getEmpresaOrigen(),persona.getEntidad().getIdEntidad(),persona.getPersonas().getEstado().getIdEstado(),persona.getPersonas().getIdPersona(),0,null,Constants.CATEGORY_PERSON,persona.getSucursales().getIdSucursal(),tipoEvento); 
+            squery = createQuery(persona.getPersonas().getEmpresaOrigen().getIdEmpresaOrigen(),persona.getEntidad().getIdEntidad(),persona.getPersonas().getEstado().getIdEstado(),persona.getPersonas().getIdPersona(),0,null,Constants.CATEGORY_PERSON,persona.getSucursales().getIdSucursal(),tipoEvento); 
         }
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode != Constants.OK ){
@@ -46,7 +45,7 @@ public class NotificationControl implements Serializable{
     }
     
 
-    private String createQuery(EmpresaOrigen pIdEmOrigen, int pIdEntidad, int pIdEstado, int pIdPersona,int pIdobjeto, String pPlacaVehiculo, int pCategoria, int pIdSucursal, String pTipoEvento) {
+    private String createQuery(int pIdEmOrigen, int pIdEntidad, int pIdEstado, int pIdPersona,int pIdobjeto, String pPlacaVehiculo, int pCategoria, int pIdSucursal, String pTipoEvento) {
         
         Date actualDate = new Date();
         java.sql.Date jpqlDate = new java.sql.Date(actualDate.getTime());
@@ -58,7 +57,7 @@ public class NotificationControl implements Serializable{
 
         String sIdSucursal = "n.sucursal is NULL or n.sucursal.idSucursal ='" + pIdSucursal + "'";
 
-        String sIdEmOrigen = "n.empresaOrigen is NULL or n.empresaOrigen ='" + pIdEmOrigen + "'";
+        String sIdEmOrigen = "n.empresaOrigen is NULL or n.empresaOrigen.idEmpresaOrigen ='" + pIdEmOrigen + "'";
 
         String sIdCategoria = "n.categoria is NULL or n.categoria.idCategoria = '" + pCategoria + "'";
 
@@ -79,7 +78,7 @@ public class NotificationControl implements Serializable{
                 + ") and (" + sIdCategoria + ") and (" + sIdEntidad + ") and (" + sIdEstado + ") and ("+sTipoEvento
                 +") AND n.fechaDesde <= '"+jpqlDate+"' AND n.fechaHasta >= '"+jpqlDate+"' AND n.horaDesde <= '"+jpqlTime+"' AND n.horaHasta >= '"+jpqlTime+"'";
 
-        if(pIdEmOrigen!=null){
+        if(pIdEmOrigen!= 0){
             sQuery+=" and (" + sIdEmOrigen + ")";
         }
         if(pIdobjeto != 0){
