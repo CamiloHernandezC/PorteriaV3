@@ -100,7 +100,7 @@ public class ManualController extends PersonasController {
         boolean existPerson = selected.getIdPersona() != null;
         
         //<editor-fold desc="CREACION EMPRESA" defaultstate="collapsed">
-        if (selected.getEmpresaOrigen().getIdEmpresaOrigen() == 1) {
+        if (selected.getEmpresaOrigen()!=null && selected.getEmpresaOrigen().getIdEmpresaOrigen() == 1) {
             //Determina la existencia de la empresa cuando se ingresa desde formulario
             EmpresaOrigenController empresaController = JsfUtil.findBean("empresaOrigenController");
             EmpresaOrigen empresa = empresaController.buscarEmpresaNombre();

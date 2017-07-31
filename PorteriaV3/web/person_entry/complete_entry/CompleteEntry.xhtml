@@ -44,7 +44,6 @@
             </h:panelGrid>
 
             <p:commandButton rendered="#{completeEntry.selectEntryMethod}" value = "#{bundle.Search}" action="#{manualController.manualEntry()}" icon="ui-icon-check" ajax="false"/>
-            <p:commandButton rendered="#{completeEntry.selectEntryMethod}" value= "#{bundle.P_Complete_Entry_Add_Objects}" action="#{manualController.addObjects()}" icon="ui-icon-check" ajax="false"/>
             <p:commandButton value ="#{bundle.Cancel}" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
 
         </h:form>

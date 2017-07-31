@@ -32,7 +32,11 @@ public class NotificationControl implements Serializable{
         String squery = "";
         if(object instanceof PersonasSucursal){
             PersonasSucursal persona = (PersonasSucursal) object;
-            squery = createQuery(persona.getPersonas().getEmpresaOrigen().getIdEmpresaOrigen(),persona.getEntidad().getIdEntidad(),persona.getPersonas().getEstado().getIdEstado(),persona.getPersonas().getIdPersona(),0,null,Constants.CATEGORY_PERSON,persona.getSucursales().getIdSucursal(),tipoEvento); 
+            int idOriginEnterprise = 0;
+            if(persona.getPersonas().getEmpresaOrigen()!=null){
+                idOriginEnterprise = persona.getPersonas().getEmpresaOrigen().getIdEmpresaOrigen();
+            }
+            squery = createQuery(idOriginEnterprise, persona.getEntidad().getIdEntidad(),persona.getPersonas().getEstado().getIdEstado(),persona.getPersonas().getIdPersona(),0,null,Constants.CATEGORY_PERSON,persona.getSucursales().getIdSucursal(),tipoEvento); 
         }
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode != Constants.OK ){
@@ -65,7 +69,7 @@ public class NotificationControl implements Serializable{
 
         String sIdEstado = "n.estado is NULL or n.estado.idEstado = '" + pIdEstado + "'";
         
-        String sTipoEvento = "n.tipoEvento is NULL or n.tipoEvento = '" + pTipoEvento + "'";
+        String sTipoEvento = "n.tipoEvento = 'A' or n.tipoEvento = '" + pTipoEvento + "'";
         
         String sIdPersona = "n.persona is NULL or n.persona.idPersona = '" + pIdPersona + "'";
         
