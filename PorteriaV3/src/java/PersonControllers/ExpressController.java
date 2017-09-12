@@ -232,6 +232,7 @@ public class ExpressController extends PersonasController {
 
     @Override
     public void clean() {
+        super.clean();
         code = null;
     }
 

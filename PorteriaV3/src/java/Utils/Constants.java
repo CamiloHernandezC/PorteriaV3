@@ -54,7 +54,7 @@ public class Constants {
     //</editor-fold>
     
     // <editor-fold desc="DOCUMENT_TYPE" defaultstate="collapsed">
-    public static final int DOCUMENT_TYPE_CEDULA = 13;
+    public static final int DOCUMENT_TYPE_CEDULA = 1;
     //</editor-fold>
     
     // <editor-fold desc="ORIGIN ENTERPRISE" defaultstate="collapsed">

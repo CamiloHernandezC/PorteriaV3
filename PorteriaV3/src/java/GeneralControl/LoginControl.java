@@ -128,6 +128,4 @@ public class LoginControl implements Serializable {
         JsfUtil.addErrorMessage("EL ID DE USUARIO NO SE ENCUENTRA");
         return "";
     }
-
-    //TODO LOGOUT
 }

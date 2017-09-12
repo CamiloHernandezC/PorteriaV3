@@ -9,8 +9,8 @@
 
 
     <ui:define name="content">
-
-        <h:form>   
+<!--TODO quitar el rendered false para la foto-->
+        <h:form rendered="false">   
             <p:dialog header="Capturar Foto" modal="false" widgetVar="dialogoFotoPersona" closable="true" >
                 <h:form>
                     <p:photoCam widgetVar="pc" listener="#{manualController.oncapture}"  />
@@ -160,7 +160,7 @@
 
                 <h:panelGrid id="panelFoto">
                     <h:outputText value="Tomar Foto" rendered="#{manualController.imagen==null}"/>
-                    <p:commandLink oncomplete="PF('dialogoFotoPersona').show();" immediate="true">
+                    <p:commandLink oncomplete="PF('dialogoFotoPersona').show();" immediate="true" rendered="false"><!--TODO quitar el rendered false para la foto-->
                         <p:graphicImage value="../../resources/images/camera2.png" width="50" height="50"></p:graphicImage>
                     </p:commandLink>
                     <p:graphicImage id="foto" value="#{photo.getUltimaImagen(manualController.imagen)}" width="150" height="150" rendered="#{manualController.imagen!=null}" cache="false"/>

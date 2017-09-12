@@ -141,6 +141,7 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
         JsfUtil.cancel();
     }
     
+    @Override
     public void clean(){
         selected = null;
         items = null;

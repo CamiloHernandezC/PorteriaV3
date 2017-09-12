@@ -65,12 +65,12 @@
                             <p:graphicImage style="margin-left: 22%" url="resources\images\userLogin.png"/>
                             
                             <h:outputLabel value="#{bundle.User}" style="width: fit-content"/>
-                            <p:inputText value="#{loginControl.selected.idUsuario}" style="width: 100%"/>
+                            <p:inputText id="user" value="#{loginControl.selected.idUsuario}" style="width: 100%"/>
 
                             <h:outputLabel value="#{bundle.Password}" style="width: fit-content"/>
-                            <p:inputText value="#{loginControl.selected.password}" style="width: 100%"/>
+                            <p:inputText id="password" value="#{loginControl.selected.password}" style="width: 100%"/>
 
-                            <p:commandButton style="width: 100%;background: #339900" icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}" action="#{loginControl.login()}" update="growl" /> 
+                            <p:commandButton id="loginButton" style="width: 100%;background: #339900" icon="ui-icon-key" value="#{bundle.InitSession}" action="#{loginControl.login()}" update="growl" /> 
                             <p:commandLink value="#{bundle.forgotPassword}" style="color: #00cc00" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
                         </h:panelGrid>    
                     </h:form>
