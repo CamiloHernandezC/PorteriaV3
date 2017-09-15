@@ -161,5 +161,15 @@ public class VehiculosController implements Serializable {
         }
 
     }
+    
+    public void cancel() {
+        clean();
+        JsfUtil.cancelToSelectEntry();
+    }
+    
+     public void clean(){
+        selected = null;
+        items = null;
+    }
 
 }

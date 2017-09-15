@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Embeddable
 public class VehiculosSucursalPK implements Serializable {

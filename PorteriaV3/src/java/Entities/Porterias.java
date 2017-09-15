@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "porterias")
@@ -48,6 +48,8 @@ public class Porterias implements Serializable {
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "porterias", fetch = FetchType.LAZY)
     private List<PorteriasSucursal> porteriasSucursalList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
+    private List<MovPersonas> movPersonasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
     private List<ConfigForm> configFormList;
     @OneToMany(mappedBy = "porteria", fetch = FetchType.LAZY)
@@ -88,6 +90,15 @@ public class Porterias implements Serializable {
 
     public void setPorteriasSucursalList(List<PorteriasSucursal> porteriasSucursalList) {
         this.porteriasSucursalList = porteriasSucursalList;
+    }
+
+    @XmlTransient
+    public List<MovPersonas> getMovPersonasList() {
+        return movPersonasList;
+    }
+
+    public void setMovPersonasList(List<MovPersonas> movPersonasList) {
+        this.movPersonasList = movPersonasList;
     }
 
     @XmlTransient

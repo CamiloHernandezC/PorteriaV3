@@ -7,7 +7,7 @@ package Utils;
 
 import Controllers.util.JsfUtil;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
@@ -16,7 +16,7 @@ import javax.inject.Named;
  */
 
 @Named("helpUtils")
-@SessionScoped
+@RequestScoped
 public class HelpUtils implements Serializable{
     
     private String Nombre;

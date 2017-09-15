@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "empresa_origen")
@@ -73,8 +72,6 @@ public class EmpresaOrigen extends AbstractEntity{
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaDestino", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -164,15 +161,6 @@ public class EmpresaOrigen extends AbstractEntity{
         this.fecha = fecha;
     }
 
-    @XmlTransient
-    public List<Remisiones> getRemisionesList() {
-        return remisionesList;
-    }
-
-    public void setRemisionesList(List<Remisiones> remisionesList) {
-        this.remisionesList = remisionesList;
-    }
-
     public Personas getUsuario() {
         return usuario;
     }
@@ -255,11 +243,11 @@ public class EmpresaOrigen extends AbstractEntity{
     public String toString() {
         return "Entities.EmpresaOrigen[ idEmpresaOrigen=" + idEmpresaOrigen + " ]";
     }
-
+    
     @Override
     public int getPrimaryKey() {
         return idEmpresaOrigen;
-    }
+}
 
     @Override
     public void setPrimaryKey(int primaryKey) {

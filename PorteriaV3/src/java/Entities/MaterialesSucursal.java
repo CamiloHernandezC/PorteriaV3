@@ -7,9 +7,7 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,18 +16,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "materiales_sucursal")
@@ -38,29 +33,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MaterialesSucursal.findAll", query = "SELECT m FROM MaterialesSucursal m"),
     @NamedQuery(name = "MaterialesSucursal.findByIdMaterial", query = "SELECT m FROM MaterialesSucursal m WHERE m.materialesSucursalPK.idMaterial = :idMaterial"),
     @NamedQuery(name = "MaterialesSucursal.findByIdSucursal", query = "SELECT m FROM MaterialesSucursal m WHERE m.materialesSucursalPK.idSucursal = :idSucursal"),
-    @NamedQuery(name = "MaterialesSucursal.findByIdExterno", query = "SELECT m FROM MaterialesSucursal m WHERE m.idExterno = :idExterno"),
-    @NamedQuery(name = "MaterialesSucursal.findByFecha", query = "SELECT m FROM MaterialesSucursal m WHERE m.fecha = :fecha"),
-    @NamedQuery(name = "MaterialesSucursal.findByGrupo", query = "SELECT m FROM MaterialesSucursal m WHERE m.grupo = :grupo"),
-    @NamedQuery(name = "MaterialesSucursal.findBySubgrupo", query = "SELECT m FROM MaterialesSucursal m WHERE m.subgrupo = :subgrupo")})
+    @NamedQuery(name = "MaterialesSucursal.findByAdministrar", query = "SELECT m FROM MaterialesSucursal m WHERE m.administrar = :administrar"),
+    @NamedQuery(name = "MaterialesSucursal.findByFecha", query = "SELECT m FROM MaterialesSucursal m WHERE m.fecha = :fecha")})
 public class MaterialesSucursal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected MaterialesSucursalPK materialesSucursalPK;
-    @Size(max = 13)
-    @Column(name = "Id_Externo")
-    private String idExterno;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Administrar")
+    private boolean administrar;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Size(max = 13)
-    @Column(name = "Grupo")
-    private String grupo;
-    @Size(max = 13)
-    @Column(name = "Subgrupo")
-    private String subgrupo;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -70,10 +58,6 @@ public class MaterialesSucursal implements Serializable {
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursales;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialesSucursal", fetch = FetchType.LAZY)
-    private List<Inventario> inventarioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialesSucursal", fetch = FetchType.LAZY)
-    private List<Cardex> cardexList;
 
     public MaterialesSucursal() {
     }
@@ -82,8 +66,9 @@ public class MaterialesSucursal implements Serializable {
         this.materialesSucursalPK = materialesSucursalPK;
     }
 
-    public MaterialesSucursal(MaterialesSucursalPK materialesSucursalPK, Date fecha) {
+    public MaterialesSucursal(MaterialesSucursalPK materialesSucursalPK, boolean administrar, Date fecha) {
         this.materialesSucursalPK = materialesSucursalPK;
+        this.administrar = administrar;
         this.fecha = fecha;
     }
 
@@ -99,12 +84,12 @@ public class MaterialesSucursal implements Serializable {
         this.materialesSucursalPK = materialesSucursalPK;
     }
 
-    public String getIdExterno() {
-        return idExterno;
+    public boolean getAdministrar() {
+        return administrar;
     }
 
-    public void setIdExterno(String idExterno) {
-        this.idExterno = idExterno;
+    public void setAdministrar(boolean administrar) {
+        this.administrar = administrar;
     }
 
     public Date getFecha() {
@@ -113,22 +98,6 @@ public class MaterialesSucursal implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public String getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(String grupo) {
-        this.grupo = grupo;
-    }
-
-    public String getSubgrupo() {
-        return subgrupo;
-    }
-
-    public void setSubgrupo(String subgrupo) {
-        this.subgrupo = subgrupo;
     }
 
     public Personas getUsuario() {
@@ -153,24 +122,6 @@ public class MaterialesSucursal implements Serializable {
 
     public void setSucursales(Sucursales sucursales) {
         this.sucursales = sucursales;
-    }
-
-    @XmlTransient
-    public List<Inventario> getInventarioList() {
-        return inventarioList;
-    }
-
-    public void setInventarioList(List<Inventario> inventarioList) {
-        this.inventarioList = inventarioList;
-    }
-
-    @XmlTransient
-    public List<Cardex> getCardexList() {
-        return cardexList;
-    }
-
-    public void setCardexList(List<Cardex> cardexList) {
-        this.cardexList = cardexList;
     }
 
     @Override

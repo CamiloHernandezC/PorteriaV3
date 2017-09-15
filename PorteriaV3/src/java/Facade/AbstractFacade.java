@@ -7,9 +7,7 @@ package Facade;
 
 import Utils.Constants;
 import Utils.Result;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CacheStoreMode;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;

@@ -8,7 +8,6 @@ package Entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "marcas")
@@ -50,8 +49,6 @@ public class Marcas implements Serializable {
     private String descripcion;
     @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca", fetch = FetchType.LAZY)
-    private List<Lineas> lineasList;
     @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
     private List<Vehiculos> vehiculosList;
     @JoinColumn(name = "Categoria", referencedColumnName = "Id_Categoria")
@@ -93,15 +90,6 @@ public class Marcas implements Serializable {
 
     public void setObjetosList(List<Objetos> objetosList) {
         this.objetosList = objetosList;
-    }
-
-    @XmlTransient
-    public List<Lineas> getLineasList() {
-        return lineasList;
-    }
-
-    public void setLineasList(List<Lineas> lineasList) {
-        this.lineasList = lineasList;
     }
 
     @XmlTransient

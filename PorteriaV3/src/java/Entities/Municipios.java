@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "municipios")
@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Municipios.findAll", query = "SELECT m FROM Municipios m"),
     @NamedQuery(name = "Municipios.findByIdMunicipio", query = "SELECT m FROM Municipios m WHERE m.idMunicipio = :idMunicipio"),
-    @NamedQuery(name = "Municipios.findByNombre", query = "SELECT m FROM Municipios m WHERE m.nombre = :nombre")})
+    @NamedQuery(name = "Municipios.findByNombre", query = "SELECT m FROM Municipios m WHERE m.nombre = :nombre"),
+    @NamedQuery(name = "Municipios.findByCodigoDane", query = "SELECT m FROM Municipios m WHERE m.codigoDane = :codigoDane")})
 public class Municipios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +48,11 @@ public class Municipios implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Nombre")
     private String nombre;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 3)
+    @Column(name = "Codigo_Dane")
+    private String codigoDane;
     @JoinColumn(name = "Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Departamentos departamento;
@@ -68,9 +74,10 @@ public class Municipios implements Serializable {
         this.idMunicipio = idMunicipio;
     }
 
-    public Municipios(Integer idMunicipio, String nombre) {
+    public Municipios(Integer idMunicipio, String nombre, String codigoDane) {
         this.idMunicipio = idMunicipio;
         this.nombre = nombre;
+        this.codigoDane = codigoDane;
     }
 
     public Integer getIdMunicipio() {
@@ -87,6 +94,14 @@ public class Municipios implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCodigoDane() {
+        return codigoDane;
+    }
+
+    public void setCodigoDane(String codigoDane) {
+        this.codigoDane = codigoDane;
     }
 
     public Departamentos getDepartamento() {

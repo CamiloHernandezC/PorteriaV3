@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -32,7 +33,9 @@ public class ExpressController extends PersonasController {
 
     //private persona menu;
     private String code;//Store code reader value
-    private ManualController manualController = JsfUtil.findBean("manualController");
+    @Inject
+    private ManualController manualController;
+    //private ManualController manualController = JsfUtil.findBean("manualController");
 
     public String getCode() {
         return code;

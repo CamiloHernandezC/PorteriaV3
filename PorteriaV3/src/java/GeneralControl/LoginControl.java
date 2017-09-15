@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +28,9 @@ public class LoginControl implements Serializable {
     private Facade.UsuariosFacade ejbFacade;
     private Usuarios selected;
     private UsuariosController usuariosController = JsfUtil.findBean("usuariosController");
+    
+    //@Inject
+    //private UsuariosController usuariosController;
 
     public LoginControl() {
     }
@@ -106,10 +110,8 @@ public class LoginControl implements Serializable {
         if(httpUser== null){
             return Navigation.PAGE_LOGIN;//Redirect to login
         }
+        usuariosController.setSelected(httpUser);
         usuariosController.getSelected().setSesion(false);
-        /*Usuarios usuario = usuariosController.getSelected();
-        usuario.setSesion(false);
-        usuariosController.setSelected(usuario);*/
         usuariosController.update();
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
         

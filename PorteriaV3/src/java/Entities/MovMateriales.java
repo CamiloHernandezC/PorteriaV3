@@ -7,9 +7,7 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,44 +16,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author amorales
  */
 @Entity
-@Table(name = "mov_documentos")
+@Table(name = "mov_materiales")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MovDocumentos.findAll", query = "SELECT m FROM MovDocumentos m"),
-    @NamedQuery(name = "MovDocumentos.findByIdMovDocumento", query = "SELECT m FROM MovDocumentos m WHERE m.idMovDocumento = :idMovDocumento"),
-    @NamedQuery(name = "MovDocumentos.findByIDDocumento", query = "SELECT m FROM MovDocumentos m WHERE m.iDDocumento = :iDDocumento"),
-    @NamedQuery(name = "MovDocumentos.findByFechaMovimiento", query = "SELECT m FROM MovDocumentos m WHERE m.fechaMovimiento = :fechaMovimiento"),
-    @NamedQuery(name = "MovDocumentos.findByHoraMovimiento", query = "SELECT m FROM MovDocumentos m WHERE m.horaMovimiento = :horaMovimiento"),
-    @NamedQuery(name = "MovDocumentos.findByTipoEvento", query = "SELECT m FROM MovDocumentos m WHERE m.tipoEvento = :tipoEvento"),
-    @NamedQuery(name = "MovDocumentos.findByObservacion", query = "SELECT m FROM MovDocumentos m WHERE m.observacion = :observacion"),
-    @NamedQuery(name = "MovDocumentos.findByFecha", query = "SELECT m FROM MovDocumentos m WHERE m.fecha = :fecha")})
-public class MovDocumentos implements Serializable {
+    @NamedQuery(name = "MovMateriales.findAll", query = "SELECT m FROM MovMateriales m"),
+    @NamedQuery(name = "MovMateriales.findByIdMovimientoMaterial", query = "SELECT m FROM MovMateriales m WHERE m.idMovimientoMaterial = :idMovimientoMaterial"),
+    @NamedQuery(name = "MovMateriales.findByFechaMovimiento", query = "SELECT m FROM MovMateriales m WHERE m.fechaMovimiento = :fechaMovimiento"),
+    @NamedQuery(name = "MovMateriales.findByHoraMovimiento", query = "SELECT m FROM MovMateriales m WHERE m.horaMovimiento = :horaMovimiento"),
+    @NamedQuery(name = "MovMateriales.findByCantida", query = "SELECT m FROM MovMateriales m WHERE m.cantida = :cantida"),
+    @NamedQuery(name = "MovMateriales.findByObservacion", query = "SELECT m FROM MovMateriales m WHERE m.observacion = :observacion"),
+    @NamedQuery(name = "MovMateriales.findByTipoEvento", query = "SELECT m FROM MovMateriales m WHERE m.tipoEvento = :tipoEvento"),
+    @NamedQuery(name = "MovMateriales.findByFecha", query = "SELECT m FROM MovMateriales m WHERE m.fecha = :fecha")})
+public class MovMateriales implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Id_Mov_Documento")
-    private Integer idMovDocumento;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "ID_Documento")
-    private String iDDocumento;
+    @Column(name = "Id_Movimiento_Material")
+    private Integer idMovimientoMaterial;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha_Movimiento")
@@ -68,11 +59,15 @@ public class MovDocumentos implements Serializable {
     private Date horaMovimiento;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Tipo_Evento")
-    private boolean tipoEvento;
+    @Column(name = "Cantida")
+    private int cantida;
     @Size(max = 140)
     @Column(name = "Observacion")
     private String observacion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Tipo_Evento")
+    private boolean tipoEvento;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
@@ -84,45 +79,38 @@ public class MovDocumentos implements Serializable {
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursal;
-    @JoinColumn(name = "Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Entidades entidad;
     @JoinColumn(name = "Movimiento_Persona", referencedColumnName = "Id_Mov_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private MovPersonas movimientoPersona;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovimientoDocumento", fetch = FetchType.LAZY)
-    private List<MovMateriales> movMaterialesList;
+    @JoinColumn(name = "Id_Material", referencedColumnName = "Id_Material")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Materiales idMaterial;
+    @JoinColumn(name = "Id_Movimiento_Documento", referencedColumnName = "Id_Mov_Documento")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private MovDocumentos idMovimientoDocumento;
 
-    public MovDocumentos() {
+    public MovMateriales() {
     }
 
-    public MovDocumentos(Integer idMovDocumento) {
-        this.idMovDocumento = idMovDocumento;
+    public MovMateriales(Integer idMovimientoMaterial) {
+        this.idMovimientoMaterial = idMovimientoMaterial;
     }
 
-    public MovDocumentos(Integer idMovDocumento, String iDDocumento, Date fechaMovimiento, Date horaMovimiento, boolean tipoEvento, Date fecha) {
-        this.idMovDocumento = idMovDocumento;
-        this.iDDocumento = iDDocumento;
+    public MovMateriales(Integer idMovimientoMaterial, Date fechaMovimiento, Date horaMovimiento, int cantida, boolean tipoEvento, Date fecha) {
+        this.idMovimientoMaterial = idMovimientoMaterial;
         this.fechaMovimiento = fechaMovimiento;
         this.horaMovimiento = horaMovimiento;
+        this.cantida = cantida;
         this.tipoEvento = tipoEvento;
         this.fecha = fecha;
     }
 
-    public Integer getIdMovDocumento() {
-        return idMovDocumento;
+    public Integer getIdMovimientoMaterial() {
+        return idMovimientoMaterial;
     }
 
-    public void setIdMovDocumento(Integer idMovDocumento) {
-        this.idMovDocumento = idMovDocumento;
-    }
-
-    public String getIDDocumento() {
-        return iDDocumento;
-    }
-
-    public void setIDDocumento(String iDDocumento) {
-        this.iDDocumento = iDDocumento;
+    public void setIdMovimientoMaterial(Integer idMovimientoMaterial) {
+        this.idMovimientoMaterial = idMovimientoMaterial;
     }
 
     public Date getFechaMovimiento() {
@@ -141,12 +129,12 @@ public class MovDocumentos implements Serializable {
         this.horaMovimiento = horaMovimiento;
     }
 
-    public boolean getTipoEvento() {
-        return tipoEvento;
+    public int getCantida() {
+        return cantida;
     }
 
-    public void setTipoEvento(boolean tipoEvento) {
-        this.tipoEvento = tipoEvento;
+    public void setCantida(int cantida) {
+        this.cantida = cantida;
     }
 
     public String getObservacion() {
@@ -155,6 +143,14 @@ public class MovDocumentos implements Serializable {
 
     public void setObservacion(String observacion) {
         this.observacion = observacion;
+    }
+
+    public boolean getTipoEvento() {
+        return tipoEvento;
+    }
+
+    public void setTipoEvento(boolean tipoEvento) {
+        this.tipoEvento = tipoEvento;
     }
 
     public Date getFecha() {
@@ -181,14 +177,6 @@ public class MovDocumentos implements Serializable {
         this.sucursal = sucursal;
     }
 
-    public Entidades getEntidad() {
-        return entidad;
-    }
-
-    public void setEntidad(Entidades entidad) {
-        this.entidad = entidad;
-    }
-
     public MovPersonas getMovimientoPersona() {
         return movimientoPersona;
     }
@@ -197,30 +185,37 @@ public class MovDocumentos implements Serializable {
         this.movimientoPersona = movimientoPersona;
     }
 
-    @XmlTransient
-    public List<MovMateriales> getMovMaterialesList() {
-        return movMaterialesList;
+    public Materiales getIdMaterial() {
+        return idMaterial;
     }
 
-    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
-        this.movMaterialesList = movMaterialesList;
+    public void setIdMaterial(Materiales idMaterial) {
+        this.idMaterial = idMaterial;
+    }
+
+    public MovDocumentos getIdMovimientoDocumento() {
+        return idMovimientoDocumento;
+    }
+
+    public void setIdMovimientoDocumento(MovDocumentos idMovimientoDocumento) {
+        this.idMovimientoDocumento = idMovimientoDocumento;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idMovDocumento != null ? idMovDocumento.hashCode() : 0);
+        hash += (idMovimientoMaterial != null ? idMovimientoMaterial.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MovDocumentos)) {
+        if (!(object instanceof MovMateriales)) {
             return false;
         }
-        MovDocumentos other = (MovDocumentos) object;
-        if ((this.idMovDocumento == null && other.idMovDocumento != null) || (this.idMovDocumento != null && !this.idMovDocumento.equals(other.idMovDocumento))) {
+        MovMateriales other = (MovMateriales) object;
+        if ((this.idMovimientoMaterial == null && other.idMovimientoMaterial != null) || (this.idMovimientoMaterial != null && !this.idMovimientoMaterial.equals(other.idMovimientoMaterial))) {
             return false;
         }
         return true;
@@ -228,7 +223,7 @@ public class MovDocumentos implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.MovDocumentos[ idMovDocumento=" + idMovDocumento + " ]";
+        return "Entities.MovMateriales[ idMovimientoMaterial=" + idMovimientoMaterial + " ]";
     }
     
 }

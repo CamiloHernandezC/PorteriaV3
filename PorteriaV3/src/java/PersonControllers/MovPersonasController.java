@@ -3,8 +3,8 @@ package PersonControllers;
 import Controllers.AbstractPersistenceController;
 import Controllers.util.JsfUtil;
 import Entities.MovPersonas;
-import Entities.Personas;
 import Entities.PersonasSucursal;
+import Entities.Porterias;
 import Facade.MovPersonasFacade;
 import Querys.Querys;
 import Utils.Constants;
@@ -102,13 +102,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         this.fechaMov = fechaMov;
     }
     
-    
-    
     public List<MovPersonas> getMovimientosDiarios() {
-        /*java.util.Date fechaActual = new java.util.Date();
-        java.sql.Date hoy = new java.sql.Date(fechaActual.getTime()); 
-        String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+hoy+"' ORDER BY a.idMovPersona DESC";
-        movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;*/
         return movimientosDiarios;
     }
     
@@ -116,11 +110,11 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         if(fechaMov==null){
             java.util.Date fechaActual = new java.util.Date();
             java.sql.Date hoy = new java.sql.Date(fechaActual.getTime()); 
-            String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+hoy+"' ORDER BY a.idMovPersona DESC";
+            String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.momentoEntrada LIKE '"+hoy+"%' ORDER BY a.idMovPersona DESC";
             movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
         }else{
             java.sql.Date fecha = new java.sql.Date(fechaMov.getTime()); 
-            String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.fechaEntrada='"+fecha+"' ORDER BY a.idMovPersona DESC";
+            String squery = Querys.MOV_PERSONA_CLI_ALL+"Where a.momentoEntrada LIKE '"+fecha+"%' ORDER BY a.idMovPersona DESC";
             movimientosDiarios = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
         }
         if(movimientosDiarios==null){
@@ -143,6 +137,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         }
         recordEntry(specificPerson);
     }
+    
     public void recordEntry(PersonasSucursal specificPerson){
         prepareEntityToCreate(specificPerson);
         create();
@@ -163,26 +158,26 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         Date actualDate = new Date();
         selected.setFechaSalida(actualDate);
         selected.setHoraSalida(actualDate);
-        selected.setFechaSalida(actualDate);
+        selected.setMomentoSalida(actualDate);
         update();
     }
     
     private void prepareEntityToCreate(PersonasSucursal specificPerson) {
+        
         Date actualDate = new Date();
         selected = new MovPersonas();
         selected.setPersonasSucursal(specificPerson);
         selected.setArea(specificPerson.getArea());
+        selected.setMomentoEntrada(actualDate);
         selected.setFechaEntrada(actualDate);
         selected.setHoraEntrada(actualDate);
         //TODO PERSONA QUE AUTORIZA
-        selected.setUsuario(specificPerson.getPersonas());//TODO ASSIGN REAL USER
-        selected.setFecha(new Date());
         selected.setSalidaForzosa(false);
     }
 
     public boolean verifyEntry(int idPersona){
         String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+idPersona
-                +"' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL;
+                +"' AND"+Querys.MOV_PERSONA_CLI_MOMENTO_SALIDA_NULL;
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode == Constants.NO_RESULT_EXCEPTION){
             return false;
@@ -197,6 +192,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
     
     public void recordForcedEntry(PersonasSucursal specificPerson){
         prepareEntityToCreate(specificPerson);
+        selected.setMomentoSalida(selected.getMomentoEntrada());
         selected.setFechaSalida(selected.getFechaEntrada());
         selected.setHoraSalida(selected.getHoraEntrada());
         selected.setIngresoForzado(true);
@@ -205,10 +201,10 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
     }
     
     public void recordForcedOut(){
-        Date actualDate = new Date();
         for(MovPersonas mov: items){
             mov.setFechaSalida(mov.getFechaEntrada());
             mov.setHoraSalida(mov.getHoraEntrada());
+            mov.setMomentoSalida(mov.getMomentoEntrada());
             mov.setSalidaForzosa(true);
             selected = mov;
             update();
@@ -221,20 +217,12 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         this.items = items;
     }
 
-    /*@Override
-    protected Integer calculatePrimaryKey() {
-        Result result = ejbFacade.findByQuery(Querys.MOV_PERSONA_CLI_PRIMARY_KEY, true);
-        if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {//First record will be created
-            return 1;
-        }
-        MovPersonas lastPerson = (MovPersonas) result.result;
-        return lastPerson.getIdMovPersona()+1;
-    }*/
-
     @Override
     protected void prepareUpdate() {
-        selected.setUsuario(new Personas(1));//TODO ASSIGN REAL USER HERE
+        selected.setUsuario(JsfUtil.getSessionUser().getPersona());//TODO ASSIGN REAL USER
         selected.setFecha(new Date());
+        //TODO Asign real Porteria.
+        selected.setPorteria(new Porterias(1));
     }
     
     public void lastEntry(int idPersona) {
@@ -244,7 +232,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
 
     public Result loadEntry(String idPersona) {
         String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_PERSONA+idPersona+
-                "' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NULL+Querys.MOV_PERSONA_CLI_ORDER_BY_ID;
+                "' AND"+Querys.MOV_PERSONA_CLI_MOMENTO_SALIDA_NULL+Querys.MOV_PERSONA_CLI_ORDER_BY_ID;
         Result result = ejbFacade.findByQuery(squery,true);
         if(result.errorCode == Constants.OK){
             selected = (MovPersonas) result.result;

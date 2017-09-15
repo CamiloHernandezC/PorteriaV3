@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "mov_vehiculos")
@@ -41,7 +41,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MovVehiculos.findByObservacionSalida", query = "SELECT m FROM MovVehiculos m WHERE m.observacionSalida = :observacionSalida"),
     @NamedQuery(name = "MovVehiculos.findBySalidaForzosa", query = "SELECT m FROM MovVehiculos m WHERE m.salidaForzosa = :salidaForzosa"),
     @NamedQuery(name = "MovVehiculos.findByIngresoForzado", query = "SELECT m FROM MovVehiculos m WHERE m.ingresoForzado = :ingresoForzado"),
-    @NamedQuery(name = "MovVehiculos.findByFecha", query = "SELECT m FROM MovVehiculos m WHERE m.fecha = :fecha")})
+    @NamedQuery(name = "MovVehiculos.findByFecha", query = "SELECT m FROM MovVehiculos m WHERE m.fecha = :fecha"),
+    @NamedQuery(name = "MovVehiculos.findByPorteria", query = "SELECT m FROM MovVehiculos m WHERE m.porteria = :porteria"),
+    @NamedQuery(name = "MovVehiculos.findByMomentoEntrada", query = "SELECT m FROM MovVehiculos m WHERE m.momentoEntrada = :momentoEntrada"),
+    @NamedQuery(name = "MovVehiculos.findByMomentoSalida", query = "SELECT m FROM MovVehiculos m WHERE m.momentoSalida = :momentoSalida")})
 public class MovVehiculos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -85,6 +88,18 @@ public class MovVehiculos implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Porteria")
+    private int porteria;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Momento_Entrada")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date momentoEntrada;
+    @Column(name = "Momento_Salida")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date momentoSalida;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -108,13 +123,15 @@ public class MovVehiculos implements Serializable {
         this.idMovVehiculo = idMovVehiculo;
     }
 
-    public MovVehiculos(Integer idMovVehiculo, Date fechaEntrada, Date horaEntrada, boolean salidaForzosa, boolean ingresoForzado, Date fecha) {
+    public MovVehiculos(Integer idMovVehiculo, Date fechaEntrada, Date horaEntrada, boolean salidaForzosa, boolean ingresoForzado, Date fecha, int porteria, Date momentoEntrada) {
         this.idMovVehiculo = idMovVehiculo;
         this.fechaEntrada = fechaEntrada;
         this.horaEntrada = horaEntrada;
         this.salidaForzosa = salidaForzosa;
         this.ingresoForzado = ingresoForzado;
         this.fecha = fecha;
+        this.porteria = porteria;
+        this.momentoEntrada = momentoEntrada;
     }
 
     public Integer getIdMovVehiculo() {
@@ -195,6 +212,30 @@ public class MovVehiculos implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public int getPorteria() {
+        return porteria;
+    }
+
+    public void setPorteria(int porteria) {
+        this.porteria = porteria;
+    }
+
+    public Date getMomentoEntrada() {
+        return momentoEntrada;
+    }
+
+    public void setMomentoEntrada(Date momentoEntrada) {
+        this.momentoEntrada = momentoEntrada;
+    }
+
+    public Date getMomentoSalida() {
+        return momentoSalida;
+    }
+
+    public void setMomentoSalida(Date momentoSalida) {
+        this.momentoSalida = momentoSalida;
     }
 
     public Personas getUsuario() {

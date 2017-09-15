@@ -5,7 +5,6 @@
  */
 package Facade;
 
-import Facade.AbstractFacade;
 import Entities.Entidades;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

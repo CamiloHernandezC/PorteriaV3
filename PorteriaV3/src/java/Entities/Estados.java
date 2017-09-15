@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "estados")
@@ -46,8 +46,6 @@ public class Estados implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Usuarios> usuariosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
@@ -93,15 +91,6 @@ public class Estados implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    @XmlTransient
-    public List<Remisiones> getRemisionesList() {
-        return remisionesList;
-    }
-
-    public void setRemisionesList(List<Remisiones> remisionesList) {
-        this.remisionesList = remisionesList;
     }
 
     @XmlTransient

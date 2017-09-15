@@ -164,8 +164,8 @@ public class ManualController extends PersonasController {
         empresaController.clean();
         ////////////////////////////////////////////////////////////////////////
         //SELECT ENTRY
-        //return Navigation.PAGE_SELECT_ENTRY;
-        return Navigation.PAGE_INDEX;
+        return Navigation.PAGE_SELECT_ENTRY;
+        //return Navigation.PAGE_INDEX;
     }
 
     public void oncapture(CaptureEvent captureEvent) {

@@ -35,7 +35,7 @@ public class Querys {
     public static final String MOV_PERSONA_CLI_ALL= "SELECT a FROM MovPersonas a ";
     public static final String MOV_PERSONA_CLI_PERSONA= " a.personasSucursal.personas.idPersona = '";
     public static String MOV_PERSONA_CLI_SUCURSAL=" a.idSucursal.idSucursal = '";
-    public static final String MOV_PERSONA_CLI_FECHA_SALIDA_NULL= " a.fechaSalida IS NULL";
+    public static final String MOV_PERSONA_CLI_MOMENTO_SALIDA_NULL= " a.momentoSalida IS NULL";
     public static final String MOV_PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM MovPersonas a ORDER BY a.idMovPersona DESC";
     public static String MOV_PERSONA_CLI_ORDER_BY_ID = " ORDER BY a.idMovPersona DESC";
     //</editor-fold>
@@ -51,6 +51,10 @@ public class Querys {
     //<editor-fold desc="EMPRESA ORIGEN CLI QUERY" defaultstate="collapsed">
     public static String EMPRESA_ORIGEN_PRIMARY_KEY= "SELECT e FROM EmpresaOrigen e ORDER BY e.idEmpresaOrigen  DESC";
     public static String EMPRESA_ORIGEN_NAME= "SELECT e FROM EmpresaOrigen e WHERE e.nombre1 ='";
+    //</editor-fold>
+    
+    //<editor-fold desc="ENTIDADES CLI QUERY" defaultstate="collapsed">
+    public static String ENTIDADES_BY_CATEGORY= "SELECT e FROM Entidades e WHERE e.categoria.idCategoria ='";
     //</editor-fold>
     
 

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "unidades")
@@ -59,10 +59,6 @@ public class Unidades implements Serializable {
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidad", fetch = FetchType.LAZY)
     private List<Materiales> materialesList;
-    @OneToMany(mappedBy = "unidadVolumen", fetch = FetchType.LAZY)
-    private List<Vehiculos> vehiculosList;
-    @OneToMany(mappedBy = "unidadPeso", fetch = FetchType.LAZY)
-    private List<Vehiculos> vehiculosList1;
 
     public Unidades() {
     }
@@ -117,24 +113,6 @@ public class Unidades implements Serializable {
 
     public void setMaterialesList(List<Materiales> materialesList) {
         this.materialesList = materialesList;
-    }
-
-    @XmlTransient
-    public List<Vehiculos> getVehiculosList() {
-        return vehiculosList;
-    }
-
-    public void setVehiculosList(List<Vehiculos> vehiculosList) {
-        this.vehiculosList = vehiculosList;
-    }
-
-    @XmlTransient
-    public List<Vehiculos> getVehiculosList1() {
-        return vehiculosList1;
-    }
-
-    public void setVehiculosList1(List<Vehiculos> vehiculosList1) {
-        this.vehiculosList1 = vehiculosList1;
     }
 
     @Override

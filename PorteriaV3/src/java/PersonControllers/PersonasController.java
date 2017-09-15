@@ -21,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 
 public class PersonasController extends AbstractPersistenceController<Personas>{
@@ -29,9 +30,18 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
     protected Facade.PersonasFacade ejbFacade;
     protected List<Personas> items = null;
     protected Personas selected;
-    protected ConfigFormController configFormController = JsfUtil.findBean("configFormController");
-    protected PersonasSucursalController personasSucursalCliController = JsfUtil.findBean("personasSucursalController");
-    protected MovPersonasController movPersonasCliController = JsfUtil.findBean("movPersonasController");
+    
+    @Inject
+    protected ConfigFormController configFormController;
+    @Inject
+    protected PersonasSucursalController personasSucursalCliController;
+    @Inject
+    protected MovPersonasController movPersonasCliController;
+    
+    //protected ConfigFormController configFormController = JsfUtil.findBean("configFormController");
+    //protected PersonasSucursalController personasSucursalCliController = JsfUtil.findBean("personasSucursalController");
+    //protected MovPersonasController movPersonasCliController = JsfUtil.findBean("movPersonasController");
+    
     public PersonasController() {
     }
 
@@ -136,7 +146,7 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
     }
 
     public void cancel() {
-        selected = new Personas();
+        clean();
         //TODO CLEAN BRANCH AND AREA, MOV, EVERITHING
         JsfUtil.cancel();
     }

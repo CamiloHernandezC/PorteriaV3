@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "vehiculos")
@@ -38,12 +38,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Vehiculos.findAll", query = "SELECT v FROM Vehiculos v"),
     @NamedQuery(name = "Vehiculos.findByPlaca", query = "SELECT v FROM Vehiculos v WHERE v.placa = :placa"),
     @NamedQuery(name = "Vehiculos.findByDescripcion", query = "SELECT v FROM Vehiculos v WHERE v.descripcion = :descripcion"),
-    @NamedQuery(name = "Vehiculos.findByModelo", query = "SELECT v FROM Vehiculos v WHERE v.modelo = :modelo"),
     @NamedQuery(name = "Vehiculos.findByColor1", query = "SELECT v FROM Vehiculos v WHERE v.color1 = :color1"),
     @NamedQuery(name = "Vehiculos.findByColor2", query = "SELECT v FROM Vehiculos v WHERE v.color2 = :color2"),
-    @NamedQuery(name = "Vehiculos.findByPeso", query = "SELECT v FROM Vehiculos v WHERE v.peso = :peso"),
-    @NamedQuery(name = "Vehiculos.findByVolumen", query = "SELECT v FROM Vehiculos v WHERE v.volumen = :volumen"),
-    @NamedQuery(name = "Vehiculos.findByFecha", query = "SELECT v FROM Vehiculos v WHERE v.fecha = :fecha")})
+    @NamedQuery(name = "Vehiculos.findByFecha", query = "SELECT v FROM Vehiculos v WHERE v.fecha = :fecha"),
+    @NamedQuery(name = "Vehiculos.findByEmpresaOrigen", query = "SELECT v FROM Vehiculos v WHERE v.empresaOrigen = :empresaOrigen"),
+    @NamedQuery(name = "Vehiculos.findByIdPersonaResp", query = "SELECT v FROM Vehiculos v WHERE v.idPersonaResp = :idPersonaResp")})
 public class Vehiculos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,29 +55,24 @@ public class Vehiculos implements Serializable {
     @Size(max = 140)
     @Column(name = "Descripcion")
     private String descripcion;
-    @Column(name = "Modelo")
-    private Integer modelo;
     @Size(max = 10)
     @Column(name = "Color1")
     private String color1;
     @Size(max = 10)
     @Column(name = "Color2")
     private String color2;
-    @Column(name = "Peso")
-    private Integer peso;
-    @Column(name = "Volumen")
-    private Integer volumen;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @Column(name = "Empresa_Origen")
+    private Integer empresaOrigen;
+    @Column(name = "Id_Persona_Resp")
+    private Integer idPersonaResp;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
-    @JoinColumn(name = "Unidad_Volumen", referencedColumnName = "Id_Unidad")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Unidades unidadVolumen;
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Estados estado;
@@ -88,9 +82,6 @@ public class Vehiculos implements Serializable {
     @JoinColumn(name = "Marca", referencedColumnName = "Id_Marca")
     @ManyToOne(fetch = FetchType.LAZY)
     private Marcas marca;
-    @JoinColumn(name = "Linea", referencedColumnName = "Id_Linea")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Lineas linea;
     @JoinColumn(name = "Pais", referencedColumnName = "Id_Pais")
     @ManyToOne(fetch = FetchType.LAZY)
     private Paises pais;
@@ -100,9 +91,6 @@ public class Vehiculos implements Serializable {
     @JoinColumn(name = "Municipio", referencedColumnName = "Id_Municipio")
     @ManyToOne(fetch = FetchType.LAZY)
     private Municipios municipio;
-    @JoinColumn(name = "Unidad_Peso", referencedColumnName = "Id_Unidad")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Unidades unidadPeso;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculos", fetch = FetchType.LAZY)
     private List<VehiculosSucursal> vehiculosSucursalList;
     @OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY)
@@ -138,14 +126,6 @@ public class Vehiculos implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Integer getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(Integer modelo) {
-        this.modelo = modelo;
-    }
-
     public String getColor1() {
         return color1;
     }
@@ -162,22 +142,6 @@ public class Vehiculos implements Serializable {
         this.color2 = color2;
     }
 
-    public Integer getPeso() {
-        return peso;
-    }
-
-    public void setPeso(Integer peso) {
-        this.peso = peso;
-    }
-
-    public Integer getVolumen() {
-        return volumen;
-    }
-
-    public void setVolumen(Integer volumen) {
-        this.volumen = volumen;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -186,20 +150,28 @@ public class Vehiculos implements Serializable {
         this.fecha = fecha;
     }
 
+    public Integer getEmpresaOrigen() {
+        return empresaOrigen;
+    }
+
+    public void setEmpresaOrigen(Integer empresaOrigen) {
+        this.empresaOrigen = empresaOrigen;
+    }
+
+    public Integer getIdPersonaResp() {
+        return idPersonaResp;
+    }
+
+    public void setIdPersonaResp(Integer idPersonaResp) {
+        this.idPersonaResp = idPersonaResp;
+    }
+
     public Personas getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Personas usuario) {
         this.usuario = usuario;
-    }
-
-    public Unidades getUnidadVolumen() {
-        return unidadVolumen;
-    }
-
-    public void setUnidadVolumen(Unidades unidadVolumen) {
-        this.unidadVolumen = unidadVolumen;
     }
 
     public Estados getEstado() {
@@ -226,14 +198,6 @@ public class Vehiculos implements Serializable {
         this.marca = marca;
     }
 
-    public Lineas getLinea() {
-        return linea;
-    }
-
-    public void setLinea(Lineas linea) {
-        this.linea = linea;
-    }
-
     public Paises getPais() {
         return pais;
     }
@@ -256,14 +220,6 @@ public class Vehiculos implements Serializable {
 
     public void setMunicipio(Municipios municipio) {
         this.municipio = municipio;
-    }
-
-    public Unidades getUnidadPeso() {
-        return unidadPeso;
-    }
-
-    public void setUnidadPeso(Unidades unidadPeso) {
-        this.unidadPeso = unidadPeso;
     }
 
     @XmlTransient

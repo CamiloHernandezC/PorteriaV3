@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "personas")
@@ -129,10 +129,6 @@ public class Personas extends AbstractEntity{
     private List<VisitasEsperadas> visitasEsperadasList2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MaterialesSucursal> materialesSucursalList;
-    @OneToMany(mappedBy = "vistoBueno", fetch = FetchType.LAZY)
-    private List<MovRemisiones> movRemisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacenista", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona", fetch = FetchType.LAZY)
     private List<Usuarios> usuariosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioModifica", fetch = FetchType.LAZY)
@@ -153,6 +149,8 @@ public class Personas extends AbstractEntity{
     private List<MovPersonas> movPersonasList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<MovMateriales> movMaterialesList;
     @JoinColumn(name = "Tipo_Documento", referencedColumnName = "Tipo_Documento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TiposDocumento tipoDocumento;
@@ -389,24 +387,6 @@ public class Personas extends AbstractEntity{
     }
 
     @XmlTransient
-    public List<MovRemisiones> getMovRemisionesList() {
-        return movRemisionesList;
-    }
-
-    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
-        this.movRemisionesList = movRemisionesList;
-    }
-
-    @XmlTransient
-    public List<Remisiones> getRemisionesList() {
-        return remisionesList;
-    }
-
-    public void setRemisionesList(List<Remisiones> remisionesList) {
-        this.remisionesList = remisionesList;
-    }
-
-    @XmlTransient
     public List<Usuarios> getUsuariosList() {
         return usuariosList;
     }
@@ -494,6 +474,15 @@ public class Personas extends AbstractEntity{
 
     public void setMovDocumentosList(List<MovDocumentos> movDocumentosList) {
         this.movDocumentosList = movDocumentosList;
+    }
+
+    @XmlTransient
+    public List<MovMateriales> getMovMaterialesList() {
+        return movMaterialesList;
+    }
+
+    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
+        this.movMaterialesList = movMaterialesList;
     }
 
     public TiposDocumento getTipoDocumento() {

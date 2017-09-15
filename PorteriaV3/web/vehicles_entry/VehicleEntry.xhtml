@@ -1,10 +1,68 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../template.xhtml">
-    
+                template="./../template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <ui:define name="content">
-        content
+        <h:form>
+            <h:panelGrid columns="3" cellpadding="20px">
+                <p:outputLabel value="Placa *" />
+                <p:inputText required="true" style="text-transform:uppercase;width: 200px"/> 
+                <p:commandButton value="Buscar"/>
+            </h:panelGrid>
+            <hr/>
+
+            <h:panelGrid columns="1" cellpadding="5px">
+                <h:panelGrid columns="2" cellpadding="5px">
+                    
+                    <h:panelGrid columns="2" cellpadding="5px">
+                        <p:outputLabel for="entidades" value="Entidad"/>
+                        <p:selectOneMenu id="entidades" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
+                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                            <f:selectItems  value="#{entidadesController.getItems(1)}" var="entidades" itemLabel="#{entidades.descripcion}" itemValue="#{entidades}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="empresas" value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}"/>
+                        <p:selectOneMenu  id="empresas" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px">
+                            <f:selectItem  itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                            <f:selectItems  value="#{empresaOrigenController.items}" var="empresas" itemLabel="#{empresas.nombre1}" itemValue="#{empresas}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="color" value="Color" />
+                        <p:selectOneMenu filter="true" id="color"  filterMatchMode="contains" style="width:170px" widgetVar="wv_tipoSanguineo">
+                            <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
+                            <f:selectItem  itemLabel="AMARILLO" itemValue="AMARILLO"/>
+                            <f:selectItem  itemLabel="AZUL" itemValue="AZUL"/>
+                            <f:selectItem  itemLabel="BLANCO" itemValue="BLANCO"/>
+                            <f:selectItem  itemLabel="CAFE" itemValue="CAFE"/>
+                            <f:selectItem  itemLabel="DORADO" itemValue="DORADO"/>
+                            <f:selectItem  itemLabel="GRIS" itemValue="GRIS"/>
+                            <f:selectItem  itemLabel="MORADO" itemValue="MORADO"/>
+                            <f:selectItem  itemLabel="NARANJA" itemValue="NARANJA"/>
+                            <f:selectItem  itemLabel="NEGRO" itemValue="NEGRO"/>
+                            <f:selectItem  itemLabel="ROJO" itemValue="ROJO"/>
+                            <f:selectItem  itemLabel="VERDE" itemValue="VERDE"/>
+                        </p:selectOneMenu>
+                        <h:panelGrid/>
+                        <h:panelGrid/>
+                        <p:outputLabel for="descripcion" value="Descripcion" />
+                        <p:inputTextarea id="descripcion" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
+                    </h:panelGrid>
+                    
+                    <p:outputLabel value="Foto"/>    
+                </h:panelGrid>
+            </h:panelGrid>
+
+            <hr/>
+            <h:panelGrid columns="2" cellpadding="5px">
+                <p:commandButton icon="ui-icon-check" value="Terminar"/>
+                <p:commandButton value = "#{bundle.Cancel}" ajax="false" action="#{vehiculosController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            </h:panelGrid>
+        </h:form>
     </ui:define>
 
 </ui:composition>

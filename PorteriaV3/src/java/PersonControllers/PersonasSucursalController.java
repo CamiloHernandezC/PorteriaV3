@@ -1,21 +1,15 @@
 package PersonControllers;
 
 import Controllers.AbstractPersistenceController;
-import GeneralControl.ConfigFormController;
-import Controllers.PorteriasSucursalController;
 import Controllers.util.JsfUtil;
 import Entities.Entidades;
 import Entities.Estados;
-import Entities.Personas;
 import Entities.PersonasSucursal;
-import Entities.PorteriasSucursal;
-import Entities.Sucursales;
 import Facade.PersonasSucursalFacade;
 import Querys.Querys;
 import Utils.Constants;
 import Utils.Result;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -27,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
 @Named("personasSucursalController")
 @SessionScoped
@@ -36,7 +31,10 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
     private Facade.PersonasSucursalFacade ejbFacade;
     private List<PersonasSucursal> items = null;
     private PersonasSucursal selected;
-    private MovPersonasController movPersonasController = JsfUtil.findBean("movPersonasController");
+    
+    @Inject
+    private MovPersonasController movPersonasController;
+    //private MovPersonasController movPersonasController = JsfUtil.findBean("movPersonasController");
 
     public PersonasSucursalController() {
     }

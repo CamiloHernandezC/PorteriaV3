@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "departamentos")
@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Departamentos.findAll", query = "SELECT d FROM Departamentos d"),
     @NamedQuery(name = "Departamentos.findByIdDepartamento", query = "SELECT d FROM Departamentos d WHERE d.idDepartamento = :idDepartamento"),
-    @NamedQuery(name = "Departamentos.findByNombre", query = "SELECT d FROM Departamentos d WHERE d.nombre = :nombre")})
+    @NamedQuery(name = "Departamentos.findByNombre", query = "SELECT d FROM Departamentos d WHERE d.nombre = :nombre"),
+    @NamedQuery(name = "Departamentos.findByCodigoDane", query = "SELECT d FROM Departamentos d WHERE d.codigoDane = :codigoDane")})
 public class Departamentos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +47,11 @@ public class Departamentos implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Nombre")
     private String nombre;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "Codigo_Dane")
+    private String codigoDane;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
     private List<Municipios> municipiosList;
     @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
@@ -66,9 +72,10 @@ public class Departamentos implements Serializable {
         this.idDepartamento = idDepartamento;
     }
 
-    public Departamentos(Integer idDepartamento, String nombre) {
+    public Departamentos(Integer idDepartamento, String nombre, String codigoDane) {
         this.idDepartamento = idDepartamento;
         this.nombre = nombre;
+        this.codigoDane = codigoDane;
     }
 
     public Integer getIdDepartamento() {
@@ -85,6 +92,14 @@ public class Departamentos implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCodigoDane() {
+        return codigoDane;
+    }
+
+    public void setCodigoDane(String codigoDane) {
+        this.codigoDane = codigoDane;
     }
 
     @XmlTransient

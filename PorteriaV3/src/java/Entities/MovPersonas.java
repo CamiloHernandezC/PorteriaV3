@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "mov_personas")
@@ -37,14 +37,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "MovPersonas.findAll", query = "SELECT m FROM MovPersonas m"),
     @NamedQuery(name = "MovPersonas.findByIdMovPersona", query = "SELECT m FROM MovPersonas m WHERE m.idMovPersona = :idMovPersona"),
+    @NamedQuery(name = "MovPersonas.findByMomentoEntrada", query = "SELECT m FROM MovPersonas m WHERE m.momentoEntrada = :momentoEntrada"),
+    @NamedQuery(name = "MovPersonas.findByMetodoEntrada", query = "SELECT m FROM MovPersonas m WHERE m.metodoEntrada = :metodoEntrada"),
+    @NamedQuery(name = "MovPersonas.findByMomentoSalida", query = "SELECT m FROM MovPersonas m WHERE m.momentoSalida = :momentoSalida"),
+    @NamedQuery(name = "MovPersonas.findByMetodoSalida", query = "SELECT m FROM MovPersonas m WHERE m.metodoSalida = :metodoSalida"),
+    @NamedQuery(name = "MovPersonas.findBySalidaForzosa", query = "SELECT m FROM MovPersonas m WHERE m.salidaForzosa = :salidaForzosa"),
+    @NamedQuery(name = "MovPersonas.findByIngresoForzado", query = "SELECT m FROM MovPersonas m WHERE m.ingresoForzado = :ingresoForzado"),
+    @NamedQuery(name = "MovPersonas.findByFecha", query = "SELECT m FROM MovPersonas m WHERE m.fecha = :fecha"),
     @NamedQuery(name = "MovPersonas.findByFechaEntrada", query = "SELECT m FROM MovPersonas m WHERE m.fechaEntrada = :fechaEntrada"),
     @NamedQuery(name = "MovPersonas.findByHoraEntrada", query = "SELECT m FROM MovPersonas m WHERE m.horaEntrada = :horaEntrada"),
     @NamedQuery(name = "MovPersonas.findByFechaSalida", query = "SELECT m FROM MovPersonas m WHERE m.fechaSalida = :fechaSalida"),
-    @NamedQuery(name = "MovPersonas.findByHoraSalida", query = "SELECT m FROM MovPersonas m WHERE m.horaSalida = :horaSalida"),
-    @NamedQuery(name = "MovPersonas.findBySalidaForzosa", query = "SELECT m FROM MovPersonas m WHERE m.salidaForzosa = :salidaForzosa"),
-    @NamedQuery(name = "MovPersonas.findByIngresoForzado", query = "SELECT m FROM MovPersonas m WHERE m.ingresoForzado = :ingresoForzado"),
-    @NamedQuery(name = "MovPersonas.findByFecha", query = "SELECT m FROM MovPersonas m WHERE m.fecha = :fecha")})
-public class MovPersonas extends AbstractEntity{
+    @NamedQuery(name = "MovPersonas.findByHoraSalida", query = "SELECT m FROM MovPersonas m WHERE m.horaSalida = :horaSalida")})
+public class MovPersonas extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,20 +58,18 @@ public class MovPersonas extends AbstractEntity{
     private Integer idMovPersona;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Fecha_Entrada")
-    @Temporal(TemporalType.DATE)
-    private Date fechaEntrada;
+    @Column(name = "Momento_Entrada")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date momentoEntrada;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Hora_Entrada")
-    @Temporal(TemporalType.TIME)
-    private Date horaEntrada;
-    @Column(name = "Fecha_Salida")
-    @Temporal(TemporalType.DATE)
-    private Date fechaSalida;
-    @Column(name = "Hora_Salida")
-    @Temporal(TemporalType.TIME)
-    private Date horaSalida;
+    @Column(name = "Metodo_Entrada")
+    private int metodoEntrada;
+    @Column(name = "Momento_Salida")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date momentoSalida;
+    @Column(name = "Metodo_Salida")
+    private Integer metodoSalida;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Salida_Forzosa")
@@ -81,14 +83,27 @@ public class MovPersonas extends AbstractEntity{
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersona", fetch = FetchType.LAZY)
-    private List<MovRemisiones> movRemisionesList;
+    @Column(name = "Fecha_Entrada")
+    @Temporal(TemporalType.DATE)
+    private Date fechaEntrada;
+    @Column(name = "Hora_Entrada")
+    @Temporal(TemporalType.TIME)
+    private Date horaEntrada;
+    @Column(name = "Fecha_Salida")
+    @Temporal(TemporalType.DATE)
+    private Date fechaSalida;
+    @Column(name = "Hora_Salida")
+    @Temporal(TemporalType.TIME)
+    private Date horaSalida;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
     @JoinColumn(name = "Area", referencedColumnName = "Id_Area_Empresa")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private AreasEmpresa area;
+    @JoinColumn(name = "Porteria", referencedColumnName = "Id_Porteria")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Porterias porteria;
     @JoinColumn(name = "Persona_Autoriza", referencedColumnName = "Id_Persona")
     @ManyToOne(fetch = FetchType.LAZY)
     private Personas personaAutoriza;
@@ -99,6 +114,8 @@ public class MovPersonas extends AbstractEntity{
     private PersonasSucursal personasSucursal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
+    private List<MovMateriales> movMaterialesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList;
     @OneToMany(mappedBy = "movPersonaSalida", fetch = FetchType.LAZY)
@@ -107,6 +124,7 @@ public class MovPersonas extends AbstractEntity{
     private List<MovVehiculos> movVehiculosList;
     @OneToMany(mappedBy = "movPersonaSalida", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList1;
+    
 
     public MovPersonas() {
     }
@@ -115,13 +133,21 @@ public class MovPersonas extends AbstractEntity{
         this.idMovPersona = idMovPersona;
     }
 
-    public MovPersonas(Integer idMovPersona, Date fechaEntrada, Date horaEntrada, boolean salidaForzosa, boolean ingresoForzado, Date fecha) {
+    public MovPersonas(Integer idMovPersona, Date momentoEntrada, int metodoEntrada, boolean salidaForzosa, boolean ingresoForzado, Date fecha) {
         this.idMovPersona = idMovPersona;
-        this.fechaEntrada = fechaEntrada;
-        this.horaEntrada = horaEntrada;
+        this.momentoEntrada = momentoEntrada;
+        this.metodoEntrada = metodoEntrada;
         this.salidaForzosa = salidaForzosa;
         this.ingresoForzado = ingresoForzado;
         this.fecha = fecha;
+    }
+
+    public Porterias getPorteria() {
+        return porteria;
+    }
+
+    public void setPorteria(Porterias porteria) {
+        this.porteria = porteria;
     }
 
     public Integer getIdMovPersona() {
@@ -130,6 +156,62 @@ public class MovPersonas extends AbstractEntity{
 
     public void setIdMovPersona(Integer idMovPersona) {
         this.idMovPersona = idMovPersona;
+    }
+
+    public Date getMomentoEntrada() {
+        return momentoEntrada;
+    }
+
+    public void setMomentoEntrada(Date momentoEntrada) {
+        this.momentoEntrada = momentoEntrada;
+    }
+
+    public int getMetodoEntrada() {
+        return metodoEntrada;
+    }
+
+    public void setMetodoEntrada(int metodoEntrada) {
+        this.metodoEntrada = metodoEntrada;
+    }
+
+    public Date getMomentoSalida() {
+        return momentoSalida;
+    }
+
+    public void setMomentoSalida(Date momentoSalida) {
+        this.momentoSalida = momentoSalida;
+    }
+
+    public Integer getMetodoSalida() {
+        return metodoSalida;
+    }
+
+    public void setMetodoSalida(Integer metodoSalida) {
+        this.metodoSalida = metodoSalida;
+    }
+
+    public boolean getSalidaForzosa() {
+        return salidaForzosa;
+    }
+
+    public void setSalidaForzosa(boolean salidaForzosa) {
+        this.salidaForzosa = salidaForzosa;
+    }
+
+    public boolean getIngresoForzado() {
+        return ingresoForzado;
+    }
+
+    public void setIngresoForzado(boolean ingresoForzado) {
+        this.ingresoForzado = ingresoForzado;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public Date getFechaEntrada() {
@@ -162,39 +244,6 @@ public class MovPersonas extends AbstractEntity{
 
     public void setHoraSalida(Date horaSalida) {
         this.horaSalida = horaSalida;
-    }
-
-    public boolean getSalidaForzosa() {
-        return salidaForzosa;
-    }
-
-    public void setSalidaForzosa(boolean salidaForzosa) {
-        this.salidaForzosa = salidaForzosa;
-    }
-
-    public boolean getIngresoForzado() {
-        return ingresoForzado;
-    }
-
-    public void setIngresoForzado(boolean ingresoForzado) {
-        this.ingresoForzado = ingresoForzado;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    @XmlTransient
-    public List<MovRemisiones> getMovRemisionesList() {
-        return movRemisionesList;
-    }
-
-    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
-        this.movRemisionesList = movRemisionesList;
     }
 
     public Personas getUsuario() {
@@ -236,6 +285,15 @@ public class MovPersonas extends AbstractEntity{
 
     public void setMovDocumentosList(List<MovDocumentos> movDocumentosList) {
         this.movDocumentosList = movDocumentosList;
+    }
+
+    @XmlTransient
+    public List<MovMateriales> getMovMaterialesList() {
+        return movMaterialesList;
+    }
+
+    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
+        this.movMaterialesList = movMaterialesList;
     }
 
     @XmlTransient
@@ -298,11 +356,11 @@ public class MovPersonas extends AbstractEntity{
     public String toString() {
         return "Entities.MovPersonas[ idMovPersona=" + idMovPersona + " ]";
     }
-
+    
     @Override
     public int getPrimaryKey() {
         return idMovPersona;
-    }
+}
 
     @Override
     public void setPrimaryKey(int primaryKey) {

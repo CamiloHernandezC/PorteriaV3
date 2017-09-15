@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kmilo
+ * @author amorales
  */
 @Entity
 @Table(name = "objetos")
@@ -100,9 +100,6 @@ public class Objetos implements Serializable {
     @JoinColumn(name = "Marca", referencedColumnName = "Id_Marca")
     @ManyToOne(fetch = FetchType.LAZY)
     private Marcas marca;
-    @JoinColumn(name = "Linea", referencedColumnName = "Id_Linea")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Lineas linea;
     @JoinColumn(name = "Pais", referencedColumnName = "Id_Pais")
     @ManyToOne(fetch = FetchType.LAZY)
     private Paises pais;
@@ -257,14 +254,6 @@ public class Objetos implements Serializable {
 
     public void setMarca(Marcas marca) {
         this.marca = marca;
-    }
-
-    public Lineas getLinea() {
-        return linea;
-    }
-
-    public void setLinea(Lineas linea) {
-        this.linea = linea;
     }
 
     public Paises getPais() {
