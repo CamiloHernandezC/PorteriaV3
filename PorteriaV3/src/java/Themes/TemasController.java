@@ -11,11 +11,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("temasController")
@@ -26,6 +28,9 @@ public class TemasController implements Serializable {
     private Facade.ThemeFacade ejbFacade;
     private List<Theme> items = null;
     private Theme selected;
+    
+    @Inject
+    UsuariosController usuariosController;
 
     public TemasController() {
     }
@@ -39,13 +44,13 @@ public class TemasController implements Serializable {
     
     public void reset(){
         selected = ejbFacade.find(14);
-        UsuariosController usuariosController = JsfUtil.findBean("usuariosController");
+        //usuariosController = JsfUtil.findBean("usuariosController");
         usuariosController.saveTheme(selected);
     }
 
     public void setSelected(Theme selected) {
         this.selected = selected;
-        UsuariosController usuariosController = JsfUtil.findBean("usuariosController");
+        //usuariosController = JsfUtil.findBean("usuariosController");
         usuariosController.saveTheme(selected);
     }
     

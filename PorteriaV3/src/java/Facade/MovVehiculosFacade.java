@@ -30,4 +30,6 @@ public class MovVehiculosFacade extends AbstractFacade<MovVehiculos> {
         super(MovVehiculos.class);
     }
     
+    
+    
 }

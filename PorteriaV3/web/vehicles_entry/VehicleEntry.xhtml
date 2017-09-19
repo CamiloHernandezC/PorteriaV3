@@ -23,7 +23,7 @@
                         <p:outputLabel for="entidades" value="Entidad"/>
                         <p:selectOneMenu id="entidades" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
                             <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                            <f:selectItems  value="#{entidadesController.getItems(1)}" var="entidades" itemLabel="#{entidades.descripcion}" itemValue="#{entidades}"/>
+                            <f:selectItems  value="#{entidadesController.getItems(2)}" var="entidades" itemLabel="#{entidades.descripcion}" itemValue="#{entidades}"/>
                         </p:selectOneMenu>
 
                         <p:outputLabel for="empresas" value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}"/>

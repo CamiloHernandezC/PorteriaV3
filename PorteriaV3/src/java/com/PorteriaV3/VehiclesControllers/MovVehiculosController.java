@@ -1,4 +1,4 @@
-package Controllers;
+package com.PorteriaV3.VehiclesControllers;
 
 import Entities.MovVehiculos;
 import Controllers.util.JsfUtil;

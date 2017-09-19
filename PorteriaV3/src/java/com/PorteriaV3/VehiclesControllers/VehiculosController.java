@@ -1,9 +1,9 @@
-package Controllers;
+package com.PorteriaV3.VehiclesControllers;
 
-import Entities.VehiculosSucursal;
+import Entities.Vehiculos;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
-import Facade.VehiculosSucursalFacade;
+import Facade.VehiculosFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,65 +19,66 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("vehiculosSucursalController")
+@Named("vehiculosController")
 @SessionScoped
-public class VehiculosSucursalController implements Serializable {
+public class VehiculosController implements Serializable {
 
     @EJB
-    private Facade.VehiculosSucursalFacade ejbFacade;
-    private List<VehiculosSucursal> items = null;
-    private VehiculosSucursal selected;
+    private Facade.VehiculosFacade ejbFacade;
+    
+    @EJB
+    private BusinessVehicles ejbBusinessVehicles;
+    
+    private List<Vehiculos> items = null;
+    private Vehiculos selected;
 
-    public VehiculosSucursalController() {
+    public VehiculosController() {
     }
 
-    public VehiculosSucursal getSelected() {
+    public Vehiculos getSelected() {
         return selected;
     }
 
-    public void setSelected(VehiculosSucursal selected) {
+    public void setSelected(Vehiculos selected) {
         this.selected = selected;
     }
 
     protected void setEmbeddableKeys() {
-        selected.getVehiculosSucursalPK().setSucursal(selected.getSucursales().getIdSucursal());
-        selected.getVehiculosSucursalPK().setPlaca(selected.getVehiculos().getPlaca());
     }
 
     protected void initializeEmbeddableKey() {
-        selected.setVehiculosSucursalPK(new Entities.VehiculosSucursalPK());
     }
 
-    private VehiculosSucursalFacade getFacade() {
+    private VehiculosFacade getFacade() {
         return ejbFacade;
     }
 
-    public VehiculosSucursal prepareCreate() {
-        selected = new VehiculosSucursal();
+    public Vehiculos prepareCreate() {
+        selected = new Vehiculos();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("VehiculosSucursalCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("VehiculosCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("VehiculosSucursalUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("VehiculosUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("VehiculosSucursalDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("VehiculosDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<VehiculosSucursal> getItems() {
+    public List<Vehiculos> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -112,48 +113,41 @@ public class VehiculosSucursalController implements Serializable {
         }
     }
 
-    public VehiculosSucursal getVehiculosSucursal(Entities.VehiculosSucursalPK id) {
+    public Vehiculos getVehiculos(java.lang.String id) {
         return getFacade().find(id);
     }
 
-    public List<VehiculosSucursal> getItemsAvailableSelectMany() {
+    public List<Vehiculos> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<VehiculosSucursal> getItemsAvailableSelectOne() {
+    public List<Vehiculos> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
-    @FacesConverter(forClass = VehiculosSucursal.class)
-    public static class VehiculosSucursalControllerConverter implements Converter {
-
-        private static final String SEPARATOR = "#";
-        private static final String SEPARATOR_ESCAPED = "\\#";
+    
+    //<editor-fold desc="Convertidor" defaultstate="collapsed">
+    @FacesConverter(forClass = Vehiculos.class)
+    public static class VehiculosControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            VehiculosSucursalController controller = (VehiculosSucursalController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "vehiculosSucursalController");
-            return controller.getVehiculosSucursal(getKey(value));
+            VehiculosController controller = (VehiculosController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "vehiculosController");
+            return controller.getVehiculos(getKey(value));
         }
 
-        Entities.VehiculosSucursalPK getKey(String value) {
-            Entities.VehiculosSucursalPK key;
-            String values[] = value.split(SEPARATOR_ESCAPED);
-            key = new Entities.VehiculosSucursalPK();
-            key.setPlaca(values[0]);
-            key.setSucursal(Integer.parseInt(values[1]));
+        java.lang.String getKey(String value) {
+            java.lang.String key;
+            key = value;
             return key;
         }
 
-        String getStringKey(Entities.VehiculosSucursalPK value) {
+        String getStringKey(java.lang.String value) {
             StringBuilder sb = new StringBuilder();
-            sb.append(value.getPlaca());
-            sb.append(SEPARATOR);
-            sb.append(value.getSucursal());
+            sb.append(value);
             return sb.toString();
         }
 
@@ -162,15 +156,32 @@ public class VehiculosSucursalController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof VehiculosSucursal) {
-                VehiculosSucursal o = (VehiculosSucursal) object;
-                return getStringKey(o.getVehiculosSucursalPK());
+            if (object instanceof Vehiculos) {
+                Vehiculos o = (Vehiculos) object;
+                return getStringKey(o.getPlaca());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), VehiculosSucursal.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Vehiculos.class.getName()});
                 return null;
             }
         }
 
     }
+    //</editor-fold>
+    
+    public void cancel() {
+        clean();
+        JsfUtil.cancelToSelectEntry();
+    }
+    
+     public void clean(){
+        selected = null;
+        items = null;
+    }
+     
+     public void buscar(){
+         if(ejbBusinessVehicles.buscar()){
+             
+         }
+     }
 
 }

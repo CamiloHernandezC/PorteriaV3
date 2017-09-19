@@ -13,15 +13,14 @@ import Utils.Result;
 import java.io.Serializable;
 import java.sql.Date;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class LoginControl implements Serializable {
 
     @EJB
