@@ -55,7 +55,7 @@ public class JsfUtil {
 
     public static void addSuccessMessage(String msg) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
+        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info: \n"+msg,msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
     }
     

@@ -32,6 +32,9 @@ public class MovVehiculosController implements Serializable {
     }
 
     public MovVehiculos getSelected() {
+        if(selected == null){
+            selected=new MovVehiculos();
+        }
         return selected;
     }
 

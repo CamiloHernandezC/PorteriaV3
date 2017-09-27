@@ -41,9 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Vehiculos.findByColor1", query = "SELECT v FROM Vehiculos v WHERE v.color1 = :color1"),
     @NamedQuery(name = "Vehiculos.findByColor2", query = "SELECT v FROM Vehiculos v WHERE v.color2 = :color2"),
     @NamedQuery(name = "Vehiculos.findByFecha", query = "SELECT v FROM Vehiculos v WHERE v.fecha = :fecha"),
-    @NamedQuery(name = "Vehiculos.findByEmpresaOrigen", query = "SELECT v FROM Vehiculos v WHERE v.empresaOrigen = :empresaOrigen"),
     @NamedQuery(name = "Vehiculos.findByIdPersonaResp", query = "SELECT v FROM Vehiculos v WHERE v.idPersonaResp = :idPersonaResp")})
-public class Vehiculos implements Serializable {
+public class Vehiculos extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,8 +65,6 @@ public class Vehiculos implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Column(name = "Empresa_Origen")
-    private Integer empresaOrigen;
     @Column(name = "Id_Persona_Resp")
     private Integer idPersonaResp;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
@@ -115,7 +112,7 @@ public class Vehiculos implements Serializable {
     }
 
     public void setPlaca(String placa) {
-        this.placa = placa;
+        this.placa = placa.toUpperCase();
     }
 
     public String getDescripcion() {
@@ -148,14 +145,6 @@ public class Vehiculos implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public Integer getEmpresaOrigen() {
-        return empresaOrigen;
-    }
-
-    public void setEmpresaOrigen(Integer empresaOrigen) {
-        this.empresaOrigen = empresaOrigen;
     }
 
     public Integer getIdPersonaResp() {
@@ -272,6 +261,31 @@ public class Vehiculos implements Serializable {
     @Override
     public String toString() {
         return "Entities.Vehiculos[ placa=" + placa + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        //Nothing to do here.
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        usuario=user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha=date;
+    }
+
+    @Override
+    public void setStatus(Integer STATUS) {
+        estado= new Estados(STATUS);
     }
     
 }

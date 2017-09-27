@@ -2,6 +2,47 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="PorteriaV3PU" transaction-type="JTA">
     <jta-data-source>jdbc/ACTIV</jta-data-source>
+    <!--<jar-file>../../ActivEntities.jar</jar-file>
+    <class>Entities.AccesoUsuario</class>
+    <class>Entities.AreasEmpresa</class>
+    <class>Entities.Arl</class>
+    <class>Entities.Categorias</class>
+    <class>Entities.Clientes</class>
+    <class>Entities.ConfigForm</class>
+    <class>Entities.Departamentos</class>
+    <class>Entities.EmpresaOrigen</class>
+    <class>Entities.Entidades</class>
+    <class>Entities.Eps</class>
+    <class>Entities.Estados</class>
+    <class>Entities.Horarios</class>
+    <class>Entities.Marcas</class>
+    <class>Entities.Marcas</class>
+    <class>Entities.Materiales</class>
+    <class>Entities.MaterialesSucursal</class>
+    <class>Entities.MenuCliente</class>
+    <class>Entities.MenuPorteria</class>
+    <class>Entities.MovDocumentos</class>
+    <class>Entities.MovMateriales</class>
+    <class>Entities.MovObjetos</class>
+    <class>Entities.MovPersonas</class>
+    <class>Entities.MovVehiculos</class>
+    <class>Entities.Municipios</class>
+    <class>Entities.Notificaciones</class>
+    <class>Entities.Objetos</class>
+    <class>Entities.Paises</class>
+    <class>Entities.Personas</class>
+    <class>Entities.PersonasSucursal</class>
+    <class>Entities.Porterias</class>
+    <class>Entities.PorteriasSucursal</class>
+    <class>Entities.PrivilegiosCliente</class>
+    <class>Entities.Sucursales</class>
+    <class>Entities.TiposDocumento</class>
+    <class>Entities.Unidades</class>
+    <class>Entities.Vehiculos</class>
+    <class>Entities.VehiculosSucursal</class>
+    <class>Entities.VisitasEsperadas</class>
+    <class>Entities.Theme</class>
+    <class>Entities.Usuarios</class>-->
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties/>

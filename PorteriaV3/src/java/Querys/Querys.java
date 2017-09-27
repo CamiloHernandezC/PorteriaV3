@@ -48,6 +48,20 @@ public class Querys {
     public static String PORTERIA_SUCURSAL_CLI_PORTERIA= "SELECT a FROM PorteriasSucursal a WHERE a.porteriasSucursalPK.porteria = '";
     //</editor-fold>
     
+    //<editor-fold desc="VEHICLES SUCURSAL CLI QUERY" defaultstate="collapsed">
+    public static final String VEHICLES_SUCURSAL_CLI_ALL= "SELECT a FROM VehiculosSucursal a";
+    public static final String VEHICLES_SUCURSAL_CLI_PLACA= " a.vehiculosSucursalPK.placa = '";
+    public static final String VEHICLES_SUCURSAL_CLI_SUCURSAL= " a.vehiculosSucursalPK.sucursal = '";
+    //</editor-fold>
+    
+    //<editor-fold desc="VEHICLES CLI QUERY" defaultstate="collapsed">
+    public static final String VEHICLES_CLI_ALL= "SELECT a FROM Vehiculos a ";
+    public static final String VEHICLES_CLI_PLACA= " a.placa = '";
+    public static final String VEHICLES_CLI_PRIMARY_KEY= "SELECT a FROM Vehiculos a ORDER BY a.idVehiculo DESC";
+    //public static String EMPRESA_ORIGEN_PRIMARY_KEY= "SELECT e FROM EmpresaOrigen e ORDER BY e.idEmpresaOrigen  DESC";
+    //public static String EMPRESA_ORIGEN_NAME= "SELECT e FROM EmpresaOrigen e WHERE e.nombre1 ='";
+    //</editor-fold>
+    
     //<editor-fold desc="EMPRESA ORIGEN CLI QUERY" defaultstate="collapsed">
     public static String EMPRESA_ORIGEN_PRIMARY_KEY= "SELECT e FROM EmpresaOrigen e ORDER BY e.idEmpresaOrigen  DESC";
     public static String EMPRESA_ORIGEN_NAME= "SELECT e FROM EmpresaOrigen e WHERE e.nombre1 ='";

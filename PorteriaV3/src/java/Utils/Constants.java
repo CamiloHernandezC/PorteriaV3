@@ -25,6 +25,8 @@ public class Constants {
     public static final int VALIDATION_ERROR = 5;
     public static final int PERSISTANCE_EXCEPTION= 6;
     public static final int REPEATED_RECORD=7;
+    public static final int NO_SEARCH=8;
+    public static final int OBJECT_BLOCK=9;
     //</editor-fold>
     
     //THIS ERRORS MESSAGES ARE ONLY FOR INTERNAL USE
@@ -37,11 +39,11 @@ public class Constants {
     public static final String MESSAGE_DATE_FORMAT_EXCEPTION = "APP EXCEPTION: DATE FORMAT EXCEPTION";
     //</editor-fold>
     
-    // <editor-fold desc="DATA BASE CONSTANTS" defaultstate="collapsed">
     
     //NOMBRE DEL CAMPO FORMULARIO EN LA TABLA CONFIG DE LA BASE DE DATOS
     // <editor-fold desc="FORMULARIO CONFIGURACION" defaultstate="collapsed">
     public static String CONFIGPERSONSFORM ="PERSONA";
+    public static String CONFIGVEHICLESFORM ="VEHICULO";
     //</editor-fold>
     
     // <editor-fold desc="ENTITIES" defaultstate="collapsed">
@@ -50,6 +52,7 @@ public class Constants {
     
     // <editor-fold desc="STATUS" defaultstate="collapsed">
     public static final int STATUS_ENTRY = 3;
+    public static final int STATUS_INACTIVE = 4;
     public static final int STATUS_BLOCKED= 2;
     //</editor-fold>
     
@@ -65,7 +68,7 @@ public class Constants {
     static int CATEGORY_PERSON =1;
     //</editor-fold>
     
-     // <editor-fold desc="HTTP SESSION" defaultstate="collapsed">
+    // <editor-fold desc="HTTP SESSION" defaultstate="collapsed">
     public static final String SESSION_USER="USER";
     //</editor-fold>
     

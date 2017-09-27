@@ -5,6 +5,7 @@ import Controllers.util.JsfUtil;
 import Entities.Entidades;
 import Entities.Estados;
 import Entities.PersonasSucursal;
+import Entities.PersonasSucursalPK;
 import Facade.PersonasSucursalFacade;
 import Querys.Querys;
 import Utils.Constants;
@@ -60,7 +61,7 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
 
     @Override
     protected void initializeEmbeddableKey() {
-        selected.setPersonasSucursalPK(new Entities.PersonasSucursalPK());
+        selected.setPersonasSucursalPK(new PersonasSucursalPK());
     }
 
     @Override

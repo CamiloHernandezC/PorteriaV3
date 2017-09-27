@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
-
+package com.PorteriaV3.Facade;
 
 import Controllers.util.JsfUtil;
 import Entities.AbstractEntity;
-import Facade.AbstractFacade;
 import Utils.Constants;
 import Utils.Result;
-import java.io.Serializable;
+//import com.clienteV31.entities.Personas;
+//import com.clienteV31.utils.Constants;
+//import com.clienteV31.utils.JsfUtil;
+//import com.clienteV31.utils.Result;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,76 +26,82 @@ import javax.validation.ValidatorFactory;
 
 /**
  *
- * @author MAURICIO
- * @param <T> Entity class
+ * @author chernandez
  */
-public abstract class AbstractPersistenceController<T> implements Serializable {
+public abstract class AbstractPersistenceFacade<T> extends AbstractQueryFacade<T> implements EJBRemotePersistence<T>{
     
-    protected String validationErrorObservation;
-
-    protected abstract AbstractFacade getFacade();
-
-    protected abstract T getSelected();
-
-    protected abstract void setSelected(T selected);
-
-    protected abstract void setItems(List<T> items);
-
-    protected abstract void setEmbeddableKeys();
-
-    protected abstract void initializeEmbeddableKey();
-
-    protected abstract void prepareCreate();
-
-    protected abstract void prepareUpdate();
+    protected T entity;
     
-    public abstract void clean();
-
+    public AbstractPersistenceFacade(Class<T> entityClass) {
+        super(entityClass);
+    }
+    
+    @Override
+    public void prepareDisable(){
+        AbstractEntity aEntity = (AbstractEntity) entity;
+        aEntity.setStatus(Constants.STATUS_INACTIVE);
+        entity = (T) aEntity;
+        prepareUpdate();
+    }
+    
+    @Override
     public void calculatePrimaryKey(String squery) {
-        Result result = getFacade().findByQuery(squery, true);//Only need the first result
+        Result result = findByQuery(squery, true);//Only need the first resul
+        AbstractEntity superEntity = (AbstractEntity) entity;
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
-            AbstractEntity entity = (AbstractEntity) getSelected();
-            entity.setPrimaryKey(1);
-            setSelected((T) entity);
+            superEntity.setPrimaryKey(1);
+            entity = (T) superEntity;
         } else {
-            AbstractEntity entity = (AbstractEntity) getSelected();
-            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey() + 1);
-            setSelected((T) entity);
+            superEntity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey() + 1);
+            entity = (T) superEntity;
         }
-        //In previous section we need get and set selected because all data are already loaded
     }
 
+    @Override
     public void assignParametersToUpdate() {
-        AbstractEntity entity = (AbstractEntity) getSelected();
-        entity.setUser(JsfUtil.getSessionUser().getPersona());
-        entity.setDate(new Date());
-        setSelected((T) entity);
+        AbstractEntity aEntity = (AbstractEntity) entity;
+        aEntity.setUser(JsfUtil.getSessionUser().getPersona());
+        //aEntity.setUser(new Personas(1));//This line is used only for junit test
+        aEntity.setDate(new Date());
+        entity = (T) aEntity;
     }
 
-    public Result create() {
+    // <editor-fold desc="CRUD" defaultstate="collapsed">
+    @Override
+    public Result create(T pEntity) {
+        entity = pEntity;
         prepareCreate();
         return persist(JsfUtil.PersistAction.CREATE);
     }
 
-    public Result update() {
+    @Override
+    public Result update(T pEntity) {
+        entity = pEntity;
         prepareUpdate();
         return persist(JsfUtil.PersistAction.UPDATE);
     }
 
-    public void destroy() {
-        persist(JsfUtil.PersistAction.DELETE);
-        if (!JsfUtil.isValidationFailed()) {
-            setSelected(null); // Remove selection
-            setItems(null);// Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public Result disable(T pEntity) {
+        entity = pEntity;
+        prepareDisable();
+        return persist(JsfUtil.PersistAction.UPDATE);
     }
+    
+    
+    @Override
+    public Result delete(T pEntity) {
+        entity = pEntity;
+        return persist(JsfUtil.PersistAction.DELETE);
+    }
+    //</editor-fold>
 
-    protected Result persist(JsfUtil.PersistAction persistAction) {
-        if (getSelected() != null) {
+    @Override
+    public Result persist(JsfUtil.PersistAction persistAction) {
+        if (entity != null) {
             setEmbeddableKeys();
             
             //Fields validation for entity
-            T entity = getSelected();
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
             Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
@@ -110,15 +116,15 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
             }
             try {
                 if (persistAction == JsfUtil.PersistAction.UPDATE) {
-                    getFacade().edit(getSelected());
+                    getEntityManager().merge(entity);
                 }
                 if (persistAction == JsfUtil.PersistAction.CREATE) {
-                    getFacade().create(getSelected());
+                    getEntityManager().persist(entity);
                 }
-                if (persistAction == JsfUtil.PersistAction.DELETE) {
-                    getFacade().remove(getSelected());
+                if (persistAction == JsfUtil.PersistAction.DELETE){
+                    getEntityManager().remove(getEntityManager().merge(entity));
                 }
-                return new Result(null, Constants.OK);
+                return new Result(entity, Constants.OK);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -137,4 +143,5 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
         }
         return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
     }
+    
 }

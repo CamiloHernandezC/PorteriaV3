@@ -5,7 +5,6 @@
  */
 package Entities;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -668,8 +667,8 @@ public class Personas extends AbstractEntity{
     }
 
     @Override
-    public void setStatus(Integer STATUS_INACTIVE) {
-        estado = new Estados(STATUS_INACTIVE);
+    public void setStatus(Integer STATUS_ACTIVE) {
+        estado = new Estados(STATUS_ACTIVE);
     }
 
 }

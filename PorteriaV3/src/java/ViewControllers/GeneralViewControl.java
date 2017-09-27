@@ -15,6 +15,7 @@ import Utils.HelpUtils;
 import Utils.Navigation;
 import java.io.Serializable;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -28,6 +29,9 @@ public class GeneralViewControl implements Serializable{
 
     //<editor-fold desc="VARIBLES DECLARATION" defaultstate="collapsed">
     private Date actualDate;
+    
+    @EJB
+    private Facade.ConfigFormFacade ejbFacadeConfig;
     //</editor-fold>
        
     //<editor-fold desc="GETTER AND SETTER" defaultstate="collapsed">
@@ -43,7 +47,7 @@ public class GeneralViewControl implements Serializable{
     public GeneralViewControl() {
     }
     
-    //<editor-fold desc="NAVEGACION INDEX" defaultstate="collapsed">
+    //<editor-fold desc="NAVEGACION" defaultstate="collapsed">
     public String irConfiguracion(){
         return Navigation.PAGE_CONFIGURATION;
     }
@@ -84,12 +88,10 @@ public class GeneralViewControl implements Serializable{
         return Navigation.PAGE_EXPRESS_EXIT;
     }
     
-    public String irCrearVehiculo(){
-        return Navigation.PAGE_VEHICLE_ENTRY;
-    }
     //</editor-fold>
     
     public void cleanPersonControllers(){
+        
         PersonasController personasController = JsfUtil.findBean("personasController");
         PersonasSucursalController personasSucursalController =  JsfUtil.findBean("personasSucursalController");
         MovPersonasController movPersonasController = JsfUtil.findBean("movPersonasController");

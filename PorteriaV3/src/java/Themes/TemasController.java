@@ -1,7 +1,6 @@
 package Themes;
 
 import Controllers.UsuariosController;
-import Controllers.util.JsfUtil;
 import Entities.Theme;
 import Facade.ThemeFacade;
 
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -34,7 +32,7 @@ public class TemasController implements Serializable {
 
     public TemasController() {
     }
-
+    
     public Theme getSelected() {
         if(selected==null){
             selected = ejbFacade.find(14);

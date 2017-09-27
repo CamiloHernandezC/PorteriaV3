@@ -8,32 +8,32 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:form>
-            <h:panelGrid columns="3" cellpadding="20px">
+        
+        <h:form id="formGrowl">
+            <p:growl id="growl" showDetail="true" />
+        </h:form>
+        
+        <h:form id="formVehicles">
+            <h:panelGrid id="panelPlaca" columns="4" cellpadding="20px">
                 <p:outputLabel value="Placa *" />
-                <p:inputText required="true" style="text-transform:uppercase;width: 200px"/> 
-                <p:commandButton value="Buscar"/>
+                <p:inputText required="true" disabled="#{vehiclesEntryController.bloquearPlaca}" value="#{vehiclesEntryController.selected.vehiculos.placa}" style="text-transform:uppercase;width: 200px" requiredMessage="El campo placa es obligatorio."/> 
+                <p:commandButton value="Buscar" action="#{vehiclesEntryController.buscarPorPlaca()}" update="panelVehicles :formGrowl panelPlaca" process="panelPlaca"/>
+                <p:commandButton value="Reset" action="#{vehiclesEntryController.resetView()}"/>
             </h:panelGrid>
             <hr/>
 
-            <h:panelGrid columns="1" cellpadding="5px">
+            <h:panelGrid id="panelVehicles" columns="1" cellpadding="5px">
                 <h:panelGrid columns="2" cellpadding="5px">
                     
                     <h:panelGrid columns="2" cellpadding="5px">
-                        <p:outputLabel for="entidades" value="Entidad"/>
-                        <p:selectOneMenu id="entidades" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
+                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarTipoVehiculo}" for="entidades" value="Entidad"/>
+                        <p:selectOneMenu disabled="#{vehiclesEntryController.bloquearCampos}" rendered="#{vehiclesEntryController.mostrarTipoVehiculo}" value="#{vehiclesEntryController.selected.vehiculos.entidad}" id="entidades" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idEntidad}" autoWidth="false" style=" width: 170px">
                             <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                             <f:selectItems  value="#{entidadesController.getItems(2)}" var="entidades" itemLabel="#{entidades.descripcion}" itemValue="#{entidades}"/>
                         </p:selectOneMenu>
 
-                        <p:outputLabel for="empresas" value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}"/>
-                        <p:selectOneMenu  id="empresas" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px">
-                            <f:selectItem  itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-                            <f:selectItems  value="#{empresaOrigenController.items}" var="empresas" itemLabel="#{empresas.nombre1}" itemValue="#{empresas}"/>
-                        </p:selectOneMenu>
-
-                        <p:outputLabel for="color" value="Color" />
-                        <p:selectOneMenu filter="true" id="color"  filterMatchMode="contains" style="width:170px" widgetVar="wv_tipoSanguineo">
+                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarColor}" for="color" value="Color" />
+                        <p:selectOneMenu  disabled="#{vehiclesEntryController.bloquearCampos}" rendered="#{vehiclesEntryController.mostrarColor}" value="#{vehiclesEntryController.selected.vehiculos.color1}" filter="true" id="color"  filterMatchMode="contains" style="width:170px" widgetVar="wv_tipoSanguineo">
                             <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
                             <f:selectItem  itemLabel="AMARILLO" itemValue="AMARILLO"/>
                             <f:selectItem  itemLabel="AZUL" itemValue="AZUL"/>
@@ -49,18 +49,19 @@
                         </p:selectOneMenu>
                         <h:panelGrid/>
                         <h:panelGrid/>
-                        <p:outputLabel for="descripcion" value="Descripcion" />
-                        <p:inputTextarea id="descripcion" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
+                        
+                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarObservacion}" for="Observacion"  value="Observacion"  />
+                        <p:inputTextarea disabled="#{vehiclesEntryController.bloquearCampoObservacion}" rendered="#{vehiclesEntryController.mostrarObservacion}" id="Observacion" value="#{movVehiculosController.selected.observacionEntrada}" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
                     </h:panelGrid>
                     
-                    <p:outputLabel value="Foto"/>    
+                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarFoto}" value="Foto"/>    
                 </h:panelGrid>
             </h:panelGrid>
 
             <hr/>
             <h:panelGrid columns="2" cellpadding="5px">
-                <p:commandButton icon="ui-icon-check" value="Terminar"/>
-                <p:commandButton value = "#{bundle.Cancel}" ajax="false" action="#{vehiculosController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+                <p:commandButton icon="ui-icon-check" value="Terminar" action="#{vehiclesEntryController.entryVehicle()}"/>
+                <p:commandButton value = "#{bundle.Cancel}" ajax="false" action="#{vehiclesEntryController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
             </h:panelGrid>
         </h:form>
     </ui:define>

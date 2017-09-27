@@ -5,7 +5,6 @@
  */
 package Entities;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -37,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "VehiculosSucursal.findByIdExterno", query = "SELECT v FROM VehiculosSucursal v WHERE v.idExterno = :idExterno"),
     @NamedQuery(name = "VehiculosSucursal.findByIngresoAutomatico", query = "SELECT v FROM VehiculosSucursal v WHERE v.ingresoAutomatico = :ingresoAutomatico"),
     @NamedQuery(name = "VehiculosSucursal.findByFecha", query = "SELECT v FROM VehiculosSucursal v WHERE v.fecha = :fecha")})
-public class VehiculosSucursal implements Serializable {
+public class VehiculosSucursal extends AbstractEntity{
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -171,6 +170,31 @@ public class VehiculosSucursal implements Serializable {
     @Override
     public String toString() {
         return "Entities.VehiculosSucursal[ vehiculosSucursalPK=" + vehiculosSucursalPK + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        //Nothing to do here.
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        this.usuario=user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        this.fecha=date;
+    }
+
+    @Override
+    public void setStatus(Integer STATUS) {
+        this.estado = new Estados(STATUS);
     }
     
 }
