@@ -3,10 +3,14 @@ package com.PorteriaV3.VehiclesControllers;
 import Entities.Vehiculos;
 import Controllers.util.JsfUtil;
 import Entities.ConfigForm;
+import Entities.MovVehiculos;
 import Entities.VehiculosSucursal;
+import Facade.ConfigFormFacade;
+import PersonControllers.MovPersonasController;
 import PersonControllers.PersonasSucursalController;
 import Utils.Constants;
 import Utils.Navigation;
+import com.PorteriaV3.Facade.VehiculosFacade;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,10 +32,10 @@ import javax.inject.Inject;
 public class VehiclesEntryController implements Serializable {
 
     @EJB
-    private com.PorteriaV3.Facade.VehiculosFacade ejbFacade;
+    private VehiculosFacade ejbFacade;
     
     @EJB
-    private Facade.ConfigFormFacade ejbFacadeConfig;
+    private ConfigFormFacade ejbFacadeConfig;
     
     @EJB
     private BusinessVehicles ejbBusinessVehicles;
@@ -39,8 +43,13 @@ public class VehiclesEntryController implements Serializable {
     @Inject
     private PersonasSucursalController personaSucursalController;
     
+    @Inject
+    private MovPersonasController movPersonasController;
+    
     private List<Vehiculos> items = null;
     private VehiculosSucursal selected;
+    
+    private MovVehiculos movVehiculos;
     
     // <editor-fold desc="Array de config y Booleanos Vehiculos" defaultstate="collapsed">
     private List<ConfigForm> array;
@@ -115,6 +124,17 @@ public class VehiclesEntryController implements Serializable {
     public VehiclesEntryController() {
     }
 
+    public MovVehiculos getMovVehiculos() {
+        if(movVehiculos==null){
+            movVehiculos=new MovVehiculos();
+        }
+        return movVehiculos;
+    }
+
+    public void setMovVehiculos(MovVehiculos movVehiculos) {
+        this.movVehiculos = movVehiculos;
+    }
+
     public VehiculosSucursal getSelected() {
         if(selected==null){
             selected=new VehiculosSucursal();
@@ -175,7 +195,7 @@ public class VehiclesEntryController implements Serializable {
     
     public String entryVehicle(){
         
-        int resutlMethot = ejbBusinessVehicles.entryVehicle(selected,personaSucursalController.getSelected());
+        int resutlMethot = ejbBusinessVehicles.entryVehicle(selected,personaSucursalController.getSelected(),movVehiculos,movPersonasController.getSelected());
         switch(resutlMethot){
             case Constants.OK:
                 JsfUtil.addSuccessMessage("Registro exitoso");

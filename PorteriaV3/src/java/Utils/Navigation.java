@@ -27,7 +27,7 @@ public class Navigation {
     
     //VEHICULOS
     public static final String PAGE_VEHICLE_ENTRY ="/vehicles_entry/VehicleEntry.xhtml?faces-redirect=true";
-    
+    public static final String PAGE_SELECT_ENTRY_HTML="/person_entry/complete_entry/SelectEntryHtml.xhtml?faces-redirect=true";
     
     public static final String PAGE_INDEX_PRUEBA = "/index_Alternativo.xhtml?faces-redirect=true";
 }

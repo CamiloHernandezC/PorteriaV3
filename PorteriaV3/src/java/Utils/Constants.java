@@ -39,7 +39,6 @@ public class Constants {
     public static final String MESSAGE_DATE_FORMAT_EXCEPTION = "APP EXCEPTION: DATE FORMAT EXCEPTION";
     //</editor-fold>
     
-    
     //NOMBRE DEL CAMPO FORMULARIO EN LA TABLA CONFIG DE LA BASE DE DATOS
     // <editor-fold desc="FORMULARIO CONFIGURACION" defaultstate="collapsed">
     public static String CONFIGPERSONSFORM ="PERSONA";
@@ -80,4 +79,10 @@ public class Constants {
     // <editor-fold desc="OBJECT TYPE" defaultstate="collapsed">
     public static final String OBJECT_PERSON = "Persona";
     //</editor-fold>
+    
+    // <editor-fold desc="MOVEMENT TYPE" defaultstate="collapsed">
+    public static final String MOVEMENT_ENTRY = "Entrada";
+    public static final String MOVEMENT_EXIT = "Salida";
+    public static final String MOVEMENT_NO = "No movment";
+     //</editor-fold>
 }

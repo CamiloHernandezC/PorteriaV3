@@ -68,6 +68,14 @@ public class HelpUtils implements Serializable{
         JsfUtil.showModal("dlgHelpMov");
     }
     
+    public void showModalHelpSelectEntry(){
+        JsfUtil.showModal("dlgHelpSelectEntry");
+    }
+    
+    public void showModalHelpVehicleEntry(){
+        JsfUtil.showModal("dlgHelpVehicleEntry");
+    }
+    
     public void enviarCorreoContacto(){
         Email.crearEmail(Nombre, correoContacto, Descripcion,ciudad);
         limpiar();

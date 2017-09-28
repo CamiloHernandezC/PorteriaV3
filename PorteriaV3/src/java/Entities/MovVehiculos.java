@@ -41,11 +41,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MovVehiculos.findByObservacionSalida", query = "SELECT m FROM MovVehiculos m WHERE m.observacionSalida = :observacionSalida"),
     @NamedQuery(name = "MovVehiculos.findBySalidaForzosa", query = "SELECT m FROM MovVehiculos m WHERE m.salidaForzosa = :salidaForzosa"),
     @NamedQuery(name = "MovVehiculos.findByIngresoForzado", query = "SELECT m FROM MovVehiculos m WHERE m.ingresoForzado = :ingresoForzado"),
-    @NamedQuery(name = "MovVehiculos.findByFecha", query = "SELECT m FROM MovVehiculos m WHERE m.fecha = :fecha"),
+    @NamedQuery(name = "MovVehiculos.findByFecha", query = "SELECT m FROM MovVehiculos m WHERE m.placa.placa = :fecha"),
     @NamedQuery(name = "MovVehiculos.findByPorteria", query = "SELECT m FROM MovVehiculos m WHERE m.porteria = :porteria"),
     @NamedQuery(name = "MovVehiculos.findByMomentoEntrada", query = "SELECT m FROM MovVehiculos m WHERE m.momentoEntrada = :momentoEntrada"),
     @NamedQuery(name = "MovVehiculos.findByMomentoSalida", query = "SELECT m FROM MovVehiculos m WHERE m.momentoSalida = :momentoSalida")})
-public class MovVehiculos implements Serializable {
+public class MovVehiculos extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -301,6 +301,31 @@ public class MovVehiculos implements Serializable {
     @Override
     public String toString() {
         return "Entities.MovVehiculos[ idMovVehiculo=" + idMovVehiculo + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        return idMovVehiculo;
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        idMovVehiculo=primaryKey;
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
+    }
+
+    @Override
+    public void setStatus(Integer STATUS_INACTIVE) {
+        //Nothing to do here
     }
     
 }

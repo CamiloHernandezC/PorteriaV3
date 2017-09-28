@@ -58,8 +58,13 @@ public class Querys {
     public static final String VEHICLES_CLI_ALL= "SELECT a FROM Vehiculos a ";
     public static final String VEHICLES_CLI_PLACA= " a.placa = '";
     public static final String VEHICLES_CLI_PRIMARY_KEY= "SELECT a FROM Vehiculos a ORDER BY a.idVehiculo DESC";
-    //public static String EMPRESA_ORIGEN_PRIMARY_KEY= "SELECT e FROM EmpresaOrigen e ORDER BY e.idEmpresaOrigen  DESC";
-    //public static String EMPRESA_ORIGEN_NAME= "SELECT e FROM EmpresaOrigen e WHERE e.nombre1 ='";
+    //</editor-fold>
+    
+    //<editor-fold desc="MOVVEHICLES CLI QUERY" defaultstate="collapsed">
+    public static final String MOV_VEHICLES_CLI_ALL= "SELECT a FROM MovVehiculos a ";
+    public static final String MOV_VEHICLES_CLI_PLACA= " a.placa.placa = '";
+    public static final String MOV_VEHICLES_CLI_PRIMARY_KEY= "SELECT a FROM MovVehiculos a ORDER BY a.idMovVehiculo DESC";
+    public static final String MOV_VEHICLE_CLI_MOMENTO_SALIDA_NULL= " a.momentoSalida IS NULL";
     //</editor-fold>
     
     //<editor-fold desc="EMPRESA ORIGEN CLI QUERY" defaultstate="collapsed">

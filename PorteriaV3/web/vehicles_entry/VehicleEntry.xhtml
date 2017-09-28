@@ -13,12 +13,33 @@
             <p:growl id="growl" showDetail="true" />
         </h:form>
         
+        <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpVehicleEntry" modal="true" closable="true" minHeight="40">
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:panelGrid columns="1" cellpadding="10">
+                    <p> Para ingresar un vehiculo siga los siguientes pasos:</p>
+                    <ul>
+                        <li>Escribla la placa en su campo.</li>
+                        <li>De clic en el boton BUSCAR.</li>
+                        <li>El sistema le mostrará si el vehiculo esta registrado o no.</li>
+                        <li>Ingrese las obseraciones del vehiculo. (No es obligatorio).</li>
+                        <li>de clic en TERMINAR para guardar el registro.</li>
+                    </ul>
+                    
+                    <p> El boton RESET se utiliza para dejar de lado el registro que estaba realizando (NO GUARDARÁ EL REGISTRO QUE ESTABA EN CURSO) y comenzar con uno nuevo</p>
+                </h:panelGrid>
+                <p:graphicImage url="#{resource['/images/Info.png']}"/>
+            </h:panelGrid>
+        </p:dialog>
+        
         <h:form id="formVehicles">
-            <h:panelGrid id="panelPlaca" columns="4" cellpadding="20px">
+            <h:panelGrid id="panelPlaca" columns="5" cellpadding="20px">
                 <p:outputLabel value="Placa *" />
                 <p:inputText required="true" disabled="#{vehiclesEntryController.bloquearPlaca}" value="#{vehiclesEntryController.selected.vehiculos.placa}" style="text-transform:uppercase;width: 200px" requiredMessage="El campo placa es obligatorio."/> 
                 <p:commandButton value="Buscar" action="#{vehiclesEntryController.buscarPorPlaca()}" update="panelVehicles :formGrowl panelPlaca" process="panelPlaca"/>
                 <p:commandButton value="Reset" action="#{vehiclesEntryController.resetView()}"/>
+                <p:commandLink immediate="true" action="#{helpUtils.showModalHelpVehicleEntry()}">
+                    <p:graphicImage style="width: 60%;margin-left: 20%; margin-top: 1%" url="#{resource['/images/Help.png']}"/>
+                </p:commandLink>
             </h:panelGrid>
             <hr/>
 
@@ -51,7 +72,7 @@
                         <h:panelGrid/>
                         
                         <p:outputLabel  rendered="#{vehiclesEntryController.mostrarObservacion}" for="Observacion"  value="Observacion"  />
-                        <p:inputTextarea disabled="#{vehiclesEntryController.bloquearCampoObservacion}" rendered="#{vehiclesEntryController.mostrarObservacion}" id="Observacion" value="#{movVehiculosController.selected.observacionEntrada}" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
+                        <p:inputTextarea disabled="#{vehiclesEntryController.bloquearCampoObservacion}" rendered="#{vehiclesEntryController.mostrarObservacion}" id="Observacion" value="#{vehiclesEntryController.movVehiculos.observacionEntrada}" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
                     </h:panelGrid>
                     
                         <p:outputLabel  rendered="#{vehiclesEntryController.mostrarFoto}" value="Foto"/>    

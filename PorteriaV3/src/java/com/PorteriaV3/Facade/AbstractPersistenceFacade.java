@@ -61,7 +61,6 @@ public abstract class AbstractPersistenceFacade<T> extends AbstractQueryFacade<T
     public void assignParametersToUpdate() {
         AbstractEntity aEntity = (AbstractEntity) entity;
         aEntity.setUser(JsfUtil.getSessionUser().getPersona());
-        //aEntity.setUser(new Personas(1));//This line is used only for junit test
         aEntity.setDate(new Date());
         entity = (T) aEntity;
     }

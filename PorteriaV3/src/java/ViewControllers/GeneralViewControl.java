@@ -68,6 +68,10 @@ public class GeneralViewControl implements Serializable{
         return Navigation.PAGE_INDEX;
     }
     
+    public String irSelectEntryHtml(){
+        return Navigation.PAGE_SELECT_ENTRY_HTML;
+    }
+    
     public String irIngresoManual(){
         cleanPersonControllers();
         return Navigation.PAGE_COMPLETE_ENTRY;

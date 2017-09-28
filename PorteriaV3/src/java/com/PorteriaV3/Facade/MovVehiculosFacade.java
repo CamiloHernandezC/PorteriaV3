@@ -5,10 +5,8 @@
  */
 package com.PorteriaV3.Facade;
 
-import Entities.Estados;
-import Entities.VehiculosSucursal;
-import Entities.VehiculosSucursalPK;
-import Utils.Constants;
+import Entities.MovVehiculos;
+import Querys.Querys;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author Kmilo
  */
 @Stateless
-public class VehiculosSucursalFacade extends AbstractPersistenceFacade<VehiculosSucursal> {
+public class MovVehiculosFacade extends AbstractPersistenceFacade<MovVehiculos> {
 
     @PersistenceContext(unitName = "PorteriaV3PU")
     private EntityManager em;
@@ -28,30 +26,29 @@ public class VehiculosSucursalFacade extends AbstractPersistenceFacade<Vehiculos
         return em;
     }
 
-    public VehiculosSucursalFacade() {
-        super(VehiculosSucursal.class);
+    public MovVehiculosFacade() {
+        super(MovVehiculos.class);
     }
 
     @Override
     public void setEmbeddableKeys() {
-        entity.getVehiculosSucursalPK().setSucursal(entity.getSucursales().getIdSucursal());
-        entity.getVehiculosSucursalPK().setPlaca(entity.getVehiculos().getPlaca());
+        //Nothing to do here.
     }
 
     @Override
     public void initializeEmbeddableKey() {
-       entity.setVehiculosSucursalPK(new VehiculosSucursalPK());
+        //Nothing to do here.
     }
 
     @Override
     public void prepareCreate() {
-        initializeEmbeddableKey();
-        entity.setEstado(new Estados(Constants.STATUS_ENTRY));
+        calculatePrimaryKey(Querys.MOV_VEHICLES_CLI_PRIMARY_KEY);
         prepareUpdate();
     }
 
     @Override
     public void prepareUpdate() {
-         assignParametersToUpdate();
+        assignParametersToUpdate();
     }
+    
 }
