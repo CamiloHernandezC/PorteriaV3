@@ -5,7 +5,6 @@ import Controllers.PorteriasSucursalController;
 import Controllers.SucursalesController;
 import Entities.ConfigForm;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Entities.PorteriasSucursal;
 import Entities.Sucursales;
 import Facade.ConfigFormFacade;
@@ -16,11 +15,9 @@ import Utils.Result;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -55,6 +52,7 @@ public class ConfigFormController implements Serializable {
     private boolean mostrarSucursal;
     private boolean mostrarSexo;
     private boolean mostrarTelefono;
+    private boolean mostrarTelefonoContacto;
     private boolean mostrarTipo_sanguineo;
     private boolean mostrarFuncionario;
     private boolean mostrarEmpresa;
@@ -62,6 +60,14 @@ public class ConfigFormController implements Serializable {
 
     public boolean isMostrarPersonaContacto() {
         return mostrarPersonaContacto;
+    }
+
+    public boolean isMostrarTelefonoContacto() {
+        return mostrarTelefonoContacto;
+    }
+
+    public void setMostrarTelefonoContacto(boolean mostrarTelefonoContacto) {
+        this.mostrarTelefonoContacto = mostrarTelefonoContacto;
     }
 
     public ConfigFormFacade getEjbFacade() {
@@ -262,6 +268,10 @@ public class ConfigFormController implements Serializable {
                 case "Personacontacto":
                     mostrarPersonaContacto = modelo.getMostrar();
                     break;
+                case "Telpersonacontacto":
+                    mostrarTelefonoContacto = modelo.getMostrar();
+                    break; 
+                  
             }
         }
     }

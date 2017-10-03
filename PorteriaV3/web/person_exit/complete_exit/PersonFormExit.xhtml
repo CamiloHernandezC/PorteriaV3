@@ -9,7 +9,7 @@
     <ui:define name="content">
         <h:form id="formularioCrear">
 
-            <h:panelGrid columns="2" cellpadding="30%" >
+            <h:panelGrid columns="2" cellpadding="25%" >
                 
                 <h:panelGrid columns="4" cellpadding="5" >
 
@@ -45,7 +45,7 @@
             <h:panelGrid columns="2">
 
                 <p:commandButton value = "#{bundle.Exit}"  action="#{manualController.exit()}" ajax="false" icon="ui-icon-check"/>
-                <p:commandButton value = "#{bundle.Cancel}"  ajax="false" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+                <p:commandButton class="red" value = "#{bundle.Cancel}"  ajax="false" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
             
             </h:panelGrid>
         </h:form>

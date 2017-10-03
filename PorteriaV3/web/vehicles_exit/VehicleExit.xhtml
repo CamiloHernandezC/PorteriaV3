@@ -13,14 +13,14 @@
             <p:growl id="growl" showDetail="true" />
         </h:form>
         
-        <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpVehicleEntry" modal="true" closable="true" minHeight="40">
-            <h:panelGrid columns="2" cellpadding="8">
-                <h:panelGrid columns="1" cellpadding="8">
+        <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpVehicleExit" modal="true" closable="true" minHeight="40">
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:panelGrid columns="1" cellpadding="10">
                     <p> Para ingresar un vehiculo siga los siguientes pasos:</p>
                     <ul>
                         <li>Escribla la placa en su campo.</li>
                         <li>De clic en el boton BUSCAR.</li>
-                        <li>El sistema le mostrará si el vehiculo esta registrado o no.</li>
+                        <li>El sistema le mostrará si el vehiculo registro la entrada o no.</li>
                         <li>Ingrese las obseraciones del vehiculo. (No es obligatorio).</li>
                         <li>de clic en TERMINAR para guardar el registro.</li>
                     </ul>
@@ -31,31 +31,32 @@
             </h:panelGrid>
         </p:dialog>
         
+        
+        <font face="Comic Sans MS,arial,verdana" color="#DF0101"><h4>Salida de Vehiculos</h4></font>
         <h:form id="formVehicles">
-            <font face="Comic Sans MS,arial,verdana" color="#01DF3A"><h4>Ingreso de Vehiculo</h4></font>
             <h:panelGrid id="panelPlaca" columns="5" cellpadding="20px">
                 <p:outputLabel value="Placa *" />
-                <p:inputText required="true" disabled="#{vehiclesEntryController.bloquearPlaca}" value="#{vehiclesEntryController.selected.vehiculos.placa}" style="text-transform:uppercase;width: 200px" requiredMessage="El campo placa es obligatorio."/> 
-                <p:commandButton disabled="#{vehiclesEntryController.bloquearPlaca}"  value="Buscar" action="#{vehiclesEntryController.buscarPorPlaca()}" update="panelVehicles :formGrowl panelPlaca panelBotones" process="panelPlaca"/>
-                <p:commandButton value="Reset" action="#{vehiclesEntryController.resetView(vehiclesEntryController.entry)}"/>
-                <p:commandLink immediate="true" action="#{helpUtils.showModalHelpVehicleEntry()}">
+                <p:inputText required="true" disabled="#{vehiclesExitController.bloquearPlaca}" value="#{vehiclesExitController.selected.vehiculos.placa}" style="text-transform:uppercase;width: 200px" requiredMessage="El campo placa es obligatorio."/> 
+                <p:commandButton value="Buscar" disabled="#{vehiclesExitController.bloquearPlaca}" action="#{vehiclesExitController.buscarPorPlaca()}" update="panelVehicles :formGrowl panelPlaca panelBotones" process="panelPlaca"/>
+                <p:commandButton value="Reset" action="#{vehiclesExitController.resetView(vehiclesExitController.exit)}"/>
+                <p:commandLink immediate="true" action="#{helpUtils.showModalHelpVehicleExit()}">
                     <p:graphicImage style="width: 60%;margin-left: 20%; margin-top: 1%" url="#{resource['/images/Help.png']}"/>
                 </p:commandLink>
             </h:panelGrid>
             <hr/>
 
             <h:panelGrid id="panelVehicles" columns="1" cellpadding="5px">
-                <h:panelGrid columns="2" cellpadding="2px">
+                <h:panelGrid columns="2" cellpadding="5px">
                     
-                    <h:panelGrid columns="2" cellpadding="2px">
-                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarTipoVehiculo}" for="entidades" value="Entidad"/>
-                        <p:selectOneMenu disabled="#{vehiclesEntryController.bloquearCampos}" rendered="#{vehiclesEntryController.mostrarTipoVehiculo}" value="#{vehiclesEntryController.selected.vehiculos.entidad}" id="entidades" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idEntidad}" autoWidth="false" style=" width: 170px">
+                    <h:panelGrid columns="2" cellpadding="5px">
+                        <p:outputLabel  rendered="#{vehiclesExitController.mostrarTipoVehiculo}" for="entidades" value="Entidad"/>
+                        <p:selectOneMenu disabled="#{vehiclesExitController.bloquearCampos}" rendered="#{vehiclesExitController.mostrarTipoVehiculo}" value="#{vehiclesExitController.selected.vehiculos.entidad}" id="entidades" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idEntidad}" autoWidth="false" style=" width: 170px">
                             <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
                             <f:selectItems  value="#{entidadesController.getItems(2)}" var="entidades" itemLabel="#{entidades.descripcion}" itemValue="#{entidades}"/>
                         </p:selectOneMenu>
 
-                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarColor}" for="color" value="Color" />
-                        <p:selectOneMenu  disabled="#{vehiclesEntryController.bloquearCampos}" rendered="#{vehiclesEntryController.mostrarColor}" value="#{vehiclesEntryController.selected.vehiculos.color1}" filter="true" id="color"  filterMatchMode="contains" style="width:170px" widgetVar="wv_tipoSanguineo">
+                        <p:outputLabel  rendered="#{vehiclesExitController.mostrarColor}" for="color" value="Color" />
+                        <p:selectOneMenu  disabled="#{vehiclesExitController.bloquearCampos}" rendered="#{vehiclesExitController.mostrarColor}" value="#{vehiclesExitController.selected.vehiculos.color1}" filter="true" id="color"  filterMatchMode="contains" style="width:170px" widgetVar="wv_tipoSanguineo">
                             <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
                             <f:selectItem  itemLabel="AMARILLO" itemValue="AMARILLO"/>
                             <f:selectItem  itemLabel="AZUL" itemValue="AZUL"/>
@@ -72,18 +73,18 @@
                         <h:panelGrid/>
                         <h:panelGrid/>
                         
-                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarObservacion}" for="Observacion"  value="Observacion"  />
-                        <p:inputTextarea disabled="#{vehiclesEntryController.bloquearCampoObservacion}" rendered="#{vehiclesEntryController.mostrarObservacion}" id="Observacion" value="#{vehiclesEntryController.movVehiculos.observacionEntrada}" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
+                        <p:outputLabel  rendered="#{vehiclesExitController.mostrarObservacion}" for="Observacion"  value="Observacion"  />
+                        <p:inputTextarea disabled="#{vehiclesExitController.bloquearCampoObservacion}" rendered="#{vehiclesExitController.mostrarObservacion}" id="Observacion" value="#{vehiclesExitController.movVehiculos.observacionEntrada}" rows="25" cols="37"  style="overflow-y: scroll;max-height:100px;min-height:100px; resize: none"/>
                     </h:panelGrid>
                     
-                        <p:outputLabel  rendered="#{vehiclesEntryController.mostrarFoto}" value="Foto"/>    
+                        <p:outputLabel  rendered="#{vehiclesExitController.mostrarFoto}" value="Foto"/>    
                 </h:panelGrid>
             </h:panelGrid>
 
             <hr/>
             <h:panelGrid id="panelBotones" columns="2" cellpadding="5px">
-                <p:commandButton disabled="#{!vehiclesEntryController.bloquearPlaca}" icon="ui-icon-check" value="Terminar" action="#{vehiclesEntryController.entryVehicle()}"/>
-                <p:commandButton class="red" value = "#{bundle.Cancel}" action="#{vehiclesEntryController.cancel(vehiclesEntryController.entry)}" icon="ui-icon-cancel" immediate="true"/>
+                <p:commandButton disabled="#{!vehiclesExitController.bloquearPlaca}" icon="ui-icon-check" value="Terminar" action="#{vehiclesExitController.exitVehicle()}"/>
+                <p:commandButton class="red" value = "#{bundle.Cancel}" ajax="false" action="#{vehiclesExitController.cancel(vehiclesExitController.exit)}" icon="ui-icon-cancel" immediate="true"/>
             </h:panelGrid>
         </h:form>
     </ui:define>

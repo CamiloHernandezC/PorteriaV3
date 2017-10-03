@@ -12,20 +12,22 @@ import Utils.Navigation;
 import Utils.Result;
 import java.io.Serializable;
 import java.sql.Date;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class LoginControl implements Serializable {
 
     @EJB
     private Facade.UsuariosFacade ejbFacade;
     private Usuarios selected;
+    
     private UsuariosController usuariosController = JsfUtil.findBean("usuariosController");
     
     //@Inject
@@ -129,4 +131,5 @@ public class LoginControl implements Serializable {
         JsfUtil.addErrorMessage("EL ID DE USUARIO NO SE ENCUENTRA");
         return "";
     }
+    
 }

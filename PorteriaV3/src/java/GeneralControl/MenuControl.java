@@ -9,7 +9,9 @@ import Utils.Navigation;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 import javax.inject.Named;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -27,6 +29,9 @@ public class MenuControl implements Serializable{
 
     
     private MenuModel menu;
+    
+    @Inject
+    LoginControl login;
     /**
      * Creates a new instance of MenuController
      */
@@ -80,6 +85,5 @@ public class MenuControl implements Serializable{
  
     public MenuModel getMenu() {
         return menu;
-    }   
-    
+    }
 }

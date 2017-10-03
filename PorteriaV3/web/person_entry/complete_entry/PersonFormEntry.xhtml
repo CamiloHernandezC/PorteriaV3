@@ -21,7 +21,7 @@
 
         <h:form id="formularioCrear">
 
-            <h:panelGrid columns="2" cellpadding="30%" >
+            <h:panelGrid columns="2" cellpadding="25%" >
                 <h:panelGrid>
                     <h:panelGrid columns="4" cellpadding="5" >
 
@@ -74,8 +74,8 @@
                         <p:outputLabel  for="contactPerson" value="#{bundle.CreatePersonasCliLabel_personaContacto}" rendered="#{configFormController.mostrarPersonaContacto}"/>
                         <p:inputText id="contactPerson" value="#{manualController.selected.personaContacto}" rendered="#{configFormController.mostrarPersonaContacto}"  required="#{configFormController.mostrarPersonaContacto}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_personaContacto}" style="text-transform:uppercase;width: 200px" maxlength="15"/>
 
-                        <p:outputLabel for="phoneContactPerson" value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}" rendered="#{configFormController.mostrarTelefono}"/>
-                        <p:inputText id="phoneContactPerson" value="#{manualController.selected.telPersonaContacto}" rendered="#{configFormController.mostrarTelefono}"  required="#{configFormController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telPersonaContacto}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
+                        <p:outputLabel for="phoneContactPerson" value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}" rendered="#{configFormController.mostrarTelefonoContacto}"/>
+                        <p:inputText id="phoneContactPerson" value="#{manualController.selected.telPersonaContacto}" rendered="#{configFormController.mostrarTelefonoContacto}"  required="#{configFormController.mostrarTelefono}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_telPersonaContacto}" style="text-transform:uppercase; width: 200px" maxlength="15"/>
                         <p:outputLabel style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}" for="address" rendered="#{configFormController.mostrarDireccion}"/>
                         <p:inputText  id="address" value="#{manualController.selected.direccion}" rendered="#{configFormController.mostrarDireccion}" required="#{configFormController.mostrarDireccion}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_Direccion}" style="text-transform:uppercase;width: 200px" maxlength="120"/>
 
@@ -153,7 +153,7 @@
                     <h:panelGrid columns="2">
 
                         <p:commandButton value = "#{bundle.Save}"  action="#{manualController.save(false)}" ajax="false" icon="ui-icon-check"/>
-                        <p:commandButton value = "#{bundle.Cancel}"  ajax="false" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+                        <p:commandButton class="red" value = "#{bundle.Cancel}"  ajax="false" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
                     </h:panelGrid>
 
                 </h:panelGrid>

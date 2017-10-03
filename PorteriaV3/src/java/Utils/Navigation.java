@@ -23,11 +23,12 @@ public class Navigation {
     public static final String PAGE_PERSON_EXIT="/person_exit/complete_exit/PersonFormExit.xhtml?faces-redirect=true";
     public static final String PAGE_CONFIGURATION ="/configuration/Configuration.xhtml?faces-redirect=true";
     public static final String PAGE_SELECT_ENTRY="/person_entry/complete_entry/SelectEntry.xhtml?faces-redirect=true";
+    public static final String PAGE_SELECT_EXIT="/person_exit/complete_exit/SelectExit.xhtml?faces-redirect=true";
     public static String PAGE_LOGIN="/login.xhtml?faces-redirect=true";
     
     //VEHICULOS
     public static final String PAGE_VEHICLE_ENTRY ="/vehicles_entry/VehicleEntry.xhtml?faces-redirect=true";
-    public static final String PAGE_SELECT_ENTRY_HTML="/person_entry/complete_entry/SelectEntryHtml.xhtml?faces-redirect=true";
+    public static final String PAGE_VEHICLE_EXIT="/vehicles_exit/VehicleExit.xhtml?faces-redirect=true";
     
     public static final String PAGE_INDEX_PRUEBA = "/index_Alternativo.xhtml?faces-redirect=true";
 }

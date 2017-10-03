@@ -99,6 +99,10 @@ public class JsfUtil {
     public static void cancelToSelectEntry(){
         redirectTo(Navigation.PAGE_SELECT_ENTRY);
     }
+    
+    public static void cancelToSelectExit(){
+        redirectTo(Navigation.PAGE_SELECT_EXIT);
+    }
 
     public static void redirectTo(String page) {
         

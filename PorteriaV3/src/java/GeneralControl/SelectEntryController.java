@@ -7,6 +7,7 @@ package GeneralControl;
 
 import Utils.Navigation;
 import java.io.Serializable;
+import javax.annotation.PreDestroy;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -22,4 +23,7 @@ public class SelectEntryController implements Serializable{
         return Navigation.PAGE_VEHICLE_ENTRY;
     }
     
+    public String irSacarVehiculo(){
+        return Navigation.PAGE_VEHICLE_EXIT;
+    }
 }

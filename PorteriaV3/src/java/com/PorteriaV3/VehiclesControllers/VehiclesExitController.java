@@ -8,48 +8,48 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
 
-@Named("vehiclesEntryController")
+@Named("vehiclesExitController")
 @ViewScoped
-public class VehiclesEntryController extends VehiclesIOController{
+public class VehiclesExitController extends VehiclesIOController{
     
     @Override
     public void buscarPorPlaca(){
         Vehiculos vehicle;
-        vehicle = ejbBusinessEntryVehicles.searchVehicle(selected.getVehiculos().getPlaca());
-        bloquearCampoObservacion=false;
-        bloquearPlaca=true;
+        vehicle = ejbBusinessExitVehicles.searchVehicle(selected.getVehiculos().getPlaca());
         if(vehicle == null){
-            JsfUtil.addErrorMessage("Error: No se enconotro el vehiculo,por favor pegistrelo");
-            bloquearCampos=false;
+            JsfUtil.addErrorMessage("Error: El vehiculo no se registro al ingresar intente con otro.");
             return;
         }
         //Assing vehicles to vehicle sucursal.
         selected.setVehiculos(vehicle);
+        bloquearPlaca=true;
         bloquearCampos=true;
+        bloquearCampoObservacion=false;
         JsfUtil.addSuccessMessage("Info: Vehiculo registrado, tome los datos necesarios y de click en terminar.");
     }
     
-    public String entryVehicle(){
+    public String exitVehicle(){
         
-        int resutlMethot = ejbBusinessEntryVehicles.entryVehicle(selected,personaSucursalController.getSelected(),movVehiculos,movPersonasController.getSelected());
+        int resutlMethot = ejbBusinessExitVehicles.exitVehicle(personaSucursalController.getSelected(),movVehiculos,movPersonasController.getSelected(),selected);
         switch(resutlMethot){
             case Constants.OK:
                 JsfUtil.addSuccessMessage("Registro exitoso");
-                return Navigation.PAGE_SELECT_ENTRY;
+                return Navigation.PAGE_SELECT_EXIT;
             case Constants.NO_SEARCH:
                 JsfUtil.addErrorMessage("Recuerde, el primer paso es BUSCAR el vehiculo");
-                return Navigation.PAGE_VEHICLE_ENTRY;
+                return Navigation.PAGE_VEHICLE_EXIT;
             case Constants.UNKNOWN_EXCEPTION:
                 JsfUtil.addErrorMessage("No se pudo realizar el registro. Contacte al servicio tecnico");
-                return Navigation.PAGE_VEHICLE_ENTRY;
+                return Navigation.PAGE_VEHICLE_EXIT;
              case Constants.PERSISTANCE_EXCEPTION:
                 JsfUtil.addErrorMessage("No se pudo crear el registro de vehiculos. Contacte al servicio tecnico");
-                return Navigation.PAGE_VEHICLE_ENTRY;
+                return Navigation.PAGE_VEHICLE_EXIT;
             case Constants.OBJECT_BLOCK:
                 JsfUtil.addErrorMessage("El vehiculo que intenta ingresar esta bloqueado.");
-                return Navigation.PAGE_VEHICLE_ENTRY;
+                return Navigation.PAGE_VEHICLE_EXIT;
         }
         JsfUtil.addErrorMessage("Algo salio mal. Contacte al servicio tecnico");
-        return Navigation.PAGE_VEHICLE_ENTRY;
+        return Navigation.PAGE_VEHICLE_EXIT;
     }
+   
 }

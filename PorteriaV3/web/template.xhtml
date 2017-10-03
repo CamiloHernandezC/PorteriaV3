@@ -11,6 +11,7 @@
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
             </f:facet>
             <script src="assets/js/custom.js"></script>
+            <link rel="stylesheet" type="text/css" href="#{resource['/css/styleTemplate.css']}"/>
         </h:head>
 
         <!--***************Código para evitar que pueda ir hacia atras***********-->
@@ -31,8 +32,6 @@
                 <p:layoutUnit collapsible="true" position="west" size="375" header="Movimientos Registrados">
                     <div id="menuwe" >
                         <h:form>
-                            
-                            
                             <p:dataTable var="personas" value="#{movPersonasController.ultimosMovimientos}" >
                                 <p:column style="font-size:11px" headerText="Nombre">
                                     <h:outputText  value="#{personas.personasSucursal.personas.nombre1}"/>
@@ -73,13 +72,13 @@
 
                 <p:layoutUnit style="background: white;overflow-x: hidden" position="center">
                     <p:layout style="background: white">
-
                         <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                            <h:form style="float:right !important;margin:0px 0px 3px 0px;">
-                                <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.Logout}" action="#{loginControl.logout()}" immediate=""/>
+                            
+                            <h:form style="float:right !important;margin:0px 6px 3px 0px;">
+                                <p:commandButton class="red" icon="ui-icon-key" id="loginButton" value="#{bundle.Logout}" action="#{loginControl.logout()}" immediate=""/>
                             </h:form>
 
-                            <h:form style="float:left !important;margin:0px 0px 3px 0px;">
+                            <h:form style="float:left !important;margin:0px 0px 3px 6px;">
                                 <p:commandButton icon="ui-icon-home" id="loginButton" value="Inicio" action="#{generalViewControl.irIndex()}" immediate=""/>
                             </h:form>
                             
@@ -87,7 +86,6 @@
 
                         <p:layoutUnit style="background: white;" position="center">
                             <h:panelGrid columns="1" style="width: 40%">
-                                
                                 <h:form>
                                     <p:stack   expanded="false" icon="#{resource['/images/up.png']}">
                                         <p:menuitem id="id1" style="background-color: white" value="Configuracion" icon="#{resource['images/Config.png']}" url="#{generalViewControl.irConfiguracion()}"/>
@@ -136,8 +134,6 @@
                                             <p:commandButton value="#{bundle.Cancel}" update="sucursalForm" onclick="PF('sucursalDialog').hide();" ajax="false" immediate="true"/>
                                         </h:panelGrid>
                                     </h:panelGrid>
-
-
                                 </h:form>
                             </p:confirmDialog>
 

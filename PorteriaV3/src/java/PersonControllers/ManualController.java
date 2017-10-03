@@ -183,7 +183,7 @@ public class ManualController extends PersonasController {
         movPersonasCliController.recordExitMovement();
         JsfUtil.addSuccessMessage("Salida exitosa");
         movPersonasCliController.findLastMovements();
-        return Navigation.PAGE_INDEX;
+        return Navigation.PAGE_SELECT_EXIT;
     }
 
     @Override
@@ -191,7 +191,5 @@ public class ManualController extends PersonasController {
         super.clean();
         imagen = null;//To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
 }

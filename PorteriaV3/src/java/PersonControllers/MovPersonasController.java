@@ -197,7 +197,7 @@ public class MovPersonasController extends AbstractPersistenceController<MovPers
         selected.setHoraSalida(selected.getHoraEntrada());
         selected.setIngresoForzado(true);
         create();
-        selected =  null;
+        //selected =  null;
     }
     
     public void recordForcedOut(){
